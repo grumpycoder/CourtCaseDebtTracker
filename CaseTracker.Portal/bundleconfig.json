@@ -20,5 +20,34 @@
     },
     // Optionally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/vendor.js",
+    "inputFiles": [
+      "lib/jquery/dist/jquery.js",
+      "lib/bootstrap/dist/js/bootstrap.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/css/vendor.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "lib/bootstrap/dist/css/bootstrap.css"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true,
+      "adjustRelativePaths": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
   }
 ]
