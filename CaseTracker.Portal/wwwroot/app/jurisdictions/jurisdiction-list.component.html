@@ -1,0 +1,11 @@
+<div ng-show="!$ctrl.jurisdictions">
+    <h3>No Jurisdictions</h3>
+</div>
+
+<div ng-show="$ctrl.jurisdictions">
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="c in $ctrl.jurisdictions">
+            {{c.name}}
+        </li>
+    </ul>
+</div>

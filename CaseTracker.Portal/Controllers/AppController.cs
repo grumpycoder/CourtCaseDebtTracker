@@ -29,6 +29,12 @@ namespace CaseTracker.Portal.Controllers
         {
             return View();
         }
+
+        public IActionResult Jurisdictions(int id)
+        {
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View();

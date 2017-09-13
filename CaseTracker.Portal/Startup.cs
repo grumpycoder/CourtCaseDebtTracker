@@ -81,7 +81,7 @@ namespace CaseTracker.Portal
             {
                 routes.MapRoute("case", "case/{id?}", defaults: new { controller = "App", action = "Case" });
                 routes.MapRoute("Courts", "courts", defaults: new { controller = "App", action = "Courts" });
-
+                routes.MapRoute("Jurisidictions", "jurisdictions", defaults: new { controller = "App", action = "Jurisdictions" });
 
                 routes.MapRoute(
                     name: "default",
