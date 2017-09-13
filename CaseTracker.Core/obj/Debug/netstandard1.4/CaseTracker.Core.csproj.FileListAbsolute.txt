@@ -1,6 +1,0 @@
-/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Core/bin/Debug/netstandard1.4/CaseTracker.Core.deps.json
-/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Core/bin/Debug/netstandard1.4/CaseTracker.Core.dll
-/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Core/bin/Debug/netstandard1.4/CaseTracker.Core.pdb
-/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Core/obj/Debug/netstandard1.4/CaseTracker.Core.AssemblyInfo.cs
-/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Core/obj/Debug/netstandard1.4/CaseTracker.Core.dll
-/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Core/obj/Debug/netstandard1.4/CaseTracker.Core.pdb
