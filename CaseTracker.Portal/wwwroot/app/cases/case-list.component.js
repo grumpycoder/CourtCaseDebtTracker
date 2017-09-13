@@ -10,12 +10,16 @@
 
         $ctrl.$onInit = function () {
             console.log('case list init');
+            $http.get('api/case/list').then(function (r) {
+                console.log('r', r);
+                $ctrl.cases = r.data;
+            });
         }
 
     }
 
     module.component('caseList', {
-        templateUrl: 'client/cases/case-list.component.html',
+        templateUrl: 'app/cases/case-list.component.html',
         controller: ['$http', controller]
     });
 })();

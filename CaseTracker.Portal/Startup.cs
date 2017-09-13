@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CaseTracker.Core.Interfaces;
+using CaseTracker.Core.Models;
+using CaseTracker.Core.Services;
+using CaseTracker.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -35,6 +41,21 @@ namespace CaseTracker.Portal
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+
+            // services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            // {
+            //     options.Cookies.ApplicationCookie.AutomaticAuthenticate = true;
+            //     options.Cookies.ApplicationCookie.AutomaticChallenge = true;
+            //     options.Cookies.ApplicationCookie.LoginPath = "/account/Login";
+            // })
+            // .AddEntityFrameworkStores<AppDbContext>()
+            // .AddDefaultTokenProviders();
+
+            services.AddDbContext<AppDbContext>(opt =>
+            {
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
             services.AddMvc();
         }
 
@@ -58,6 +79,8 @@ namespace CaseTracker.Portal
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute("case", "case/{id?}", defaults: new { controller = "App", action = "Case" });
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=App}/{action=Index}/{id?}");

@@ -12,7 +12,7 @@ var print = require('gulp-print');
 
 var config = {
     //Include all js files but exclude any min.js files
-    js: ['client/**/*.js', '!client/**/*.min.js'],
+    js: ['wwwroot/app/**/*.js'],
     css: ['css/**/*.css', '!**/*.min.css']
 }
 
@@ -32,6 +32,9 @@ gulp.task('default', function () {
 gulp.task('vendor', ['build-vendor:js', 'build-vendor:css']);
 
 gulp.task('build-app:js', function () {
+    console.log('------------------------------------');
+    console.log('Building app js');
+    console.log('------------------------------------');
     return gulp.src(config.js)
         .pipe(filter(['**/*.js']))
         .pipe(order([
