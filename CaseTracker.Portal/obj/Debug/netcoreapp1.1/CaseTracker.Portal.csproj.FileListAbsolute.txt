@@ -1,0 +1,8 @@
+/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Portal/bin/Debug/netcoreapp1.1/CaseTracker.Portal.deps.json
+/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Portal/bin/Debug/netcoreapp1.1/CaseTracker.Portal.runtimeconfig.json
+/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Portal/bin/Debug/netcoreapp1.1/CaseTracker.Portal.runtimeconfig.dev.json
+/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Portal/bin/Debug/netcoreapp1.1/CaseTracker.Portal.dll
+/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Portal/bin/Debug/netcoreapp1.1/CaseTracker.Portal.pdb
+/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Portal/obj/Debug/netcoreapp1.1/CaseTracker.Portal.AssemblyInfo.cs
+/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Portal/obj/Debug/netcoreapp1.1/CaseTracker.Portal.dll
+/Users/mark.lawrence/source/dev/CaseTrackerDev/CaseTracker.Portal/obj/Debug/netcoreapp1.1/CaseTracker.Portal.pdb
