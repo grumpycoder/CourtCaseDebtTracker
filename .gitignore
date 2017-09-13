@@ -300,6 +300,4 @@ __pycache__/
 
 # OpenCover UI analysis results
 OpenCover/
-CaseTracker.Core/bin/
-obj/
-bin/
+
