@@ -12,13 +12,13 @@ var print = require('gulp-print');
 
 var config = {
     //Include all js files but exclude any min.js files
-    js: ['app/**/*.js', '!app/**/*.min.js'],
+    js: ['client/**/*.js', '!client/**/*.min.js'],
     css: ['css/**/*.css', '!**/*.min.css']
 }
 
 gulp.task('watch',
     function () {
-        gulp.watch('app/**/*.js', ['build-app:js']);
+        gulp.watch('wwwroot/app/**/*.js', ['build-app:js']);
         gulp.watch('wwwroot/css/*.css', ['build-app:css']);
 
         gulp.watch('lib/**/*.js', ['build-vendor']);
@@ -33,7 +33,7 @@ gulp.task('vendor', ['build-vendor:js', 'build-vendor:css']);
 
 gulp.task('build-app:js', function () {
     return gulp.src(config.js)
-        .pipe(filter(['app/**/*.js']))
+        .pipe(filter(['**/*.js']))
         .pipe(order([
             '**/app.module.js',
             '**/core/core.module.js',
@@ -45,7 +45,7 @@ gulp.task('build-app:js', function () {
         //.pipe(uglify())
         .pipe(concat('app.min.js'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('js/'));
+        .pipe(gulp.dest('wwwroot/js/'));
 });
 
 gulp.task('build-app:css', function () {
