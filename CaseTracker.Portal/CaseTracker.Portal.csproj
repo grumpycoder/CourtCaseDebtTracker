@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <UserSecretsId>CaseTracker-D27B8962-CF71-4C40-A670-133EF52904E6</UserSecretsId>
   </PropertyGroup>
 
 
@@ -11,7 +12,14 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
+
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.2"/>
+
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CaseTracker.Core\CaseTracker.Core.csproj"/>
+    <ProjectReference Include="..\CaseTracker.Data\CaseTracker.Data.csproj"/>
+  </ItemGroup>
 
 </Project>

@@ -19,6 +19,13 @@ namespace CaseTracker.Portal
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets<Startup>();
+            }
+
             Configuration = builder.Build();
         }
 
@@ -44,7 +51,7 @@ namespace CaseTracker.Portal
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/App/Error");
             }
 
             app.UseStaticFiles();
@@ -53,7 +60,7 @@ namespace CaseTracker.Portal
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=App}/{action=Index}/{id?}");
             });
         }
     }
