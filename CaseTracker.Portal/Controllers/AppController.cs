@@ -20,10 +20,14 @@ namespace CaseTracker.Portal.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Case(int id)
+        public IActionResult Case(int id)
         {
-            var c = await context.Filings.FindAsync(id);
-            return View(c);
+            return View();
+        }
+
+        public IActionResult Courts(int id)
+        {
+            return View();
         }
         public IActionResult Error()
         {

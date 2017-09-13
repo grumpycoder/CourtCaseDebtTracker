@@ -1,0 +1,11 @@
+<div ng-show="!$ctrl.courts">
+    <h3>No courts</h3>
+</div>
+
+<div ng-show="$ctrl.courts">
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="c in $ctrl.courts">
+            {{c.name}}
+        </li>
+    </ul>
+</div>

@@ -1,5 +1,11 @@
-<ul class="list-group">
-    <li class="list-group-item" ng-repeat="c in $ctrl.cases">
-        {{c.caption}}
-    </li>
-</ul>
+<div ng-show="!$ctrl.cases">
+    <h3>No cases</h3>
+</div>
+
+<div ng-show="$ctrl.cases">
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="c in $ctrl.cases">
+            {{c.caption}}
+        </li>
+    </ul>
+</div>

@@ -80,10 +80,12 @@ namespace CaseTracker.Portal
             app.UseMvc(routes =>
             {
                 routes.MapRoute("case", "case/{id?}", defaults: new { controller = "App", action = "Case" });
+                routes.MapRoute("Courts", "courts", defaults: new { controller = "App", action = "Courts" });
+
 
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=App}/{action=Index}/{id?}");
+                    template: "{controller=App}/{action=Index}");
             });
         }
     }
