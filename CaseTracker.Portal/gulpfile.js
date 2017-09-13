@@ -19,10 +19,10 @@ var config = {
 gulp.task('watch',
     function () {
         gulp.watch('app/**/*.js', ['build-app:js']);
-        gulp.watch('css/*.css', ['build-app:css']);
+        gulp.watch('wwwroot/css/*.css', ['build-app:css']);
 
-        gulp.watch('lib/**/*.js', ['build-vendor:js']);
-        gulp.watch('lib/**/*.css', ['build-vendor:css']);
+        gulp.watch('lib/**/*.js', ['build-vendor']);
+        gulp.watch('lib/**/*.css', ['build-vendor']);
     });
 
 gulp.task('default', function () {
