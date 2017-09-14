@@ -14,7 +14,10 @@
     </div>
     <div class="form-group">
         <label for="" class="control-label">Jurisdiction</label>
-        <input type="text" class="form-control" ng-model="$ctrl.court.jurisdictionId">
+        <select ng-model="$ctrl.court.jurisdictionId" ng-options="jurisdiction.id as jurisdiction.name for jurisdiction in $ctrl.jurisdictions"
+            ng-disabled="$ctrl.jurisdictions.length == 0" ng-change="$ctrl.changeEvent(); showNewEvent = false" class="form-control">
+            <option value="">Choose an Jurisdiction</option>
+        </select>
     </div>
 
     <button class="btn btn-default pull-left" ng-click="$ctrl.cancel()">Close</button>
