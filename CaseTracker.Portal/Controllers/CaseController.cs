@@ -67,6 +67,38 @@ namespace CaseTracker.Portal.Controllers
             return Ok(@case);
         }
 
+        [HttpPost("{caseId}/litigant")]
+        public async Task<object> AddLitigant(int caseId, [FromBody]LitigantViewModel model)
+        {
+            if (model == null) return BadRequest("No litigant to add");
+
+            var @case = await context.Filings.FindAsync(caseId);
+            if (@case == null) return NotFound("Case not found");
+
+            switch (model.Type)
+            {
+                case LitigantType.Defendant:
+                    var d = new Defendant()
+                    {
+                        Name = model.Name,
+                        FilingId = caseId
+                    };
+                    context.Defendants.Add(d);
+                    break;
+                case LitigantType.Plaintiff:
+                    var p = new Plaintiff()
+                    {
+                        Name = model.Name,
+                        FilingId = caseId
+                    };
+                    context.Plaintiffs.Add(p);
+                    break;
+            };
+
+            await context.SaveChangesAsync();
+
+            return Ok(@case);
+        }
 
     }
 }

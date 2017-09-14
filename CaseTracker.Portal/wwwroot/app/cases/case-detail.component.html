@@ -18,6 +18,17 @@
                 <dl class="row">
                     <dt class="col-sm-2">Plaintiff(s)</dt>
                     <dd class="col-sm-10">
+                        <div class="input-group">
+                            <input type="text" ng-model="$ctrl.plaintiff.name" class="form-control" placeholder="Plaintiff Name" />
+                            <span class="input-group-btn">
+                                            <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()">
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </button>
+                                    </span>
+                        </div>
+
+                        <!-- <input type="text" ng-model="$ctrl.plaintiff.name" class="form-control" placeholder="Plaintiff Name" />
+                        <button class="btn" ng-click="$ctrl.addLitigant()">Ok</button> -->
                         <ul class="list-group">
                             <li class="list-group-item" ng-repeat="p in $ctrl.case.plaintiffs">
                                 {{ p.name }}
@@ -27,6 +38,17 @@
 
                     <dt class="col-sm-2">Defendant(s)</dt>
                     <dd class="col-sm-10">
+                        <div class="input-group">
+                            <input type="text" ng-model="$ctrl.defendant.name" class="form-control" placeholder="Defendant Name" />
+                            <span class="input-group-btn">
+                                      <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                      </button>
+                                    </span>
+                        </div>
+
+                        <!-- <input type="text" ng-model="$ctrl.defendant.name" class="form-control" placeholder="Defendant Name" />
+                        <button class="btn" ng-click="$ctrl.addLitigant()">Ok</button> -->
                         <ul class="list-group">
                             <li class="list-group-item" ng-repeat="p in $ctrl.case.defendants">
                                 {{ p.name }}

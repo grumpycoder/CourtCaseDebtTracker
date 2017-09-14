@@ -35,6 +35,32 @@
             }, function (reason) {});
         }
 
+        $ctrl.addLitigant = function (type) {
+            if ($ctrl.plaintiff !== undefined) {
+                console.log('add plaintiff', $ctrl.plaintiff.name);
+                $ctrl.plaintiff.caseId = $ctrl.case.id;
+                $ctrl.plaintiff.type = 'plaintiff';
+
+                $http.post('/api/case/' + $ctrl.case.id + '/litigant', $ctrl.plaintiff)
+                    .then(function (r) {
+                        $ctrl.case.plaintiffs.unshift($ctrl.plaintiff);
+                        $ctrl.plaintiff = undefined;
+                    });
+            }
+            if ($ctrl.defendant !== undefined) {
+                $ctrl.defendant.caseId = $ctrl.case.id;
+                $ctrl.defendant.type = 'defendant';
+
+                console.log('add defendant', $ctrl.defendant);
+                $http.post('/api/case/' + $ctrl.case.id + '/litigant', $ctrl.defendant)
+                    .then(function (r) {
+                        $ctrl.case.defendants.unshift($ctrl.defendant);
+                        $ctrl.defendant = undefined;
+                    });
+            }
+        }
+
+
     }
 
     module.component('caseDetail', {
