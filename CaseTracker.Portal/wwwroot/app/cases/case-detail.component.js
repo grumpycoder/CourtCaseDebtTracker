@@ -43,7 +43,7 @@
 
                 $http.post('/api/case/' + $ctrl.case.id + '/litigant', $ctrl.plaintiff)
                     .then(function (r) {
-                        $ctrl.case.plaintiffs.unshift($ctrl.plaintiff);
+                        $ctrl.case.plaintiffs.unshift(r.data);
                         $ctrl.plaintiff = undefined;
                     });
             }
@@ -54,12 +54,35 @@
                 console.log('add defendant', $ctrl.defendant);
                 $http.post('/api/case/' + $ctrl.case.id + '/litigant', $ctrl.defendant)
                     .then(function (r) {
-                        $ctrl.case.defendants.unshift($ctrl.defendant);
+                        $ctrl.case.defendants.unshift(r.data);
                         $ctrl.defendant = undefined;
                     });
             }
         }
 
+        $ctrl.deleteLitigant = function (item, type) {
+            console.log('litigant', item);
+            console.log('type', type);
+            $http.delete('/api/case/' + $ctrl.case.id + '/litigant/' + item.id).then(function (r) {
+                switch (type) {
+                    case 'defendant':
+                        var idx = $ctrl.case.defendants.indexOf(item);
+                        $ctrl.case.defendants.splice(idx, 1);
+                        break;
+                    case 'plaintiff':
+                        var idx = $ctrl.case.plaintiffs.indexOf(item);
+                        $ctrl.case.plaintiffs.splice(idx, 1);
+                        break;
+                    default:
+                        console.log('unknown litigant');
+                }
+            }).catch(function (err) {
+                // toastr.error('Oops. Error deleting tax');
+            }).finally(function () {
+                // $ctrl.isBusy = false;
+            });
+
+        }
 
     }
 

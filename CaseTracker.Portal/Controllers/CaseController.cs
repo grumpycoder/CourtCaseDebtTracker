@@ -75,30 +75,50 @@ namespace CaseTracker.Portal.Controllers
             var @case = await context.Filings.FindAsync(caseId);
             if (@case == null) return NotFound("Case not found");
 
+            Defendant defendant;
+            Plaintiff plaintiff;
+
             switch (model.Type)
             {
                 case LitigantType.Defendant:
-                    var d = new Defendant()
+                    defendant = new Defendant()
                     {
                         Name = model.Name,
                         FilingId = caseId
                     };
-                    context.Defendants.Add(d);
+                    context.Defendants.Add(defendant);
+                    await context.SaveChangesAsync();
+                    return Ok(defendant);
                     break;
                 case LitigantType.Plaintiff:
-                    var p = new Plaintiff()
+                    plaintiff = new Plaintiff()
                     {
                         Name = model.Name,
                         FilingId = caseId
                     };
-                    context.Plaintiffs.Add(p);
+                    context.Plaintiffs.Add(plaintiff);
+                    await context.SaveChangesAsync();
+                    return Ok(plaintiff);
+                    break;
+                default:
+                    return Ok();
                     break;
             };
 
-            await context.SaveChangesAsync();
-
-            return Ok(@case);
+            //return Ok();
         }
 
+        [HttpDelete("{caseId}/litigant/{id}")]
+        public async Task<object> DeleteLitigant(int caseId, int id)
+        {
+            var litigant = await context.Litigants.FindAsync(id);
+            if (litigant == null) return NotFound("Litigant not found");
+
+            context.Litigants.Remove(litigant);
+
+            await context.SaveChangesAsync();
+
+            return Ok("Delete litigant");
+        }
     }
 }

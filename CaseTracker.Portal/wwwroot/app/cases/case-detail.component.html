@@ -27,11 +27,14 @@
                                     </span>
                         </div>
 
-                        <!-- <input type="text" ng-model="$ctrl.plaintiff.name" class="form-control" placeholder="Plaintiff Name" />
-                        <button class="btn" ng-click="$ctrl.addLitigant()">Ok</button> -->
                         <ul class="list-group">
                             <li class="list-group-item" ng-repeat="p in $ctrl.case.plaintiffs">
-                                {{ p.name }}
+                                <span>
+                                    {{ p.name }}
+                                </span>
+                                <span class="pull-right">
+                                    <button class="btn btn-sm" ng-click="$ctrl.deleteLitigant(p, 'plaintiff')">Delete</button>
+                                </span>
                             </li>
                         </ul>
                     </dd>
@@ -47,11 +50,14 @@
                                     </span>
                         </div>
 
-                        <!-- <input type="text" ng-model="$ctrl.defendant.name" class="form-control" placeholder="Defendant Name" />
-                        <button class="btn" ng-click="$ctrl.addLitigant()">Ok</button> -->
                         <ul class="list-group">
                             <li class="list-group-item" ng-repeat="p in $ctrl.case.defendants">
-                                {{ p.name }}
+                                <span>
+                                    {{ p.name }}
+                                </span>
+                                <span class="pull-right">
+                                    <button class="btn btn-sm" ng-click="$ctrl.deleteLitigant(p, 'defendant')">Delete</button>
+                                </span>
                             </li>
                         </ul>
                     </dd>
