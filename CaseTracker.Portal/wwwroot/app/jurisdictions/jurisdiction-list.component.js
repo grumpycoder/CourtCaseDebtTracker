@@ -22,7 +22,7 @@
         }
 
         $ctrl.openModal = function (jurisdiction) {
-            console.log('selected', $ctrl.selectedJurisidiction);
+            console.log('selected', jurisdiction);
             $modal.open({
                 component: 'jurisdictionEdit',
                 bindings: {

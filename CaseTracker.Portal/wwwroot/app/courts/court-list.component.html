@@ -5,7 +5,10 @@
 <div ng-show="$ctrl.courts">
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="c in $ctrl.courts">
-            {{c.name}}
+            <span>
+                {{c.name}}
+            </span>
+            <button class="btn btn-sm" ng-click="$ctrl.openModal(c)">Edit</button>
         </li>
     </ul>
 </div>
