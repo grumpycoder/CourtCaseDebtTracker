@@ -135,18 +135,18 @@ namespace CaseTracker.Data
         {
             var entities = ChangeTracker.Entries().Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-            var currentUsername = _userService.CurrentUser;
+            // var currentUsername = _userService.CurrentUser;
 
             foreach (var entity in entities)
             {
                 if (entity.State == EntityState.Added)
                 {
                     ((AuditableEntity)entity.Entity).CreateDate = DateTime.UtcNow;
-                    ((AuditableEntity)entity.Entity).CreatedUser = currentUsername;
+                    // ((AuditableEntity)entity.Entity).CreatedUser = currentUsername;
                 }
 
                 ((AuditableEntity)entity.Entity).UpdateDate = DateTime.UtcNow;
-                ((AuditableEntity)entity.Entity).UpdatedUser = currentUsername;
+                // ((AuditableEntity)entity.Entity).UpdatedUser = currentUsername;
             }
         }
 

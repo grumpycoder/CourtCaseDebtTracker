@@ -2,7 +2,7 @@
 (function () {
     var module = angular.module('app');
 
-    function controller($http) {
+    function controller($http, $modal) {
         var $ctrl = this;
 
         $ctrl.title = 'Jurisdiction Manager';
@@ -16,10 +16,31 @@
             });
         }
 
+        $ctrl.selectJurisidiction = function (j) {
+            console.log('select', j);
+            $ctrl.selectedJurisidiction = j;
+        }
+
+        $ctrl.openModal = function () {
+            console.log('selected', $ctrl.selectedJurisidiction);
+            $modal.open({
+                component: 'jurisdictionEdit',
+                bindings: {
+                    modalInstance: "<"
+                },
+                resolve: {
+                    jurisdiction: $ctrl.selectedJurisidiction
+                },
+                size: 'md'
+            }).result.then(function (result) {
+                console.log('updated', result);
+                angular.extend($ctrl.selectedJurisidiction, result);
+            }, function (reason) {});
+        }
     }
 
     module.component('jurisdictionList', {
         templateUrl: 'app/jurisdictions/jurisdiction-list.component.html',
-        controller: ['$http', controller]
+        controller: ['$http', '$uibModal', controller]
     });
 })();

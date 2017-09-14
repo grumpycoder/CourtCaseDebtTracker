@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
+using CaseTracker.Core.Models;
 using CaseTracker.Data;
+using CaseTracker.Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,8 +19,23 @@ namespace CaseTracker.Portal.Controllers
         [HttpGet("list")]
         public async Task<object> List()
         {
-            var list = await context.Courts.ToListAsync();
+            var list = await context.Jurisdictions.ToListAsync();
             return Ok(list);
+        }
+
+        [HttpPut()]
+        public async Task<object> Put([FromBody]JurisdictionViewModel model)
+        {
+            if (model == null) return BadRequest("No Jurisdiction to update");
+
+            var jurisdiction = await context.Jurisdictions.FindAsync(model.Id);
+            if (jurisdiction == null) return NotFound("Jurisdiction not found");
+
+            jurisdiction.Name = model.Name;
+            jurisdiction.Abbreviation = model.Abbreviation;
+
+            await context.SaveChangesAsync();
+            return Ok(jurisdiction);
         }
     }
 }
