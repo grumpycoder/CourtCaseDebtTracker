@@ -34,7 +34,11 @@
                 size: 'md'
             }).result.then(function (result) {
                 console.log('updated', result);
-                angular.extend(jurisdiction, result);
+                if (jurisdiction === undefined) {
+                    $ctrl.jurisdictions.unshift(result);
+                } else {
+                    angular.extend(jurisdiction, result);
+                }
             }, function (reason) {});
         }
     }

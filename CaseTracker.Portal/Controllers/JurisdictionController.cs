@@ -37,5 +37,22 @@ namespace CaseTracker.Portal.Controllers
             await context.SaveChangesAsync();
             return Ok(jurisdiction);
         }
+
+        [HttpPost()]
+        public async Task<object> Post([FromBody]JurisdictionViewModel model)
+        {
+            if (model == null) return BadRequest("No Jurisdiction to add");
+
+            var jurisdiction = new Jurisdiction()
+            {
+                Name = model.Name,
+                Abbreviation = model.Abbreviation
+            };
+            await context.Jurisdictions.AddAsync(jurisdiction);
+            await context.SaveChangesAsync();
+
+            return Ok(jurisdiction);
+        }
+
     }
 }

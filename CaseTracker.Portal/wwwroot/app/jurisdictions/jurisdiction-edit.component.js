@@ -21,9 +21,15 @@
 
         $ctrl.save = function () {
             console.log('save', $ctrl.jurisdiction);
-            $http.put('api/jurisdiction', $ctrl.jurisdiction).then(function (r) {
-                $ctrl.modalInstance.close($ctrl.jurisdiction);
-            });
+            if ($ctrl.jurisdiction.id !== undefined) {
+                $http.put('api/jurisdiction', $ctrl.jurisdiction).then(function (r) {
+                    $ctrl.modalInstance.close($ctrl.jurisdiction);
+                });
+            } else {
+                $http.post('api/jurisdiction', $ctrl.jurisdiction).then(function (r) {
+                    $ctrl.modalInstance.close($ctrl.jurisdiction);
+                });
+            }
         }
 
 
