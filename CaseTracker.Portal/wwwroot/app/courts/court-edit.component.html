@@ -1,25 +1,30 @@
-<h2>
-    Edit Court</h2>
-
-{{ $ctrl.court | json }}
 <form novalidate="" name="form">
+    <div class="modal-header">
+        <h3 class="modal-title">
+            {{$ctrl.title}}
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="" class="control-label">Name</label>
+            <input type="text" class="form-control" ng-model="$ctrl.court.name">
+        </div>
+        <div class="form-group">
+            <label for="" class="control-label">Abbreviation</label>
+            <input type="text" class="form-control" ng-model="$ctrl.court.abbreviation">
+        </div>
+        <div class="form-group">
+            <label for="" class="control-label">Jurisdiction</label>
+            <select ng-model="$ctrl.court.jurisdictionId" ng-options="jurisdiction.id as jurisdiction.name for jurisdiction in $ctrl.jurisdictions"
+                ng-disabled="$ctrl.jurisdictions.length == 0" ng-change="$ctrl.changeEvent(); showNewEvent = false" class="form-control">
+                            <option value="">Choose an Jurisdiction</option>
+                        </select>
+        </div>
 
-    <div class="form-group">
-        <label for="" class="control-label">Name</label>
-        <input type="text" class="form-control" ng-model="$ctrl.court.name">
     </div>
-    <div class="form-group">
-        <label for="" class="control-label">Abbreviation</label>
-        <input type="text" class="form-control" ng-model="$ctrl.court.abbreviation">
-    </div>
-    <div class="form-group">
-        <label for="" class="control-label">Jurisdiction</label>
-        <select ng-model="$ctrl.court.jurisdictionId" ng-options="jurisdiction.id as jurisdiction.name for jurisdiction in $ctrl.jurisdictions"
-            ng-disabled="$ctrl.jurisdictions.length == 0" ng-change="$ctrl.changeEvent(); showNewEvent = false" class="form-control">
-            <option value="">Choose an Jurisdiction</option>
-        </select>
-    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="$ctrl.cancel()">Close</button>
+        <button class="btn btn-primary" data-dismiss="modal" ng-disabled="!form.$dirty" ng-click="$ctrl.save()">Save</button>
 
-    <button class="btn btn-default pull-left" ng-click="$ctrl.cancel()">Close</button>
-    <button class="btn btn-primary" data-dismiss="modal" ng-disabled="!form.$dirty" ng-click="$ctrl.save()">Save</button>
+    </div>
 </form>

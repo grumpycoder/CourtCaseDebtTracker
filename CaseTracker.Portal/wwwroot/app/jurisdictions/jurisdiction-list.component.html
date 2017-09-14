@@ -1,13 +1,44 @@
-<div ng-show="!$ctrl.jurisdictions">
-    <h3>No Jurisdictions</h3>
-</div>
+<div class="box box-solid box-primary">
+    <div class="box-header">
+        <div class="box-title">
+            Jurisdictions
+        </div>
+        <span class="pull-right">
+                <a href="#" ng-click="$ctrl.openModal()">New Jurisdiction</a>
+            </span>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
 
-<button class="btn" ng-click="$ctrl.openModal()">New</button>
-<div ng-show="$ctrl.jurisdictions">
-    <ul class="list-group">
-        <li class="list-group-item" ng-repeat="c in $ctrl.jurisdictions">
-            <span>{{c.name}}</span>
-            <button class="btn btn-sm" ng-click="$ctrl.openModal(c)">Edit</button>
-        </li>
-    </ul>
+        <div ng-show="!$ctrl.jurisdictions">
+            <h3>No Jurisdictions</h3>
+        </div>
+
+        <table class="table" ng-show="$ctrl.jurisdictions">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Abbreviation</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in $ctrl.jurisdictions">
+                    <td>{{ c.name }}</td>
+                    <td>{{ c.abbreviation }}</td>
+                    <td><button class="btn btn-sm" ng-click="$ctrl.openModal(c)">Edit</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+        <span class="small-box-footer">
+
+            </span>
+    </div>
+    <!-- /.box-footer -->
+
 </div>
+<!-- /.box -->

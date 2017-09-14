@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "3.3.6",
+    "AdminLTE": "admin-lte#^2.3.11",
     "jquery": "2.2.0",
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
@@ -18,6 +19,12 @@
         "dist/fonts/glyphicons-halflings-regular.ttf",
         "dist/fonts/glyphicons-halflings-regular.woff",
         "dist/fonts/glyphicons-halflings-regular.woff2"
+      ]
+    },
+    "AdminLTE": {
+      "main": [
+        "dist/css/AdminLTE.css",
+        "dist/css/skins/_all-skins.css"
       ]
     }
   }

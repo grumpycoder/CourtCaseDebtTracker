@@ -1,18 +1,23 @@
-<h2>
-    Edit Jurisdiction</h2>
-
-{{ $ctrl.jurisdiction | json }}
 <form novalidate="" name="form">
-
-    <div class="form-group">
-        <label for="" class="control-label">Name</label>
-        <input type="text" class="form-control" ng-model="$ctrl.jurisdiction.name">
+    <div class="modal-header">
+        <h3 class="modal-title">
+            {{$ctrl.title}}
+        </h3>
     </div>
-    <div class="form-group">
-        <label for="" class="control-label">Abbreviation</label>
-        <input type="text" class="form-control" ng-model="$ctrl.jurisdiction.abbreviation">
-    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="" class="control-label">Name</label>
+            <input type="text" class="form-control" ng-model="$ctrl.jurisdiction.name">
+        </div>
+        <div class="form-group">
+            <label for="" class="control-label">Abbreviation</label>
+            <input type="text" class="form-control" ng-model="$ctrl.jurisdiction.abbreviation">
+        </div>
 
-    <button class="btn btn-default pull-left" ng-click="$ctrl.cancel()">Close</button>
-    <button class="btn btn-primary" data-dismiss="modal" ng-disabled="!form.$dirty" ng-click="$ctrl.save()">Save</button>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="$ctrl.cancel()">Close</button>
+        <button class="btn btn-primary" data-dismiss="modal" ng-disabled="!form.$dirty" ng-click="$ctrl.save()">Save</button>
+
+    </div>
 </form>

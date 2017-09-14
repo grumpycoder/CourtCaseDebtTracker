@@ -5,8 +5,7 @@
     function controller($http) {
         var $ctrl = this;
 
-        $ctrl.title = 'Court Manager';
-        $ctrl.subTitle = 'Court';
+        $ctrl.title = 'Update Court';
 
         $ctrl.$onInit = function () {
             console.log('court edit init', $ctrl);
@@ -17,6 +16,9 @@
 
             if ($ctrl.resolve) {
                 $ctrl.court = angular.copy($ctrl.resolve.court);
+            }
+            if ($ctrl.court === undefined) {
+                $ctrl.title = 'New Court';
             }
         }
 

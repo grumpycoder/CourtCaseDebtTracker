@@ -1,30 +1,49 @@
-<div ng-show="!$ctrl.cases">
-    <h3>No cases</h3>
+<div class="box box-solid box-primary">
+    <div class="box-header">
+        <div class="box-title">
+            Case Listings
+        </div>
+        <span class="pull-right">
+            <a asp-action="Create" asp-controller="Home">New Filing</a>
+        </span>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div ng-show="!$ctrl.cases">
+            <h3>No cases</h3>
+        </div>
+
+        <table class="table" ng-show="$ctrl.cases">
+            <thead>
+                <tr>
+                    <th>Case#</th>
+                    <th>Caption</th>
+                    <th>Judge</th>
+                    <th>Date Filed</th>
+                    <th>Court</th>
+                    <th>Jurisdiction</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in $ctrl.cases">
+                    <td><a href="case/{{c.id}}">{{ c.caseNumber }}</a></td>
+                    <td>{{ c.caption }}</td>
+                    <td>{{ c.judge }}</td>
+                    <td>{{ c.dateFiled }}</td>
+                    <td>{{ c.court.name }}</td>
+                    <td>{{ c.jurisdiction.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- /.table -->
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+        <span class="small-box-footer">
+           
+        </span>
+    </div>
+    <!-- /.box-footer -->
+
 </div>
-
-<div ng-show="$ctrl.cases">
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Case#</th>
-                <th>Caption</th>
-                <th>Judge</th>
-                <th>Date Filed</th>
-                <th>Court</th>
-                <th>Jurisdiction</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="c in $ctrl.cases">
-                <td><a href="case/{{c.id}}">{{ c.caseNumber }}</a></td>
-                <td>{{ c.caption }}</td>
-                <td>{{ c.judge }}</td>
-                <td>{{ c.dateFiled }}</td>
-                <td>{{ c.court.name }}</td>
-                <td>{{ c.jurisdiction.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-</div>
+<!-- /.box -->

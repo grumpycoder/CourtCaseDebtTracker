@@ -5,13 +5,15 @@
     function controller($http) {
         var $ctrl = this;
 
-        $ctrl.title = 'Jurisdiction Manager';
-        $ctrl.subTitle = 'Jurisdictions';
+        $ctrl.title = 'Update Jurisdiction';
 
         $ctrl.$onInit = function () {
             console.log('jurisdiction edit init', $ctrl);
             if ($ctrl.resolve) {
                 $ctrl.jurisdiction = angular.copy($ctrl.resolve.jurisdiction);
+            }
+            if ($ctrl.jurisdiction === undefined) {
+                $ctrl.title = 'New Jurisdiction'
             }
         }
 

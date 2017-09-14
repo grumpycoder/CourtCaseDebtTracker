@@ -1,42 +1,81 @@
-<h2>Case Detail</h2>
-
-
-
-<div class="row" ng-show="!$ctrl.case">
-    <div class="col-md-12">
-        <strong>No Case Found</strong>
+<div class="box box-solid box-primary">
+    <div class="box-header">
+        <div class="box-title">
+            {{$ctrl.case.caption}}
+        </div>
     </div>
+    <!-- /.box-header -->
+
+    <div class="box-body">
+        <div class="row" ng-show="!$ctrl.case">
+            <div class="col-md-12">
+                <strong>No Case Found</strong>
+            </div>
+        </div>
+
+        <div class="row" ng-show="$ctrl.case">
+            <div class="col-md-12">
+                <dl class="row">
+                    <dt class="col-sm-2">Plaintiff(s)</dt>
+                    <dd class="col-sm-10">
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="p in $ctrl.case.plaintiffs">
+                                {{ p.name }}
+                            </li>
+                        </ul>
+                    </dd>
+
+                    <dt class="col-sm-2">Defendant(s)</dt>
+                    <dd class="col-sm-10">
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="p in $ctrl.case.defendants">
+                                {{ p.name }}
+                            </li>
+                        </ul>
+                    </dd>
+
+                    <dt class="col-sm-2">Case Number</dt>
+                    <dd class="col-sm-10">{{$ctrl.case.caseNumber}}</dd>
+
+                    <dt class="col-sm-2">Filed</dt>
+                    <dd class="col-sm-10">{{$ctrl.case.dateFiled}}</dd>
+
+                    <dt class="col-sm-2">Court</dt>
+                    <dd class="col-sm-10">{{$ctrl.case.court}}</dd>
+
+                    <dt class="col-sm-2">Judge</dt>
+                    <dd class="col-sm-10">{{$ctrl.case.judge}}</dd>
+
+                    <dt class="col-sm-2">Summary</dt>
+                    <dd class="col-sm-10">{{$ctrl.case.summary}}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <strong><i class="fa fa-tags"></i> Tags: </strong>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-muted">Created by: {{$ctrl.case.createdUser}} {{$ctrl.case.createDate}}</div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.box-body -->
+
+    <div class="box-footer">
+        <div class="pull-right">
+            <a href="#" ng-click="$ctrl.openModal()">Edit</a>
+            <a href="#" ng-show="$ctrl.case.canDelete">Delete</a>
+        </div>
+        <div>
+            <a asp-action="List">Return to List</a>
+        </div>
+    </div>
+
 </div>
-
-<div class="row" ng-show="$ctrl.case">
-    <button class="btn" ng-click="$ctrl.openModal()">Edit</button>
-    <div class="col-md-12">
-        <h3>{{ $ctrl.case.caption }}</h3>
-    </div>
-
-    <div class="col-md-6">
-        <strong>Plaintiffs</strong>
-
-        <ul class="list-group">
-            <li class="list-group-item" ng-repeat="p in $ctrl.case.plaintiffs">
-                {{ p.name }}
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-6">
-        <strong>Defendants</strong>
-        <ul class="list-group">
-            <li class="list-group-item" ng-repeat="p in $ctrl.case.defendants">
-                {{ p.name }}
-            </li>
-        </ul>
-    </div>
-
-    <div class="col-md-6">
-        Court: {{ $ctrl.case.judge }}
-    </div>
-    <div class="col-md-6">
-        Summary: {{ $ctrl.case.summary }}
-    </div>
-
-</div>
+<!-- /.box -->

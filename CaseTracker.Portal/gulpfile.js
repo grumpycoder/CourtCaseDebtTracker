@@ -93,7 +93,7 @@ gulp.task('build-vendor:css', function () {
         .pipe(filter(['**/*.css']))
         .pipe(print())
         .pipe(sourcemaps.init())
-        .pipe(cleanCSS())
+        // .pipe(cleanCSS())
         .pipe(concat('vendor.min.css'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('wwwroot/css/'));
