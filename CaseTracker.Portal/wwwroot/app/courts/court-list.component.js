@@ -29,7 +29,11 @@
                 size: 'md'
             }).result.then(function (result) {
                 console.log('updated', result);
-                angular.extend(court, result);
+                if (court !== undefined) {
+                    angular.extend(court, result);
+                } else {
+                    $ctrl.courts.unshift(result);
+                }
             }, function (reason) {});
         }
     }

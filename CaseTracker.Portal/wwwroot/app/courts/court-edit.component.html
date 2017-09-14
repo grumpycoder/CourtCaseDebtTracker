@@ -12,6 +12,10 @@
         <label for="" class="control-label">Abbreviation</label>
         <input type="text" class="form-control" ng-model="$ctrl.court.abbreviation">
     </div>
+    <div class="form-group">
+        <label for="" class="control-label">Jurisdiction</label>
+        <input type="text" class="form-control" ng-model="$ctrl.court.jurisdictionId">
+    </div>
 
     <button class="btn btn-default pull-left" ng-click="$ctrl.cancel()">Close</button>
     <button class="btn btn-primary" data-dismiss="modal" ng-disabled="!form.$dirty" ng-click="$ctrl.save()">Save</button>

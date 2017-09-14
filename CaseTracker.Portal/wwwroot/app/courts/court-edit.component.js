@@ -21,9 +21,17 @@
 
         $ctrl.save = function () {
             console.log('save', $ctrl.court);
-            $http.put('api/court', $ctrl.court).then(function (r) {
-                $ctrl.modalInstance.close($ctrl.court);
-            });
+            if ($ctrl.court.id !== undefined) {
+                console.log('updating court', $ctrl.court);
+                $http.put('api/court', $ctrl.court).then(function (r) {
+                    $ctrl.modalInstance.close($ctrl.court);
+                });
+            } else {
+                console.log('adding new court', $ctrl.court);
+                $http.post('api/court', $ctrl.court).then(function (r) {
+                    $ctrl.modalInstance.close($ctrl.court);
+                });
+            }
         }
 
 

@@ -34,8 +34,26 @@ namespace CaseTracker.Portal.Controllers
 
             court.Name = model.Name;
             court.Abbreviation = model.Abbreviation;
+            court.JurisdictionId = model.JurisdictionId;
 
             await context.SaveChangesAsync();
+            return Ok(court);
+        }
+
+        [HttpPost()]
+        public async Task<object> Post([FromBody]CourtViewModel model)
+        {
+            if (model == null) return BadRequest("No court to add");
+
+            var court = new Court()
+            {
+                Name = model.Name,
+                Abbreviation = model.Abbreviation,
+                JurisdictionId = model.JurisdictionId
+            };
+            await context.Courts.AddAsync(court);
+            await context.SaveChangesAsync();
+
             return Ok(court);
         }
     }
