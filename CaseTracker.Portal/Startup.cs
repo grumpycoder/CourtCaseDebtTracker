@@ -13,6 +13,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication;
+
 
 namespace CaseTracker.Portal
 {
@@ -42,25 +45,36 @@ namespace CaseTracker.Portal
         {
             // Add framework services.
 
-            // services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-            // {
-            //     options.Cookies.ApplicationCookie.AutomaticAuthenticate = true;
-            //     options.Cookies.ApplicationCookie.AutomaticChallenge = true;
-            //     options.Cookies.ApplicationCookie.LoginPath = "/account/Login";
-            // })
-            // .AddEntityFrameworkStores<AppDbContext>()
-            // .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+              {
+                  options.Cookies.ApplicationCookie.AutomaticAuthenticate = true;
+                  options.Cookies.ApplicationCookie.AutomaticChallenge = true;
+                  options.Cookies.ApplicationCookie.LoginPath = "/account/Login";
+              })
+                  .AddEntityFrameworkStores<AppDbContext>()
+                  .AddDefaultTokenProviders();
+
+
+            services.AddAuthentication();
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("Admin", policy =>
+                    policy.RequireClaim("LoginProvider", "SPLC"));
+            });
+
 
             services.AddDbContext<AppDbContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddScoped<IUserService, HttpContextUserService>();
 
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, AppDbContext db)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -76,6 +90,43 @@ namespace CaseTracker.Portal
             }
 
             app.UseStaticFiles();
+
+            app.UseIdentity();
+
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions()
+            {
+                AuthenticationScheme = "SPLC",
+                Authority = "https://login.microsoftonline.com/common/",
+                ResponseType = "code id_token",
+                ClientId = Configuration["Authentication:AzureAd:ClientId"],
+                ClientSecret = Configuration["Authentication:AzureAd:Password"],
+                GetClaimsFromUserInfoEndpoint = true,
+                SaveTokens = true,
+                TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                },
+                AutomaticChallenge = false,
+                AutomaticAuthenticate = false,
+            });
+
+            app.UseGoogleAuthentication(new GoogleOptions()
+            {
+                ClientId = Configuration["Authentication:Google:ClientId"],
+                ClientSecret = Configuration["Authentication:Google:ClientSecret"],
+            });
+
+            app.UseFacebookAuthentication(new FacebookOptions()
+            {
+                AppId = Configuration["Authentication:Facebook:AppId"],
+                AppSecret = Configuration["Authentication:Facebook:AppSecret"],
+            });
+
+            app.UseTwitterAuthentication(new TwitterOptions()
+            {
+                ConsumerKey = Configuration["Authentication:Twitter.ConsumerKey"],
+                ConsumerSecret = Configuration["Authentication:Twitter.ConsumerSecret"]
+            });
 
             app.UseMvc(routes =>
             {

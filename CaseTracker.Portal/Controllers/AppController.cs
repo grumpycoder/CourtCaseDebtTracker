@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CaseTracker.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CaseTracker.Portal.Controllers
 {
+    [Authorize]
     public class AppController : Controller
     {
         private readonly AppDbContext context;
