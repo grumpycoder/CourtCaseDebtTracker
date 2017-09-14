@@ -21,7 +21,7 @@
             $ctrl.selectedJurisidiction = j;
         }
 
-        $ctrl.openModal = function () {
+        $ctrl.openModal = function (jurisdiction) {
             console.log('selected', $ctrl.selectedJurisidiction);
             $modal.open({
                 component: 'jurisdictionEdit',
@@ -29,12 +29,12 @@
                     modalInstance: "<"
                 },
                 resolve: {
-                    jurisdiction: $ctrl.selectedJurisidiction
+                    jurisdiction: jurisdiction
                 },
                 size: 'md'
             }).result.then(function (result) {
                 console.log('updated', result);
-                angular.extend($ctrl.selectedJurisidiction, result);
+                angular.extend(jurisdiction, result);
             }, function (reason) {});
         }
     }

@@ -1,16 +1,12 @@
 <div ng-show="!$ctrl.jurisdictions">
     <h3>No Jurisdictions</h3>
 </div>
-<button class="btn" ng-click="$ctrl.openModal()">Open</button>
 
 <div ng-show="$ctrl.jurisdictions">
     <ul class="list-group">
-        <li class="list-group-item" ng-repeat="c in $ctrl.jurisdictions" ng-click="$ctrl.selectJurisidiction(c)">
-            <span>
-
-    {{c.name}}
-</span>
-
+        <li class="list-group-item" ng-repeat="c in $ctrl.jurisdictions">
+            <span>{{c.name}}</span>
+            <button class="btn btn-sm" ng-click="$ctrl.openModal(c)">Edit</button>
         </li>
     </ul>
 </div>
