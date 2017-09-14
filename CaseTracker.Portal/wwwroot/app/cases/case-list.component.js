@@ -11,7 +11,6 @@
         $ctrl.$onInit = function () {
             console.log('case list init');
             $http.get('api/case/list').then(function (r) {
-                console.log('r', r);
                 $ctrl.cases = r.data;
             });
         }

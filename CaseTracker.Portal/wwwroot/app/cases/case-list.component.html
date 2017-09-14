@@ -3,12 +3,28 @@
 </div>
 
 <div ng-show="$ctrl.cases">
-    <ul class="list-group">
-        <li class="list-group-item" ng-repeat="c in $ctrl.cases">
-            <span>
-                    {{c.caption}}
-            </span>
-            <a href="case/{{c.id}}">Details</a>
-        </li>
-    </ul>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Case#</th>
+                <th>Caption</th>
+                <th>Judge</th>
+                <th>Date Filed</th>
+                <th>Court</th>
+                <th>Jurisdiction</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="c in $ctrl.cases">
+                <td><a href="case/{{c.id}}">{{ c.caseNumber }}</a></td>
+                <td>{{ c.caption }}</td>
+                <td>{{ c.judge }}</td>
+                <td>{{ c.dateFiled }}</td>
+                <td>{{ c.court.name }}</td>
+                <td>{{ c.jurisdiction.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
