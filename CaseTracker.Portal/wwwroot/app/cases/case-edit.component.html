@@ -1,0 +1,29 @@
+<h2>
+    Edit case</h2>
+
+<div>
+    {{ $ctrl.case | json }}
+</div>
+
+<form novalidate="" name="form">
+
+    <div class="form-group">
+        <label for="" class="control-label">Caption</label>
+        <input type="text" class="form-control" ng-model="$ctrl.case.caption">
+    </div>
+    <div class="form-group">
+        <label for="" class="control-label">Case #</label>
+        <input type="text" class="form-control" ng-model="$ctrl.case.caseNumber">
+    </div>
+    <div class="form-group">
+        <label for="" class="control-label">Judge</label>
+        <input type="text" class="form-control" ng-model="$ctrl.case.judge">
+    </div>
+    <div class="form-group">
+        <label for="" class="control-label">Summary</label>
+        <input type="text" class="form-control" ng-model="$ctrl.case.summary">
+    </div>
+
+    <button class="btn btn-default pull-left" ng-click="$ctrl.cancel()">Close</button>
+    <button class="btn btn-primary" data-dismiss="modal" ng-disabled="!form.$dirty" ng-click="$ctrl.save()">Save</button>
+</form>

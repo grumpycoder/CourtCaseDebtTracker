@@ -16,10 +16,6 @@
             });
         }
 
-        $ctrl.gotoDetails = function (id) {
-            console.log('goto', id);
-        }
-
     }
 
     module.component('caseList', {

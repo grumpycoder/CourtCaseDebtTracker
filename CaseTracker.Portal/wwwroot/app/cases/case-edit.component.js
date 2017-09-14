@@ -1,17 +1,17 @@
-//court-edit.component.js
+//case-edit.component.js
 (function () {
     var module = angular.module('app');
 
     function controller($http) {
         var $ctrl = this;
 
-        $ctrl.title = 'Court Manager';
-        $ctrl.subTitle = 'Court';
+        $ctrl.title = 'Case Manager';
+        $ctrl.subTitle = 'Case';
 
         $ctrl.$onInit = function () {
-            console.log('court edit init', $ctrl);
+            console.log('case edit init', $ctrl);
             if ($ctrl.resolve) {
-                $ctrl.court = angular.copy($ctrl.resolve.court);
+                $ctrl.case = angular.copy($ctrl.resolve.case);
             }
         }
 
@@ -20,20 +20,20 @@
         }
 
         $ctrl.save = function () {
-            console.log('save', $ctrl.court);
-            $http.put('api/court', $ctrl.court).then(function (r) {
-                $ctrl.modalInstance.close($ctrl.court);
+            console.log('save', $ctrl.case);
+            $http.put('/api/case', $ctrl.case).then(function (r) {
+                $ctrl.modalInstance.close($ctrl.case);
             });
         }
 
 
     }
 
-    module.component('courtEdit', {
-        templateUrl: '/app/courts/court-edit.component.html',
+    module.component('caseEdit', {
+        templateUrl: '/app/cases/case-edit.component.html',
         controller: ['$http', controller],
         bindings: {
-            court: '<',
+            case: '<',
             resolve: '<',
             close: '&',
             dismiss: '&',

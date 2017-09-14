@@ -15,6 +15,7 @@
                 $ctrl.courts = r.data;
             });
         }
+
         $ctrl.openModal = function (court) {
             console.log('selected', court);
             $modal.open({
