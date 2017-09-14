@@ -5,13 +5,15 @@
     function controller($http) {
         var $ctrl = this;
 
-        $ctrl.title = 'Case Manager';
-        $ctrl.subTitle = 'Case';
+        $ctrl.title = 'Update Case';
 
         $ctrl.$onInit = function () {
             console.log('case edit init', $ctrl);
             if ($ctrl.resolve) {
                 $ctrl.case = angular.copy($ctrl.resolve.case);
+            }
+            if ($ctrl.case === undefined) {
+                $ctrl.title = 'New Case';
             }
         }
 
@@ -21,9 +23,15 @@
 
         $ctrl.save = function () {
             console.log('save', $ctrl.case);
-            $http.put('/api/case', $ctrl.case).then(function (r) {
-                $ctrl.modalInstance.close($ctrl.case);
-            });
+            if ($ctrl.case.id !== undefined) {
+                $http.put('/api/case', $ctrl.case).then(function (r) {
+                    $ctrl.modalInstance.close($ctrl.case);
+                });
+            } else {
+                $http.post('/api/case', $ctrl.case).then(function (r) {
+                    $ctrl.modalInstance.close(r.data);
+                });
+            }
         }
 
 

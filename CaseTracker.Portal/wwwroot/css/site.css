@@ -1,5 +1,36 @@
-﻿@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);
+﻿@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,700);
+html,
+body {
+    font-family: 'roboto', sans-serif;
+}
+
 .content-wrapper,
 .right-side {
     min-height: 90%;
+}
+
+[ng-click],
+a {
+    cursor: pointer;
+}
+
+[ng-click],
+a:hover {
+    text-decoration: none;
+}
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+    display: none !important;
+}
+
+.ng-hide-add,
+.ng-hide-remove {
+    /* ensure visibility during the transition */
+    display: block !important;
+    /* yes, important */
 }

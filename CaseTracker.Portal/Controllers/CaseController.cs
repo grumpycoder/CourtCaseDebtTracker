@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using CaseTracker.Core.Models;
 using CaseTracker.Data;
 using CaseTracker.Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +47,26 @@ namespace CaseTracker.Portal.Controllers
             await context.SaveChangesAsync();
             return Ok(@case);
         }
+
+        [HttpPost()]
+        public async Task<object> Post([FromBody]CaseViewModel model)
+        {
+            if (model == null) return BadRequest("No case to update");
+
+            var @case = new Filing()
+            {
+                Caption = model.Caption,
+                Judge = model.Judge,
+                Summary = model.Summary,
+                CaseNumber = model.CaseNumber,
+                CourtId = model.CourtId
+            };
+            await context.Filings.AddAsync(@case);
+            await context.SaveChangesAsync();
+
+            return Ok(@case);
+        }
+
 
     }
 }

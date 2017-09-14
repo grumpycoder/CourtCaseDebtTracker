@@ -2,7 +2,7 @@
 (function () {
     var module = angular.module('app');
 
-    function controller($http) {
+    function controller($http, $modal) {
         var $ctrl = this;
 
         $ctrl.title = 'Case Manager';
@@ -15,10 +15,26 @@
             });
         }
 
+        $ctrl.openModal = function () {
+            $modal.open({
+                component: 'caseEdit',
+                bindings: {
+                    modalInstance: "<"
+                },
+                resolve: {
+                    case: $ctrl.case
+                },
+                size: 'md'
+            }).result.then(function (result) {
+                console.log('result', result);
+                $ctrl.cases.unshift(result);
+            }, function (reason) {});
+        }
+
     }
 
     module.component('caseList', {
         templateUrl: 'app/cases/case-list.component.html',
-        controller: ['$http', controller]
+        controller: ['$http', '$uibModal', controller]
     });
 })();
