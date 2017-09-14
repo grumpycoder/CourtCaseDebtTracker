@@ -5,7 +5,10 @@
 <div ng-show="$ctrl.cases">
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="c in $ctrl.cases">
-            {{c.caption}}
+            <span>
+                    {{c.caption}}
+            </span>
+            <a href="case/{{c.id}}">Details</a>
         </li>
     </ul>
 </div>
