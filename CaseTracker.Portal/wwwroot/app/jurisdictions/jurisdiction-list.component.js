@@ -7,12 +7,16 @@
 
         $ctrl.title = 'Jurisdiction Manager';
         $ctrl.subTitle = 'Jurisdictions';
+        $ctrl.isBusy = false;
 
         $ctrl.$onInit = function () {
             console.log('jurisdiction list init');
+            $ctrl.isBusy = true;
             $http.get('api/jurisdiction/list').then(function (r) {
                 console.log('r', r);
                 $ctrl.jurisdictions = r.data;
+            }).finally(function () {
+                $ctrl.isBusy = false;
             });
         }
 

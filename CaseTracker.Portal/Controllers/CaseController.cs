@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CaseTracker.Core.Models;
 using CaseTracker.Data;
 using CaseTracker.Portal.ViewModels;
@@ -20,8 +22,11 @@ namespace CaseTracker.Portal.Controllers
         [HttpGet("list")]
         public async Task<object> List()
         {
-            var list = await context.Filings.OrderBy(f => f.Id).Skip(0).Take(10).ToListAsync();
-            return Ok(list);
+            var list = await context.Filings.Include(f => f.Court.Jurisdiction).OrderBy(f => f.Id).Skip(0).Take(10).ToListAsync();
+
+            var model = Mapper.Map<List<FilingViewModel>>(list);
+
+            return Ok(model);
         }
 
         [HttpGet("{id}")]

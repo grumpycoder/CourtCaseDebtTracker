@@ -7,11 +7,16 @@
 
         $ctrl.title = 'Case Manager';
         $ctrl.subTitle = 'Cases';
+        $ctrl.isBusy = false;
 
         $ctrl.$onInit = function () {
             console.log('case list init');
+            $ctrl.isBusy = true;
             $http.get('api/case/list').then(function (r) {
                 $ctrl.cases = r.data;
+                console.log('cases', $ctrl.cases);
+            }).finally(function () {
+                $ctrl.isBusy = false;
             });
         }
 

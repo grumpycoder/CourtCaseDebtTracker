@@ -7,12 +7,16 @@
 
         $ctrl.title = 'Court Manager';
         $ctrl.subTitle = 'Courts';
+        $ctrl.isBusy = false;
 
         $ctrl.$onInit = function () {
             console.log('court list init');
+            $ctrl.isBusy = true;
             $http.get('api/court/list').then(function (r) {
                 console.log('r', r);
                 $ctrl.courts = r.data;
+            }).finally(function () {
+                $ctrl.isBusy = false;
             });
         }
 
