@@ -76,16 +76,18 @@
                                     <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()"><i class="fa fa-plus-circle"></i></button>
                             </span>
                         </div>
-                        <table class="table table-hover table-responsive">
-                            <tr ng-repeat="p in $ctrl.case.plaintiffs">
-                                <td>
-                                    {{ p.name }}
-                                </td>
-                                <td>
-                                    <i class="fa fa-trash pull-right" ng-click="$ctrl.deleteLitigant(p, 'plaintiff')"></i>
-                                </td>
-                            </tr>
-                        </table>
+                        <div slimscroll style="max-height:250px; overflow:auto;">
+                            <table class="table table-hover">
+                                <tr ng-repeat="p in $ctrl.case.plaintiffs">
+                                    <td>
+                                        {{ p.name }}
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-trash pull-right" ng-click="$ctrl.deleteLitigant(p, 'plaintiff')"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="col-md-6">

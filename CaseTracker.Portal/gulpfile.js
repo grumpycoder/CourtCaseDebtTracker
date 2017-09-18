@@ -13,7 +13,7 @@ var print = require('gulp-print');
 var config = {
     //Include all js files but exclude any min.js files
     js: ['wwwroot/app/**/*.js'],
-    css: ['css/**/*.css', '!**/*.min.css']
+    css: ['wwwroot/css/**/*.css', '!wwwroot/css/**/*.min.css', '!wwwroot/css/skins/**/*.css']
 }
 
 gulp.task('watch',
