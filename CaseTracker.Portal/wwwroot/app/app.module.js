@@ -3,7 +3,9 @@
 
     var module = angular.module('app', [
         //third party modules
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'ngSanitize',
+        'ui.select'
     ]);
 
     module.run(function () {

@@ -14,6 +14,7 @@
             console.log('case edit init');
             if ($ctrl.resolve) {
                 $ctrl.case = angular.copy($ctrl.resolve.case);
+
                 var isValidDate = moment($ctrl.resolve.case.dateFiled).isValid();
                 if (moment($ctrl.resolve.case.dateFiled).isValid()) {
                     $ctrl.case.dateFiled = new Date($ctrl.case.dateFiled);
@@ -24,6 +25,10 @@
             if ($ctrl.case === undefined) {
                 $ctrl.title = 'New Case';
             }
+
+            $http.get('/api/court/list').then(function (r) {
+                $ctrl.courts = r.data;
+            })
         }
 
         $ctrl.cancel = function () {
@@ -31,10 +36,9 @@
         }
 
         $ctrl.save = function () {
-            console.log('save', $ctrl.case);
             if ($ctrl.case.id !== undefined) {
                 $http.put('/api/case', $ctrl.case).then(function (r) {
-                    $ctrl.modalInstance.close($ctrl.case);
+                    $ctrl.modalInstance.close(r.data);
                 });
             } else {
                 $http.post('/api/case', $ctrl.case).then(function (r) {

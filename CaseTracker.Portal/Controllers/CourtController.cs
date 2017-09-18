@@ -20,7 +20,7 @@ namespace CaseTracker.Portal.Controllers
         [HttpGet("list")]
         public async Task<object> List()
         {
-            var list = await context.Courts.ToListAsync();
+            var list = await context.Courts.Include("Jurisdiction").ToListAsync();
             return Ok(list);
         }
 

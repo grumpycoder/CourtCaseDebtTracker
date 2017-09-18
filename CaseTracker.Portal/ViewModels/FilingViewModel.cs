@@ -19,6 +19,7 @@ namespace CaseTracker.Portal.ViewModels
         public string Judge { get; set; }
         public string Summary { get; set; }
         public int CourtId { get; set; }
+        public string CourtName { get; set; }
         public virtual List<Comment> Comments { get; set; }
 
         public string CreatedUser { get; set; }

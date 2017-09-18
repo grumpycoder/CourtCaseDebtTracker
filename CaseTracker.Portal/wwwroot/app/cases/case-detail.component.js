@@ -15,13 +15,13 @@
             $ctrl.isBusy = true;
             $http.get('/api/case/' + id).then(function (r) {
                 $ctrl.case = r.data;
+                console.log($ctrl.case);
             }).finally(function () {
                 $ctrl.isBusy = false;
             });
         }
 
         $ctrl.openModal = function () {
-            console.log('case edit', $ctrl.case);
             $modal.open({
                 component: 'caseEdit',
                 bindings: {

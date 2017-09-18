@@ -45,17 +45,22 @@ namespace CaseTracker.Portal.Controllers
         {
             if (model == null) return BadRequest("No case to update");
 
-            var @case = await context.Filings.FindAsync(model.Id);
+            var @case = await context.Filings.Include("Court").FirstOrDefaultAsync(f => f.Id == model.Id);
             if (@case == null) return NotFound("Case not found");
 
+            //TODO: Using Automapper
             @case.Caption = model.Caption;
             @case.Judge = model.Judge;
             @case.Summary = model.Summary;
             @case.CaseNumber = model.CaseNumber;
             @case.DateFiled = model.DateFiled;
+            @case.CourtId = model.CourtId;
 
             await context.SaveChangesAsync();
-            return Ok(@case);
+            //TODO: Something smells
+            @case = await context.Filings.Include(f => f.Court.Jurisdiction).Include("Defendants").Include("Plaintiffs").FirstOrDefaultAsync(f => f.Id == model.Id);
+            var c = Mapper.Map<FilingViewModel>(@case);
+            return Ok(c);
         }
 
         [HttpPost()]
