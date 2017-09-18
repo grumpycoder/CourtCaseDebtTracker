@@ -29,7 +29,7 @@
                     <td><a href="case/{{c.id}}">{{ c.caseNumber }}</a></td>
                     <td>{{ c.caption }}</td>
                     <td>{{ c.judge }}</td>
-                    <td>{{ c.dateFiled }}</td>
+                    <td>{{ c.dateFiled | date:'MM/dd/yyyy' }}</td>
                     <td>{{ c.court.name }}</td>
                     <td>{{ c.jurisdiction }}</td>
                 </tr>

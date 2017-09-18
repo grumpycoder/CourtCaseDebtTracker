@@ -4,6 +4,10 @@ body {
     font-family: 'roboto', sans-serif;
 }
 
+* {
+    border-radius: 0 !important;
+}
+
 .content-wrapper,
 .right-side {
     min-height: 90%;

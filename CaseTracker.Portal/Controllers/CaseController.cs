@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -5,6 +6,7 @@ using AutoMapper;
 using CaseTracker.Core.Models;
 using CaseTracker.Data;
 using CaseTracker.Portal.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,14 +34,17 @@ namespace CaseTracker.Portal.Controllers
         [HttpGet("{id}")]
         public async Task<object> Get(int id)
         {
-            var c = await context.Filings.Include("Defendants").Include("Plaintiffs").FirstOrDefaultAsync(f => f.Id == id);
-            return Ok(c);
+            var @case = await context.Filings.Include(f => f.Court.Jurisdiction).Include("Defendants").Include("Plaintiffs").FirstOrDefaultAsync(f => f.Id == id);
+            var model = Mapper.Map<FilingViewModel>(@case);
+            model.CanDelete = User.HasClaim("LoginProvider", "SPLC");
+            return Ok(model);
         }
 
         [HttpPut()]
         public async Task<object> Put([FromBody]CaseViewModel model)
         {
             if (model == null) return BadRequest("No case to update");
+            model.DateFiled = new DateTime();
 
             var @case = await context.Filings.FindAsync(model.Id);
             if (@case == null) return NotFound("Case not found");
@@ -48,6 +53,7 @@ namespace CaseTracker.Portal.Controllers
             @case.Judge = model.Judge;
             @case.Summary = model.Summary;
             @case.CaseNumber = model.CaseNumber;
+            @case.DateFiled = model.DateFiled;
 
             await context.SaveChangesAsync();
             return Ok(@case);

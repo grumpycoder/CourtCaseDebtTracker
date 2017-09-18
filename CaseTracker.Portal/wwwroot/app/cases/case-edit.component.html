@@ -13,6 +13,19 @@
             <label for="" class="control-label">Case #</label>
             <input type="text" class="form-control" ng-model="$ctrl.case.caseNumber">
         </div>
+
+        <div class="form-group">
+            <label class="control-label">Date Filed</label>
+            <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup="MM/dd/yyyy" ng-model="$ctrl.case.dateFiled" is-open="popup1.opened"
+                    datepicker-options="$ctrl.dateOptions" close-text="Close" date-input="{{$ctrl.dateFormat}}" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="popup1.opened = true;"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </p>
+        </div>
+
+
         <div class="form-group">
             <label for="" class="control-label">Judge</label>
             <input type="text" class="form-control" ng-model="$ctrl.case.judge">

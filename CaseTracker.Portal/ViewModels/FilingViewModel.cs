@@ -10,8 +10,8 @@ namespace CaseTracker.Portal.ViewModels
 
         public int Id { get; set; }
         public string Caption { get; set; }
-        public List<String> Plaintiffs { get; set; }
-        public List<String> Defendants { get; set; }
+        public List<Plaintiff> Plaintiffs { get; set; }
+        public List<Defendant> Defendants { get; set; }
         public DateTime? DateFiled { get; set; }
         public virtual Court Court { get; set; }
         public string Jurisdiction { get; set; }

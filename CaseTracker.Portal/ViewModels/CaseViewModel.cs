@@ -1,3 +1,5 @@
+using System;
+
 namespace CaseTracker.Portal.ViewModels
 {
     public class CaseViewModel
@@ -8,5 +10,6 @@ namespace CaseTracker.Portal.ViewModels
         public string Judge { get; set; }
         public string Summary { get; set; }
         public int CourtId { get; set; }
+        public DateTime? DateFiled { get; internal set; }
     }
 }

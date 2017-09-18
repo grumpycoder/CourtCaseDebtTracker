@@ -3,6 +3,9 @@
         <div class="box-title">
             {{$ctrl.case.caption}}
         </div>
+        <span class="pull-right">
+            <a href="#" ng-click="$ctrl.openModal()">Edit</a>
+        </span>
     </div>
     <!-- /.box-header -->
 
@@ -13,81 +16,115 @@
             </div>
         </div>
 
-        <div class="row" ng-show="$ctrl.case">
+        <div class="row">
+            <div class="container-fluid">
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend></legend>
+                        <dl>
+                            <dt>Case Number</dt>
+                            <dd>{{$ctrl.case.caseNumber}}</dd>
+
+                            <dt>Filed</dt>
+                            <dd>{{$ctrl.case.dateFiled | date: 'MM/dd/yyyy'}}</dd>
+
+                            <dt>Judge</dt>
+                            <dd>{{$ctrl.case.judge}}</dd>
+
+                        </dl>
+
+
+                        </dl>
+                    </fieldset>
+                </div>
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend></legend>
+                        <dl>
+
+                            <dt>Jurisdiction</dt>
+                            <dd>{{$ctrl.case.jurisdiction}}</dd>
+
+                            <dt>Court</dt>
+                            <dd>{{$ctrl.case.court.name}}</dd>
+
+                            <dt>Summary</dt>
+                            <dd>{{$ctrl.case.summary}}</dd>
+
+
+                        </dl>
+                    </fieldset>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-md-12">
-                <dl class="row">
-                    <dt class="col-sm-2">Plaintiff(s)</dt>
-                    <dd class="col-sm-10">
+
+                <fieldset>
+                    <div class="col-md-6">
+                        <div>Plaintiff(s)</div>
                         <div class="input-group">
                             <input type="text" ng-model="$ctrl.plaintiff.name" class="form-control" placeholder="Plaintiff Name" />
                             <span class="input-group-btn">
-                                            <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()">
-                                                <i class="glyphicon glyphicon-plus"></i>
-                                            </button>
-                                    </span>
+                                    <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()"><i class="fa fa-plus-circle"></i></button>
+                            </span>
                         </div>
-
-                        <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="p in $ctrl.case.plaintiffs">
-                                <span>
+                        <table class="table table-hover table-responsive">
+                            <tr ng-repeat="p in $ctrl.case.plaintiffs">
+                                <td>
                                     {{ p.name }}
-                                </span>
-                                <span class="pull-right">
-                                    <button class="btn btn-sm" ng-click="$ctrl.deleteLitigant(p, 'plaintiff')">Delete</button>
-                                </span>
-                            </li>
-                        </ul>
-                    </dd>
+                                </td>
+                                <td>
+                                    <i class="fa fa-trash pull-right" ng-click="$ctrl.deleteLitigant(p, 'plaintiff')"></i>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
 
-                    <dt class="col-sm-2">Defendant(s)</dt>
-                    <dd class="col-sm-10">
+                    <div class="col-md-6">
+                        <div>Defendant(s)</div>
                         <div class="input-group">
                             <input type="text" ng-model="$ctrl.defendant.name" class="form-control" placeholder="Defendant Name" />
                             <span class="input-group-btn">
-                                      <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()">
-                                            <i class="glyphicon glyphicon-plus"></i>
-                                      </button>
-                                    </span>
+                                    <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()"><i class="fa fa-plus-circle"></i></button>
+                            </span>
                         </div>
-
-                        <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="p in $ctrl.case.defendants">
-                                <span>
+                        <table class="table table-hover table-responsive">
+                            <tr ng-repeat="p in $ctrl.case.defendants">
+                                <td>
                                     {{ p.name }}
-                                </span>
-                                <span class="pull-right">
-                                    <button class="btn btn-sm" ng-click="$ctrl.deleteLitigant(p, 'defendant')">Delete</button>
-                                </span>
-                            </li>
-                        </ul>
-                    </dd>
+                                </td>
+                                <td>
+                                    <i class="fa fa-trash pull-right" ng-click="$ctrl.deleteLitigant(p, 'defendant')"></i>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
 
-                    <dt class="col-sm-2">Case Number</dt>
-                    <dd class="col-sm-10">{{$ctrl.case.caseNumber}}</dd>
+                </fieldset>
+            </div>
+        </div>
 
-                    <dt class="col-sm-2">Filed</dt>
-                    <dd class="col-sm-10">{{$ctrl.case.dateFiled}}</dd>
-
-                    <dt class="col-sm-2">Court</dt>
-                    <dd class="col-sm-10">{{$ctrl.case.court}}</dd>
-
-                    <dt class="col-sm-2">Judge</dt>
-                    <dd class="col-sm-10">{{$ctrl.case.judge}}</dd>
-
-                    <dt class="col-sm-2">Summary</dt>
-                    <dd class="col-sm-10">{{$ctrl.case.summary}}</dd>
-                </dl>
+        <div class="row">
+            <div class="container">
+                <div class="col-md-12">
+                    <strong><i class="fa fa-tags"></i> Tags: </strong>
+                    <ul class="list-inline">
+                        <li class="list-group-item">Tag Name 1</li>
+                        <li class="list-group-item">Tag Name 2</li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <strong><i class="fa fa-tags"></i> Tags: </strong>
 
-            </div>
-        </div>
-        <div class="row">
             <div class="col-md-12">
-                <div class="text-muted">Created by: {{$ctrl.case.createdUser}} {{$ctrl.case.createDate}}</div>
+                <small class="text-muted">Created by: {{$ctrl.case.createdUser}} {{$ctrl.case.createDate | date:'MM/dd/yyyy @ h:mma' }}</small>
+            </div>
+            <div class="col-md-12" ng-show="$ctrl.case.hasBeenEdited">
+                <small class="text-muted">Updated by: {{ $ctrl.case.updatedUser }} {{$ctrl.case.updateDate | date:'MM/dd/yyyy @ h:mma' }}</small>
             </div>
 
         </div>
@@ -97,12 +134,15 @@
 
     <div class="box-footer">
         <div class="pull-right">
-            <a href="#" ng-click="$ctrl.openModal()">Edit</a>
-            <a href="#" ng-show="$ctrl.case.canDelete">Delete</a>
+            <a href="#" ng-show="$ctrl.case.canDelete" ng-show="$ctrl.case.canDelete">Delete</a>
         </div>
         <div>
             <a href="/">Return to List</a>
         </div>
+    </div>
+    <!-- /.box-footer -->
+    <div class="overlay" ng-show="$ctrl.isBusy">
+        <i class="fa fa-refresh fa-spin"></i>
     </div>
 
 </div>
