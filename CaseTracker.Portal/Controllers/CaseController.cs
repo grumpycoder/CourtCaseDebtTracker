@@ -44,7 +44,6 @@ namespace CaseTracker.Portal.Controllers
         public async Task<object> Put([FromBody]CaseViewModel model)
         {
             if (model == null) return BadRequest("No case to update");
-            model.DateFiled = new DateTime();
 
             var @case = await context.Filings.FindAsync(model.Id);
             if (@case == null) return NotFound("Case not found");

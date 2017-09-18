@@ -26,7 +26,12 @@
                             <dd>{{$ctrl.case.caseNumber}}</dd>
 
                             <dt>Filed</dt>
-                            <dd>{{$ctrl.case.dateFiled | date: 'MM/dd/yyyy'}}</dd>
+                            <dd>
+                                <span ng-show="$ctrl.case.dateFiled">
+                                    {{$ctrl.case.dateFiled | date: 'MM/dd/yyyy'}}
+                                </span>
+                                <span ng-hide="$ctrl.case.dateFiled">Unknown</span>
+                            </dd>
 
                             <dt>Judge</dt>
                             <dd>{{$ctrl.case.judge}}</dd>

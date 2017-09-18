@@ -6,13 +6,20 @@
         var $ctrl = this;
         $ctrl.title = 'Update Case';
         $ctrl.dateFormat = "MM/DD/YYYY";
+        $ctrl.dateOptions = {
+            minDate: '1940-01-01'
+        };
 
         $ctrl.$onInit = function () {
             console.log('case edit init');
             if ($ctrl.resolve) {
                 $ctrl.case = angular.copy($ctrl.resolve.case);
-                //$ctrl.case.dateFiled = new Date($ctrl.case.dateFiled);
-                console.log('case', $ctrl.case);
+                var isValidDate = moment($ctrl.resolve.case.dateFiled).isValid();
+                if (moment($ctrl.resolve.case.dateFiled).isValid()) {
+                    $ctrl.case.dateFiled = new Date($ctrl.case.dateFiled);
+                } else {
+                    $ctrl.case.dateFiled = new Date();
+                }
             }
             if ($ctrl.case === undefined) {
                 $ctrl.title = 'New Case';
@@ -25,8 +32,6 @@
 
         $ctrl.save = function () {
             console.log('save', $ctrl.case);
-            debugger;
-            //$ctrl.case.dateFiled = $ctrl.case.dateFiled
             if ($ctrl.case.id !== undefined) {
                 $http.put('/api/case', $ctrl.case).then(function (r) {
                     $ctrl.modalInstance.close($ctrl.case);

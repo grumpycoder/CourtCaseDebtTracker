@@ -21,6 +21,7 @@
         }
 
         $ctrl.openModal = function () {
+            console.log('case edit', $ctrl.case);
             $modal.open({
                 component: 'caseEdit',
                 bindings: {
