@@ -2,7 +2,7 @@
 (function () {
     var module = angular.module('app');
 
-    function controller($http, $modal, $confirm) {
+    function controller($http, $modal, $confirm, ngToast) {
         var $ctrl = this;
 
         $ctrl.title = 'Court Manager';
@@ -20,7 +20,6 @@
         }
 
         $ctrl.openModal = function (court) {
-            console.log('selected', court);
             $modal.open({
                 component: 'courtEdit',
                 bindings: {
@@ -48,9 +47,16 @@
                 $http.delete('/api/court/' + court.id).then(function (r) {
                     var idx = $ctrl.courts.indexOf(court);
                     $ctrl.courts.splice(idx, 1);
-                    console.log('delete court', court);
+                    var myToastMsg = ngToast.success({
+                        content: 'Deleted court ' + court.name,
+                        dismissButton: true
+                    });
                 }).catch(function (err) {
                     console.log('Oops. Something went wrong', err);
+                    var myToastMsg = ngToast.danger({
+                        content: err.data,
+                        dismissButton: true
+                    });
                 });
             });
 
@@ -59,6 +65,6 @@
 
     module.component('courtList', {
         templateUrl: 'app/courts/court-list.component.html',
-        controller: ['$http', '$uibModal', '$confirm', controller]
+        controller: ['$http', '$uibModal', '$confirm', 'ngToast', controller]
     });
 })();

@@ -5,6 +5,7 @@ using CaseTracker.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CaseTracker.Portal.ViewModels;
+using System;
 
 namespace CaseTracker.Portal.Controllers
 {
@@ -60,13 +61,22 @@ namespace CaseTracker.Portal.Controllers
         [HttpDelete, Route("{id}")]
         public async Task<object> Delete(int id)
         {
-            var court = await context.Courts.FindAsync(id);
+            var court = await context.Courts.Include("Filings").FirstAsync(c => c.Id == id);
 
             if (court == null) return BadRequest("Court not found");
+            if (court.Filings.Count() > 0) return BadRequest("Unable to delete. Court has cases assigned.");
 
             context.Courts.Remove(court);
 
-            await context.SaveChangesAsync();
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Something went wrong. Contact support.");
+            }
+
 
             return Ok("Court deleted");
         }

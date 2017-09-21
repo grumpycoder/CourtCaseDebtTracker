@@ -6,7 +6,8 @@
         'ui.bootstrap',
         'ngSanitize',
         'ui.select',
-        'angular-confirm'
+        'angular-confirm',
+        'ngToast'
     ]);
 
     module.run(function () {

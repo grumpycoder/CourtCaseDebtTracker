@@ -11,7 +11,6 @@
             console.log('court edit init', $ctrl);
             $http.get('api/jurisdiction/list').then(function (r) {
                 $ctrl.jurisdictions = r.data;
-                console.log('jurisdictions', $ctrl.jurisdictions);
             });
 
             if ($ctrl.resolve) {
@@ -36,7 +35,7 @@
             } else {
                 console.log('adding new court', $ctrl.court);
                 $http.post('api/court', $ctrl.court).then(function (r) {
-                    $ctrl.modalInstance.close($ctrl.court);
+                    $ctrl.modalInstance.close(r.data);
                 });
             }
         }
