@@ -11,7 +11,8 @@
     "angular-bootstrap": "2.2.0",
     "moment": "~2.13.0",
     "angular-ui-select": "^0.19.8",
-    "angular-sanitize": "^1.6.6"
+    "angular-sanitize": "^1.6.6",
+    "angular-confirm": "angular1-confirm#^1.1.0"
   },
   "overrides": {
     "bootstrap": {
