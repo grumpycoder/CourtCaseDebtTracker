@@ -11,10 +11,6 @@
 
         $ctrl.$onInit = function () {
             console.log('court list init');
-            var myToastMsg = ngToast.warning({
-                content: '<a href="#" class="">a message</a>'
-            });
-
             $ctrl.isBusy = true;
             $http.get('api/court/list').then(function (r) {
                 $ctrl.courts = r.data;

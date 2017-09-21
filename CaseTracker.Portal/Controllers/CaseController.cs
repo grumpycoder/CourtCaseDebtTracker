@@ -82,6 +82,18 @@ namespace CaseTracker.Portal.Controllers
             return Ok(@case);
         }
 
+        [HttpDelete(), Route("{id}")]
+        public async Task<object> Delete(int id)
+        {
+            var @case = await context.Filings.FindAsync(id);
+            if (@case == null) return NotFound("Case not found");
+
+            context.Filings.Remove(@case);
+            await context.SaveChangesAsync();
+
+            return Ok("Deleted case");
+        }
+
         [HttpPost("{caseId}/litigant")]
         public async Task<object> AddLitigant(int caseId, [FromBody]LitigantViewModel model)
         {

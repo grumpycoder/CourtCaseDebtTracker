@@ -2,7 +2,7 @@
 (function () {
     var module = angular.module('app');
 
-    function controller($http, $modal, uibDateParser) {
+    function controller($http, $modal, uibDateParser, $confirm, ngToast) {
         var $ctrl = this;
 
         $ctrl.title = 'Case Manager';
@@ -85,10 +85,32 @@
 
         }
 
+        $ctrl.delete = function () {
+            $confirm({
+                title: 'Delete',
+                text: 'Are you sure you want to delete ' + $ctrl.case.caption + '?'
+            }).then(function () {
+
+                $http.delete('/api/case/' + $ctrl.case.id).then(function (r) {
+                    var myToastMsg = ngToast.success({
+                        content: 'Deleted case ' + $ctrl.case.caption,
+                        dismissButton: true
+                    });
+                    window.location.href = '/';
+                }).catch(function (err) {
+                    console.log('Oops. Something went wrong', err);
+                    var myToastMsg = ngToast.danger({
+                        content: err.data,
+                        dismissButton: true
+                    });
+                });
+            });
+
+        }
     }
 
     module.component('caseDetail', {
         templateUrl: '/app/cases/case-detail.component.html',
-        controller: ['$http', '$uibModal', 'uibDateParser', controller]
+        controller: ['$http', '$uibModal', 'uibDateParser', '$confirm', 'ngToast', controller]
     });
 })();
