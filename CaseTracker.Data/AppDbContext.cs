@@ -153,14 +153,14 @@ namespace CaseTracker.Data
     }
 
 
-    public class TemporaryDbContextFactory : IDbContextFactory<AppDbContext>
-    {
-        public AppDbContext Create(DbContextFactoryOptions options)
-        {
-            var builder = new DbContextOptionsBuilder<AppDbContext>();
-            builder.UseSqlServer("data source=splc.database.windows.net;Initial Catalog=CourtDebtCaseTrackerStage;Persist Security Info=True;User ID=splcdbmanager;Password=TzUF4Fjh;App=EntityFramework");
-            return new AppDbContext(builder.Options);
-        }
-    }
+    // public class TemporaryDbContextFactory : IDbContextFactory<AppDbContext>
+    // {
+    //     public AppDbContext Create(DbContextFactoryOptions options)
+    //     {
+    //         var builder = new DbContextOptionsBuilder<AppDbContext>();
+    //         builder.UseSqlServer("data source=splc.database.windows.net;Initial Catalog=CourtDebtCaseTrackerStage;Persist Security Info=True;User ID=splcdbmanager;Password=TzUF4Fjh;App=EntityFramework");
+    //         return new AppDbContext(builder.Options);
+    //     }
+    // }
 
 }
