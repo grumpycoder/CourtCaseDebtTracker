@@ -79,7 +79,9 @@ namespace CaseTracker.Portal.Controllers
             await context.Filings.AddAsync(@case);
             await context.SaveChangesAsync();
 
-            return Ok(@case);
+            var m = await context.Filings.Include(f => f.Court.Jurisdiction).FirstAsync(f => f.Id == @case.Id);
+            var c = Mapper.Map<FilingViewModel>(m);
+            return Ok(c);
         }
 
         [HttpDelete(), Route("{id}")]

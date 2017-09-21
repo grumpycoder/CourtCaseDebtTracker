@@ -2,7 +2,7 @@
 (function () {
     var module = angular.module('app');
 
-    function controller($http, $modal) {
+    function controller($http, $modal, ngToast) {
         var $ctrl = this;
 
         $ctrl.title = 'Case Manager';
@@ -33,6 +33,10 @@
             }).result.then(function (result) {
                 console.log('result', result);
                 $ctrl.cases.unshift(result);
+                var myToastMsg = ngToast.success({
+                    content: 'Added case ' + result.caption,
+                    dismissButton: true
+                });
             }, function (reason) {});
         }
 
@@ -40,6 +44,6 @@
 
     module.component('caseList', {
         templateUrl: 'app/cases/case-list.component.html',
-        controller: ['$http', '$uibModal', controller]
+        controller: ['$http', '$uibModal', 'ngToast', controller]
     });
 })();

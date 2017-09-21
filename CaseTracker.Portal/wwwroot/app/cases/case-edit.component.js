@@ -14,12 +14,14 @@
             console.log('case edit init');
             if ($ctrl.resolve) {
                 $ctrl.case = angular.copy($ctrl.resolve.case);
+                console.log('case', $ctrl.case);
 
-                var isValidDate = moment($ctrl.resolve.case.dateFiled).isValid();
-                if (moment($ctrl.resolve.case.dateFiled).isValid()) {
+                if ($ctrl.case !== undefined) {
                     $ctrl.case.dateFiled = new Date($ctrl.case.dateFiled);
                 } else {
-                    $ctrl.case.dateFiled = new Date();
+                    $ctrl.case = {
+                        dateFiled: new Date()
+                    };
                 }
             }
             if ($ctrl.case === undefined) {
