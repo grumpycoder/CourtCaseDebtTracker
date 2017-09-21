@@ -141,7 +141,7 @@
 
     <div class="box-footer">
         <div class="pull-right">
-            <a href="#" ng-show="$ctrl.case.canDelete" ng-show="$ctrl.case.canDelete">Delete</a>
+            <a ng-click="$ctrl.delete()" ng-show="$ctrl.case.canDelete" ng-show="$ctrl.case.canDelete">Delete</a>
         </div>
         <div>
             <a href="/">Return to List</a>
@@ -154,3 +154,4 @@
 
 </div>
 <!-- /.box -->
+<toast></toast>

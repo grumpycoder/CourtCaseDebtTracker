@@ -26,7 +26,10 @@
                 <tr ng-repeat="c in $ctrl.jurisdictions">
                     <td>{{ c.name }}</td>
                     <td>{{ c.abbreviation }}</td>
-                    <td><i class="fa fa-pencil fa-lg" ng-click="$ctrl.openModal(c)"></i></td>
+                    <td>
+                        <i class="fa fa-pencil fa-lg" ng-click="$ctrl.openModal(c)"></i>
+                        <i class="fa fa-trash fa-lg" ng-click="$ctrl.delete(c)"></i>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -43,3 +46,4 @@
 
 </div>
 <!-- /.box -->
+<toast></toast>

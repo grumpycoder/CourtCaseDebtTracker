@@ -30,7 +30,6 @@
                 },
                 size: 'md'
             }).result.then(function (result) {
-                console.log('updated', result);
                 if (court !== undefined) {
                     angular.extend(court, result);
                 } else {

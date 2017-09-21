@@ -79,7 +79,21 @@ namespace CaseTracker.Portal.Controllers
             await context.Filings.AddAsync(@case);
             await context.SaveChangesAsync();
 
-            return Ok(@case);
+            var m = await context.Filings.Include(f => f.Court.Jurisdiction).FirstAsync(f => f.Id == @case.Id);
+            var c = Mapper.Map<FilingViewModel>(m);
+            return Ok(c);
+        }
+
+        [HttpDelete(), Route("{id}")]
+        public async Task<object> Delete(int id)
+        {
+            var @case = await context.Filings.FindAsync(id);
+            if (@case == null) return NotFound("Case not found");
+
+            context.Filings.Remove(@case);
+            await context.SaveChangesAsync();
+
+            return Ok("Deleted case");
         }
 
         [HttpPost("{caseId}/litigant")]
