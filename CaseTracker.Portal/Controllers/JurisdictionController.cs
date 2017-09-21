@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CaseTracker.Core.Models;
 using CaseTracker.Data;
@@ -54,5 +56,26 @@ namespace CaseTracker.Portal.Controllers
             return Ok(jurisdiction);
         }
 
+        [HttpDelete, Route("{id}")]
+        public async Task<object> Delete(int id)
+        {
+            var jurisdiction = await context.Jurisdictions.FirstAsync(c => c.Id == id);
+
+            if (jurisdiction == null) return BadRequest("Jurisdiction not found");
+            if (context.Courts.Count(c => c.JurisdictionId == id) > 0) return BadRequest("Unable to delete. Jurisdiction has courts assigned.");
+
+            context.Jurisdictions.Remove(jurisdiction);
+
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Something went wrong. Contact support.");
+            }
+
+            return Ok("Jurisdiction deleted");
+        }
     }
 }

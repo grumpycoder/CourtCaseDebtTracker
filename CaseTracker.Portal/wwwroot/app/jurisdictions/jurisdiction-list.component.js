@@ -2,7 +2,7 @@
 (function () {
     var module = angular.module('app');
 
-    function controller($http, $modal) {
+    function controller($http, $modal, $confirm, ngToast) {
         var $ctrl = this;
 
         $ctrl.title = 'Jurisdiction Manager';
@@ -20,13 +20,7 @@
             });
         }
 
-        $ctrl.selectJurisidiction = function (j) {
-            console.log('select', j);
-            $ctrl.selectedJurisidiction = j;
-        }
-
         $ctrl.openModal = function (jurisdiction) {
-            console.log('selected', jurisdiction);
             $modal.open({
                 component: 'jurisdictionEdit',
                 bindings: {
@@ -37,7 +31,6 @@
                 },
                 size: 'md'
             }).result.then(function (result) {
-                console.log('updated', result);
                 if (jurisdiction === undefined) {
                     $ctrl.jurisdictions.unshift(result);
                 } else {
@@ -45,10 +38,33 @@
                 }
             }, function (reason) {});
         }
+
+        $ctrl.delete = function (jurisdiction) {
+            $confirm({
+                title: 'Delete',
+                text: 'Are you sure you want to delete ' + jurisdiction.name + '?'
+            }).then(function () {
+                $http.delete('/api/jurisdiction/' + jurisdiction.id).then(function (r) {
+                    var idx = $ctrl.jurisdictions.indexOf(jurisdiction);
+                    $ctrl.jurisdictions.splice(idx, 1);
+                    var myToastMsg = ngToast.success({
+                        content: 'Deleted jurisdiction ' + jurisdiction.name,
+                        dismissButton: true
+                    });
+                }).catch(function (err) {
+                    console.log('Oops. Something went wrong', err);
+                    var myToastMsg = ngToast.danger({
+                        content: err.data,
+                        dismissButton: true
+                    });
+                });
+            });
+        }
+
     }
 
     module.component('jurisdictionList', {
         templateUrl: 'app/jurisdictions/jurisdiction-list.component.html',
-        controller: ['$http', '$uibModal', controller]
+        controller: ['$http', '$uibModal', '$confirm', 'ngToast', controller]
     });
 })();
