@@ -2,7 +2,7 @@
 (function () {
     var module = angular.module('app');
 
-    function controller($http, $modal) {
+    function controller($http, $modal, $confirm) {
         var $ctrl = this;
 
         $ctrl.title = 'Court Manager';
@@ -13,7 +13,6 @@
             console.log('court list init');
             $ctrl.isBusy = true;
             $http.get('api/court/list').then(function (r) {
-                console.log('r', r);
                 $ctrl.courts = r.data;
             }).finally(function () {
                 $ctrl.isBusy = false;
@@ -40,10 +39,26 @@
                 }
             }, function (reason) {});
         }
+
+        $ctrl.delete = function (court) {
+            $confirm({
+                title: 'Delete',
+                text: 'Are you sure you want to delete ' + court.name + '?'
+            }).then(function () {
+                $http.delete('/api/court/' + court.id).then(function (r) {
+                    var idx = $ctrl.courts.indexOf(court);
+                    $ctrl.courts.splice(idx, 1);
+                    console.log('delete court', court);
+                }).catch(function (err) {
+                    console.log('Oops. Something went wrong', err);
+                });
+            });
+
+        }
     }
 
     module.component('courtList', {
         templateUrl: 'app/courts/court-list.component.html',
-        controller: ['$http', '$uibModal', controller]
+        controller: ['$http', '$uibModal', '$confirm', controller]
     });
 })();

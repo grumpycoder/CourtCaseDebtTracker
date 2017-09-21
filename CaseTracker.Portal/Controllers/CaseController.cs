@@ -24,7 +24,7 @@ namespace CaseTracker.Portal.Controllers
         [HttpGet("list")]
         public async Task<object> List()
         {
-            var list = await context.Filings.Include(f => f.Court.Jurisdiction).OrderBy(f => f.Id).Skip(0).Take(10).ToListAsync();
+            var list = await context.Filings.Include(f => f.Court.Jurisdiction).OrderByDescending(f => f.Id).Skip(0).Take(10).ToListAsync();
 
             var model = Mapper.Map<List<FilingViewModel>>(list);
 

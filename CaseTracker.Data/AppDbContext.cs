@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CaseTracker.Data
 {
@@ -47,6 +48,11 @@ namespace CaseTracker.Data
             {
                 p.SetMaxLength(500);
             }
+
+            modelBuilder.Entity<Filing>()
+                        .HasOne(p => p.Court)
+                        .WithMany(b => b.Filings)
+                        .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Filing>()
                 .Property(t => t.CreateDate)
@@ -153,14 +159,14 @@ namespace CaseTracker.Data
     }
 
 
-    // public class TemporaryDbContextFactory : IDbContextFactory<AppDbContext>
-    // {
-    //     public AppDbContext Create(DbContextFactoryOptions options)
-    //     {
-    //         var builder = new DbContextOptionsBuilder<AppDbContext>();
-    //         builder.UseSqlServer("data source=splc.database.windows.net;Initial Catalog=CourtDebtCaseTrackerStage;Persist Security Info=True;User ID=splcdbmanager;Password=TzUF4Fjh;App=EntityFramework");
-    //         return new AppDbContext(builder.Options);
-    //     }
-    // }
+    public class TemporaryDbContextFactory : IDbContextFactory<AppDbContext>
+    {
+        public AppDbContext Create(DbContextFactoryOptions options)
+        {
+            var builder = new DbContextOptionsBuilder<AppDbContext>();
+            builder.UseSqlServer("data source=splc.database.windows.net;Initial Catalog=CourtDebtCaseTrackerStage;Persist Security Info=True;User ID=splcdbmanager;Password=TzUF4Fjh;App=EntityFramework");
+            return new AppDbContext(builder.Options);
+        }
+    }
 
 }

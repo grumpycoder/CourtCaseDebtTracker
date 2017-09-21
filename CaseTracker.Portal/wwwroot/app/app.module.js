@@ -5,7 +5,8 @@
         //third party modules
         'ui.bootstrap',
         'ngSanitize',
-        'ui.select'
+        'ui.select',
+        'angular-confirm'
     ]);
 
     module.run(function () {
