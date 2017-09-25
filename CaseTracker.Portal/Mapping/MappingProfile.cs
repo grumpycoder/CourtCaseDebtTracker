@@ -26,6 +26,7 @@ namespace CaseTracker.Portal.Mapping
                 .ForMember(d => d.Jurisdiction, opt => opt.MapFrom(s => s.Jurisdiction.Name))
                 .ForMember(d => d.NumberCases, opt => opt.MapFrom(s => s.Filings.Count()))
                 .ReverseMap();
+            CreateMap<Jurisdiction, JurisdictionViewModel>().ReverseMap();
         }
     }
 }

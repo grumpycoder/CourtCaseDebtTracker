@@ -20,7 +20,6 @@
         $ctrl.$onInit = function () {
             console.log('court list init');
             $ctrl.isBusy = true;
-
         }
 
         $ctrl.search = function (tableState) {
@@ -39,8 +38,8 @@
             }).then(function (r) {
                 $ctrl.courts = r.data.results;
                 $ctrl.searchModel = r.data;
+                console.log('courts', $ctrl.courts);
                 delete $ctrl.searchModel.results;
-                console.log('count', $ctrl.courts);
             }).finally(function () {
                 $ctrl.isBusy = false;
             });

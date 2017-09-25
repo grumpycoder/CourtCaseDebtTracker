@@ -4,21 +4,49 @@
 
     function controller($http, $modal, $confirm, ngToast) {
         var $ctrl = this;
+        var pageSizeDefault = 10;
 
         $ctrl.title = 'Jurisdiction Manager';
         $ctrl.subTitle = 'Jurisdictions';
         $ctrl.isBusy = false;
 
+        $ctrl.searchModel = {
+            page: 1,
+            pageSize: pageSizeDefault,
+            orderBy: 'id',
+            orderDirection: 'asc'
+        };
+
         $ctrl.$onInit = function () {
             console.log('jurisdiction list init');
             $ctrl.isBusy = true;
-            $http.get('api/jurisdiction/list').then(function (r) {
-                console.log('r', r);
-                $ctrl.jurisdictions = r.data;
+        }
+
+        $ctrl.search = function (tableState) {
+            tableStateRef = tableState;
+            $ctrl.isBusy = true;
+
+            if (typeof (tableState.sort.predicate) !== "undefined") {
+                $ctrl.searchModel.orderBy = tableState.sort.predicate;
+                $ctrl.searchModel.orderDirection = tableState.sort.reverse ? 'desc' : 'asc';
+            }
+
+            console.log('search', $ctrl.searchModel);
+
+            $http.get('api/jurisdiction/list', {
+                params: $ctrl.searchModel
+            }).then(function (r) {
+                $ctrl.jurisdictions = r.data.results;
+                $ctrl.searchModel = r.data;
+                delete $ctrl.searchModel.results;
             }).finally(function () {
                 $ctrl.isBusy = false;
             });
         }
+
+        $ctrl.paged = function paged() {
+            $ctrl.search(tableStateRef);
+        };
 
         $ctrl.openModal = function (jurisdiction) {
             $modal.open({

@@ -22,7 +22,7 @@
 
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body" st-table="$ctrl.mailers" st-pipe="$ctrl.search">
+                <div class="box-body" st-table="$ctrl.courts" st-pipe="$ctrl.search">
 
                     <div class="row">
                         <div class="col-md-9 col-sm-9">
@@ -52,6 +52,7 @@
                                     <tr>
                                         <th class="sort-header">Name</th>
                                         <th class="sort-header">Abbreviation</th>
+                                        <th class="sort-header">Jurisdiction</th>
                                         <th>Case Count</th>
                                         <th class="sort-header"></th>
                                     </tr>
@@ -60,6 +61,8 @@
                                                 placeholder="Name" /></th>
                                         <th><input type="text" st-clear-key ng-model="$ctrl.searchModel.abbreviation" class="form-control"
                                                 placeholder="Abbreviation" /></th>
+                                        <th><input type="text" st-clear-key ng-model="$ctrl.searchModel.jurisdiction" class="form-control"
+                                                placeholder="Jurisdiction" /></th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -68,6 +71,7 @@
                                     <tr ng-repeat="c in $ctrl.courts">
                                         <td>{{ c.name }}</td>
                                         <td>{{ c.abbreviation }}</td>
+                                        <td>{{ c.jurisdiction }}</td>
                                         <td>{{ c.numberCases }}</td>
                                         <td>
                                             <i class="fa fa-pencil fa-lg" ng-click="$ctrl.openModal(c)"></i>
