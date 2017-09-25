@@ -48,6 +48,7 @@ namespace CaseTracker.Portal.Controllers
 
             var results = await filteredQuery.Include(f => f.Court.Jurisdiction).Where(pred)
                 .Order(pager.OrderBy, pager.OrderDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending)
+                //.OrderByDescending(c => c.Id)
                 .Skip(pager.PageSize * (pager.Page - 1) ?? 0)
                 .Take(pager.PageSize ?? PAGE_SIZE)
                 .ToListAsync();
@@ -59,12 +60,6 @@ namespace CaseTracker.Portal.Controllers
             stopwatch.Stop();
             pager.ElapsedTime = stopwatch.Elapsed;
             return Ok(pager);
-
-            // var list = await context.Filings.Include(f => f.Court.Jurisdiction).OrderByDescending(f => f.Id).Skip(0).Take(10).ToListAsync();
-
-            // var model = Mapper.Map<List<FilingViewModel>>(list);
-
-            // return Ok(model);
         }
 
         [HttpGet("{id}")]
