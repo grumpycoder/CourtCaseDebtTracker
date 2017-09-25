@@ -4,6 +4,8 @@
 
     function controller($http, uibDateParser) {
         var $ctrl = this;
+        var pageSizeDefault = 500;
+
         $ctrl.title = 'Update Case';
         $ctrl.dateFormat = "MM/DD/YYYY";
         $ctrl.dateOptions = {
@@ -28,8 +30,17 @@
                 $ctrl.title = 'New Case';
             }
 
-            $http.get('/api/court/list').then(function (r) {
-                $ctrl.courts = r.data;
+            $ctrl.searchModel = {
+                page: 1,
+                pageSize: pageSizeDefault,
+                orderBy: 'id',
+                orderDirection: 'desc'
+            };
+
+            $http.get('/api/court/list', {
+                params: $ctrl.searchModel
+            }).then(function (r) {
+                $ctrl.courts = r.data.results;
             })
         }
 

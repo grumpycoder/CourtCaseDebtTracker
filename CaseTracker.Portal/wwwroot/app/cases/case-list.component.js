@@ -14,7 +14,7 @@
             page: 1,
             pageSize: pageSizeDefault,
             orderBy: 'id',
-            orderDirection: 'asc'
+            orderDirection: 'desc'
         };
 
         $ctrl.$onInit = function () {
