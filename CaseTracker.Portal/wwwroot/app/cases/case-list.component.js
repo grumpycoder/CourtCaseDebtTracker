@@ -42,16 +42,6 @@
             });
         }
 
-        $ctrl.resetSearch = function () {
-            $ctrl.searchModel = {
-                page: 1,
-                pageSize: pageSizeDefault,
-                orderBy: 'id',
-                orderDirection: 'asc'
-            };
-            $ctrl.search(tableStateRef);
-        }
-
         $ctrl.paged = function paged() {
             $ctrl.search(tableStateRef);
         };
