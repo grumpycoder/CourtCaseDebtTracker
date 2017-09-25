@@ -17,8 +17,8 @@ namespace CaseTracker.Portal.Mapping
             CreateMap<Filing, FilingViewModel>()
                 .ForMember(d => d.Jurisdiction, opt => opt.MapFrom(s => s.Court.Jurisdiction.Name))
                 .ForMember(d => d.CourtName, opt => opt.MapFrom(s => s.Court.Name))
+                .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.Tags.Select(t => t.Tag.Name)))
                 .ReverseMap();
-            // .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.Tags.Select(t => t.Tag.Name)))
             // .ForMember(d => d.Plaintiffs, opt => opt.MapFrom(s => s.Plaintiffs.Select(t => t.Name)))
             // .ForMember(d => d.Defendants, opt => opt.MapFrom(s => s.Defendants.Select(t => t.Name)))
             ;
