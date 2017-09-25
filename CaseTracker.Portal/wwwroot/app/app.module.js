@@ -7,7 +7,8 @@
         'ngSanitize',
         'ui.select',
         'angular-confirm',
-        'ngToast'
+        'ngToast',
+        'smart-table'
     ]);
 
     module.run(function () {

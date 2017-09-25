@@ -13,7 +13,9 @@
     "angular-ui-select": "^0.19.8",
     "angular-sanitize": "^1.6.6",
     "angular-confirm-modal": "^1.2.6",
-    "ngToast": "ngtoast#^2.0.0"
+    "ngToast": "ngtoast#^2.0.0",
+    "angular-smart-table": "^2.1.8",
+    "lodash": "3.10.1"
   },
   "overrides": {
     "bootstrap": {
