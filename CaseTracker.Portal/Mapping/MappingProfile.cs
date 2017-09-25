@@ -22,10 +22,11 @@ namespace CaseTracker.Portal.Mapping
             // .ForMember(d => d.Plaintiffs, opt => opt.MapFrom(s => s.Plaintiffs.Select(t => t.Name)))
             // .ForMember(d => d.Defendants, opt => opt.MapFrom(s => s.Defendants.Select(t => t.Name)))
             ;
-            // CreateMap<Court, CourtViewModel>()
-            //     .ForMember(d => d.Jurisdiction, opt => opt.MapFrom(s => s.Jurisdiction.Name))
-            //     .ForMember(d => d.NumberCases, opt => opt.MapFrom(s => s.Filings.Count()))
-            //     .ReverseMap();
+            CreateMap<Court, CourtViewModel>()
+                .ForMember(d => d.Jurisdiction, opt => opt.MapFrom(s => s.Jurisdiction.Name))
+                .ForMember(d => d.NumberCases, opt => opt.MapFrom(s => s.Filings.Count()))
+                .ReverseMap();
+            CreateMap<Jurisdiction, JurisdictionViewModel>().ReverseMap();
         }
     }
 }

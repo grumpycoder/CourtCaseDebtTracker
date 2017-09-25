@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CaseTracker.Core.Models;
 using CaseTracker.Data;
+using CaseTracker.Portal.Helpers;
 using CaseTracker.Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +17,44 @@ namespace CaseTracker.Portal.Controllers
     public class JurisdictionController : Controller
     {
         private readonly AppDbContext context;
+        private const int PAGE_SIZE = 20;
+
         public JurisdictionController(AppDbContext _context)
         {
             context = _context;
         }
 
         [HttpGet("list")]
-        public async Task<object> List()
+        public async Task<object> List(JurisdictionSearchViewModel pager)
         {
-            var list = await context.Jurisdictions.ToListAsync();
-            return Ok(list);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Restart();
+            if (pager == null) pager = new JurisdictionSearchViewModel();
+
+            var query = context.Jurisdictions;
+            var totalCount = await query.CountAsync();
+
+            var pred = PredicateBuilder.True<Jurisdiction>();
+            if (!string.IsNullOrWhiteSpace(pager.Name)) pred = pred.And(p => p.Name.Contains(pager.Name));
+            if (!string.IsNullOrWhiteSpace(pager.Abbreviation)) pred = pred.And(p => p.Abbreviation.Contains(pager.Abbreviation));
+
+            var filteredQuery = query.Where(pred);
+            var pagerCount = filteredQuery.Count();
+            var totalPages = Math.Ceiling((double)pagerCount / pager.PageSize ?? PAGE_SIZE);
+
+            var results = await filteredQuery.Where(pred)
+                .Order(pager.OrderBy, pager.OrderDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending)
+                .Skip(pager.PageSize * (pager.Page - 1) ?? 0)
+                .Take(pager.PageSize ?? PAGE_SIZE)
+                .ToListAsync();
+
+            pager.TotalCount = totalCount;
+            pager.FilteredCount = pagerCount;
+            pager.TotalPages = totalPages;
+            pager.Results = Mapper.Map<List<JurisdictionViewModel>>(results);
+            stopwatch.Stop();
+            pager.ElapsedTime = stopwatch.Elapsed;
+            return Ok(pager);
         }
 
         [HttpPut()]

@@ -13,7 +13,7 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default box-solid">
+            <div class="box box-primary box-solid">
                 <div class="box-header">
                     <h3 class="box-title">{{$ctrl.subTitle}}</h3>
                     <small>({{$ctrl.searchModel.filteredCount}} / {{$ctrl.searchModel.totalCount}}) Total Records</small>
@@ -23,7 +23,7 @@
 
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body" st-table="$ctrl.mailers" st-pipe="$ctrl.search">
+                <div class="box-body" st-table="$ctrl.cases" st-pipe="$ctrl.search">
 
                     <div class="row">
                         <div class="col-md-9 col-sm-9">
@@ -41,9 +41,6 @@
 
 
                     <div class="row">
-                        <div ng-show="!$ctrl.cases">
-                            <h3>No cases</h3>
-                        </div>
                         <div class="col-md-12">
                             <table class="table table-responsive table-bordered">
                                 <thead>

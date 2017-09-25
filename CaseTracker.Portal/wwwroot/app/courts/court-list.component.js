@@ -4,20 +4,50 @@
 
     function controller($http, $modal, $confirm, ngToast) {
         var $ctrl = this;
+        var pageSizeDefault = 10;
 
         $ctrl.title = 'Court Manager';
         $ctrl.subTitle = 'Courts';
         $ctrl.isBusy = false;
 
+        $ctrl.searchModel = {
+            page: 1,
+            pageSize: pageSizeDefault,
+            orderBy: 'id',
+            orderDirection: 'asc'
+        };
+
         $ctrl.$onInit = function () {
             console.log('court list init');
             $ctrl.isBusy = true;
-            $http.get('api/court/list').then(function (r) {
-                $ctrl.courts = r.data;
+        }
+
+        $ctrl.search = function (tableState) {
+            tableStateRef = tableState;
+            $ctrl.isBusy = true;
+
+            if (typeof (tableState.sort.predicate) !== "undefined") {
+                $ctrl.searchModel.orderBy = tableState.sort.predicate;
+                $ctrl.searchModel.orderDirection = tableState.sort.reverse ? 'desc' : 'asc';
+            }
+
+            console.log('search', $ctrl.searchModel);
+
+            $http.get('api/court/list', {
+                params: $ctrl.searchModel
+            }).then(function (r) {
+                $ctrl.courts = r.data.results;
+                $ctrl.searchModel = r.data;
+                console.log('courts', $ctrl.courts);
+                delete $ctrl.searchModel.results;
             }).finally(function () {
                 $ctrl.isBusy = false;
             });
         }
+
+        $ctrl.paged = function paged() {
+            $ctrl.search(tableStateRef);
+        };
 
         $ctrl.openModal = function (court) {
             $modal.open({
