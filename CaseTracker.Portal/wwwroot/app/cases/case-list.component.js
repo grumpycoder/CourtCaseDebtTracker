@@ -20,11 +20,6 @@
         $ctrl.$onInit = function () {
             console.log('case list init');
             $ctrl.isBusy = true;
-            $http.get('api/case/list').then(function (r) {
-                $ctrl.cases = r.data;
-            }).finally(function () {
-                $ctrl.isBusy = false;
-            });
         }
 
         $ctrl.search = function (tableState) {
@@ -36,32 +31,15 @@
                 $ctrl.searchModel.orderDirection = tableState.sort.reverse ? 'desc' : 'asc';
             }
 
-            console.log('search', $ctrl.searchModel);
-
             $http.get('api/case/list', {
                 params: $ctrl.searchModel
             }).then(function (r) {
                 $ctrl.cases = r.data.results;
                 $ctrl.searchModel = r.data;
                 delete $ctrl.searchModel.results;
-                console.log('cases', $ctrl.cases);
-                console.log('search', $ctrl.searchModel);
             }).finally(function () {
                 $ctrl.isBusy = false;
             });
-
-            // if ($ctrl.searchModel.suppress === null) $ctrl.searchModel.suppress = false;
-            // return $http.get('api/mailer', { params: $ctrl.searchModel })
-            //     .then(function (r) {
-            //         $ctrl.mailers = r.data.results;
-            //         $ctrl.searchModel = r.data;
-            //         delete $ctrl.searchModel.results;
-            //     }).catch(function (err) {
-            //         console.log('Oops', err.data.message);
-            //         toastr.error('Oops ' + err.data.message);
-            //     }).finally(function () {
-            //         $ctrl.isBusy = false;
-            //     });
         }
 
         $ctrl.resetSearch = function () {
