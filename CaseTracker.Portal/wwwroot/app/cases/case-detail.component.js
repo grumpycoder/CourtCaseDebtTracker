@@ -15,6 +15,7 @@
             $ctrl.isBusy = true;
             $http.get('/api/case/' + id).then(function (r) {
                 $ctrl.case = r.data;
+                console.log($ctrl.case);
             }).finally(function () {
                 $ctrl.isBusy = false;
             });
