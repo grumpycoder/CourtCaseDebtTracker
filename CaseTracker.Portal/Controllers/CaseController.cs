@@ -40,7 +40,7 @@ namespace CaseTracker.Portal.Controllers
             if (!string.IsNullOrWhiteSpace(pager.Caption)) pred = pred.And(p => p.Caption.Contains(pager.Caption));
             if (!string.IsNullOrWhiteSpace(pager.CaseNumber)) pred = pred.And(p => p.CaseNumber.Contains(pager.CaseNumber));
             if (!string.IsNullOrWhiteSpace(pager.CourtName)) pred = pred.And(p => p.Court.Name.Contains(pager.CourtName));
-            if (!string.IsNullOrWhiteSpace(pager.Judge)) pred = pred.And(p => p.Judge.StartsWith(pager.Judge));
+            if (!string.IsNullOrWhiteSpace(pager.Judge)) pred = pred.And(p => p.Judge.Contains(pager.Judge));
 
             var filteredQuery = query.Where(pred);
             var pagerCount = filteredQuery.Count();
