@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
-    <UserSecretsId>CaseTracker-D27B8962-CF71-4C40-A670-133EF52904E6</UserSecretsId>
+    <UserSecretsId>CaseTracker</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
