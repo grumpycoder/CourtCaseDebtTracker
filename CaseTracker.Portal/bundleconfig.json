@@ -6,19 +6,41 @@
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
       "wwwroot/css/site.css"
-    ]
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    // Optionally generate .map file
+    "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/js/site.min.js",
+    "outputFileName": "wwwroot/css/vendor.css",
+    // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
-      "wwwroot/js/site.js"
+      "lib/bootstrap/dist/css/bootstrap.css",
+      "lib/AdminLTE/dist/css/AdminLTE.css",
+      "lib/AdminLTE/dist/css/skins/_all-skins.css",
+      "lib/font-awesome/css/font-awesome.css"
     ],
-    // Optionally specify minification options
     "minify": {
       "enabled": true,
       "renameLocals": true
     },
-    // Optionally generate .map file
-    "sourceMap": false
+    // Optionally generate .map file 
+    "sourceMap": true
   }
+  // {
+  //   "outputFileName": "wwwroot/js/site.min.js",
+  //   "inputFiles": [
+  //     "wwwroot/js/site.js"
+  //   ],
+  //   // Optionally specify minification options
+  //   "minify": {
+  //     "enabled": true,
+  //     "renameLocals": true
+  //   },
+  //   // Optionally generate .map file
+  //   "sourceMap": false
+  // }
 ]

@@ -1,7 +1,7 @@
 ﻿@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,700);
 html,
 body {
-    font-family: 'roboto', sans-serif;
+    font-family: 'roboto', sans-serif; 
 }
 
 [ng-click],

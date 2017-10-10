@@ -13,7 +13,7 @@ var print = require('gulp-print');
 var config = {
     //Include all js files but exclude any min.js files
     js: ['wwwroot/app/**/*.js'],
-    css: ['wwwroot/css/**/*.css', '!wwwroot/css/**/*.min.css', '!wwwroot/css/skins/**/*.css']
+    css: ['wwwroot/css/**/*.css', '!wwwroot/css/**/*.min.css', '!wwwroot/css/skins/**/*.css', '!wwwroot/css/vendor*.css']
 }
 
 gulp.task('watch',
@@ -64,9 +64,9 @@ gulp.task('build-app:css', function () {
 
 gulp.task('fonts', function () {
     return gulp.src(mainBowerFiles({
-            // Only return the font files
-            filter: /.*\.(eot|svg|ttf|woff|woff2)$/i
-        }))
+        // Only return the font files
+        filter: /.*\.(eot|svg|ttf|woff|woff2)$/i
+    }))
         .pipe(print())
         .pipe(gulp.dest('wwwroot/fonts'));
 });
