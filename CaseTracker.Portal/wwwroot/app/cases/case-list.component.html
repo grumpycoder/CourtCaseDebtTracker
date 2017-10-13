@@ -5,7 +5,10 @@
         <small>{{$ctrl.description}}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li>
+            <a href="#">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
         <li class="active">{{$ctrl.title}}</li>
     </ol>
 </section>
@@ -18,8 +21,8 @@
                     <h3 class="box-title">{{$ctrl.subTitle}}</h3>
                     <small>({{$ctrl.searchModel.filteredCount}} / {{$ctrl.searchModel.totalCount}}) Total Records</small>
                     <span class="pull-right">
-                            <small>Page {{$ctrl.searchModel.page}} of {{$ctrl.searchModel.totalPages}}</small>
-                        </span>
+                        <small>Page {{$ctrl.searchModel.page}} of {{$ctrl.searchModel.totalPages}}</small>
+                    </span>
 
                 </div>
                 <!-- /.box-header -->
@@ -29,13 +32,20 @@
                         <div class="col-md-9 col-sm-9">
                             <div class="form-group">
                                 <span>
-                                        <button class="btn btn-primary" st-submit-search>
-                                            <i class="fa fa-search"></i> Search
-                                        </button>
-                                        <button class="btn btn-default" st-reset-search ng-model="$ctrl.searchModel">Clear</button>
-                                    </span>
+                                    <button class="btn btn-primary" st-submit-search>
+                                        <i class="fa fa-search"></i> Search
+                                    </button>
+                                    <button class="btn btn-default" st-reset-search ng-model="$ctrl.searchModel">Clear</button>
+                                </span>
 
                             </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <span class="pull-right">
+                                <button class="btn btn-default" ng-click="$ctrl.openModal()">
+                                    New
+                                </button>
+                            </span>
                         </div>
                     </div>
 
@@ -53,23 +63,32 @@
                                         <th class="sort-header" st-sort="jurisdiction">Jurisdiction</th>
                                     </tr>
                                     <tr>
-                                        <th><input type="text" st-clear-key ng-model="$ctrl.searchModel.caseNumber" class="form-control"
-                                                placeholder="Case Number" /></th>
-                                        <th><input type="text" st-clear-key ng-model="$ctrl.searchModel.caption" class="form-control"
-                                                placeholder="Caption" /></th>
-                                        <th><input type="text" st-clear-key ng-model="$ctrl.searchModel.judge" class="form-control"
-                                                placeholder="Judge" /></th>
-                                        <th><input type="text" st-clear-key ng-model="$ctrl.searchModel.dateFiled" class="form-control"
-                                                placeholder="Date Filed" /></th>
-                                        <th><input type="text" st-clear-key ng-model="$ctrl.searchModel.courtName" class="form-control"
-                                                placeholder="Court Name" /></th>
-                                        <th><input type="text" st-clear-key ng-model="$ctrl.searchModel.jurisdiction" class="form-control"
-                                                placeholder="Jurisdiction" /></th>
+                                        <th>
+                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.caseNumber" class="form-control" placeholder="Case Number" />
+                                        </th>
+                                        <th>
+                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.caption" class="form-control" placeholder="Caption" />
+                                        </th>
+                                        <th>
+                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.judge" class="form-control" placeholder="Judge" />
+                                        </th>
+                                        <th>
+                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.dateFiled" class="form-control" placeholder="Date Filed" />
+                                        </th>
+                                        <th>
+                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.courtName" class="form-control" placeholder="Court Name" />
+                                        </th>
+                                        <th>
+                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.jurisdiction" class="form-control" placeholder="Jurisdiction"
+                                            />
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="c in $ctrl.cases">
-                                        <td><a href="case/{{c.id}}">{{ c.caseNumber }}</a></td>
+                                        <td>
+                                            <a href="case/{{c.id}}">{{ c.caseNumber }}</a>
+                                        </td>
                                         <td>{{ c.caption }}</td>
                                         <td>{{ c.judge }}</td>
                                         <td>{{ c.dateFiled | date:'MM/dd/yyyy' }}</td>
@@ -92,8 +111,8 @@
                             </table>
                             <div>
                                 <span class="pull-right text-muted small">
-                                        {{ $ctrl.searchModel.elapsedTime }}
-                                    </span>
+                                    {{ $ctrl.searchModel.elapsedTime }}
+                                </span>
                             </div>
 
                         </div>

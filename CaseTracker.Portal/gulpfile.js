@@ -59,7 +59,7 @@ gulp.task('build-app:css', function () {
         .pipe(cleanCSS())
         .pipe(concat('site.min.css'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('css/'));
+        .pipe(gulp.dest('wwwroot/css/'));
 });
 
 gulp.task('fonts', function () {
@@ -93,8 +93,8 @@ gulp.task('build-vendor:css', function () {
         .pipe(filter(['**/*.css']))
         .pipe(print())
         .pipe(sourcemaps.init())
-        // .pipe(cleanCSS())
-        .pipe(concat('vendor.min.css'))
+        .pipe(cleanCSS())
+        .pipe(concat('vendor.css'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('wwwroot/css/'));
 });
