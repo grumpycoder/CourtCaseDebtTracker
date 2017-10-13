@@ -1,17 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CaseTracker.Core.Models;
 using CaseTracker.Data;
+using CaseTracker.Portal.Helpers;
+using CaseTracker.Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CaseTracker.Portal.ViewModels;
-using System;
-using CaseTracker.Portal.Helpers;
-using System.Diagnostics;
-using AutoMapper;
-using System.Collections.Generic;
 
-namespace CaseTracker.Portal.Controllers
+namespace CaseTracker.Portal.Controllers.Api
 {
     [Route("api/[controller]")]
     public class CourtController : Controller

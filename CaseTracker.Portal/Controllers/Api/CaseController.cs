@@ -4,16 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using CaseTracker.Core.Models;
 using CaseTracker.Data;
 using CaseTracker.Portal.Helpers;
 using CaseTracker.Portal.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CaseTracker.Portal.Controllers
+namespace CaseTracker.Portal.Controllers.Api
 {
     [Route("api/[controller]")]
     public class CaseController : Controller

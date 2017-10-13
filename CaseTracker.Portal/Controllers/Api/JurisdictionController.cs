@@ -11,7 +11,7 @@ using CaseTracker.Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CaseTracker.Portal.Controllers
+namespace CaseTracker.Portal.Controllers.Api
 {
     [Route("api/[controller]")]
     public class JurisdictionController : Controller

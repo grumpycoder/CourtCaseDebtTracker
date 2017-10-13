@@ -3,7 +3,7 @@ using CaseTracker.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CaseTracker.Portal.Controllers
+namespace CaseTracker.Portal.Controllers.Api
 {
     public class TagController : Controller
     {
