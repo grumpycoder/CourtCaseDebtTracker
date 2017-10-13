@@ -10,6 +10,7 @@ using CaseTracker.Portal.Helpers;
 using CaseTracker.Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CaseTracker.Portal.Repositories; 
 
 namespace CaseTracker.Portal.Controllers.Api
 {
@@ -18,10 +19,12 @@ namespace CaseTracker.Portal.Controllers.Api
     {
         private readonly AppDbContext context;
         private const int PAGE_SIZE = 20;
+        private readonly CourtRepository _courtRepository; 
 
         public CourtController(AppDbContext _context)
         {
             context = _context;
+            _courtRepository = new CourtRepository(context);
         }
 
         [HttpGet("list")]
@@ -63,7 +66,9 @@ namespace CaseTracker.Portal.Controllers.Api
         {
             if (model == null) return BadRequest("No court to update");
 
-            var court = await context.Courts.FindAsync(model.Id);
+            //var court = await context.Courts.FindAsync(model.Id);
+            var court = _courtRepository.GetById(model.Id);
+
             if (court == null) return NotFound("Court not found");
 
             court.Name = model.Name;
