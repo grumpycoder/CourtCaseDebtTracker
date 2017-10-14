@@ -3,13 +3,13 @@ using CaseTracker.Core.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CaseTracker.Data
 {
@@ -43,6 +43,11 @@ namespace CaseTracker.Data
         {
             // add your own confguration here
             base.OnModelCreating(modelBuilder);
+
+            foreach (var p in modelBuilder.Model.GetEntityTypes().SelectMany(t => t.GetProperties()).Where(p => p.ClrType == typeof(string)))
+            {
+                p.IsUnicode(false);
+            }
 
             foreach (var p in modelBuilder.Model.GetEntityTypes().SelectMany(t => t.GetProperties()).Where(p => p.ClrType == typeof(string) && p.GetMaxLength() == null))
             {
@@ -164,7 +169,7 @@ namespace CaseTracker.Data
         public AppDbContext Create(DbContextFactoryOptions options)
         {
             var builder = new DbContextOptionsBuilder<AppDbContext>();
-            builder.UseSqlServer("data source=splc.database.windows.net;Initial Catalog=CourtDebtCaseTrackerStage;Persist Security Info=True;User ID=splcdbmanager;Password=TzUF4Fjh;App=EntityFramework");
+            builder.UseSqlServer("Data Source=.;Initial Catalog=CaseTracker;Integrated Security=True");
             return new AppDbContext(builder.Options);
         }
     }

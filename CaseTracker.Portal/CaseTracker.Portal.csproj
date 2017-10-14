@@ -32,8 +32,4 @@
     <ProjectReference Include="..\CaseTracker.Data\CaseTracker.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>

@@ -1,70 +1,64 @@
+using AutoMapper;
+using CaseTracker.Core.Models;
+using CaseTracker.Data;
+using CaseTracker.Portal.Persistence;
+using CaseTracker.Portal.Repositories;
+using CaseTracker.Portal.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CaseTracker.Core.Models;
-using CaseTracker.Data;
-using CaseTracker.Portal.Helpers;
-using CaseTracker.Portal.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CaseTracker.Portal.Controllers.Api
 {
     [Route("api/[controller]")]
     public class CaseController : Controller
     {
-        private readonly AppDbContext context;
+        private readonly UnitOfWork _unitOfWork;
         private const int PAGE_SIZE = 20;
 
-        public CaseController(AppDbContext _context)
+        public CaseController(AppDbContext context)
         {
-            context = _context;
+            _unitOfWork = new UnitOfWork(context);
         }
 
         [HttpGet("list")]
-        public async Task<object> List(CaseSearchViewModel pager)
+        public async Task<object> List(CaseSearchViewModel viewModel)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Restart();
-            if (pager == null) pager = new CaseSearchViewModel();
+            if (viewModel == null) viewModel = new CaseSearchViewModel();
 
-            var query = context.Filings;
-            var totalCount = await query.CountAsync();
+            var totalCount = _unitOfWork.Cases.Count();
 
-            var pred = PredicateBuilder.True<Filing>();
-            if (!string.IsNullOrWhiteSpace(pager.Caption)) pred = pred.And(p => p.Caption.Contains(pager.Caption));
-            if (!string.IsNullOrWhiteSpace(pager.CaseNumber)) pred = pred.And(p => p.CaseNumber.Contains(pager.CaseNumber));
-            if (!string.IsNullOrWhiteSpace(pager.CourtName)) pred = pred.And(p => p.Court.Name.Contains(pager.CourtName));
-            if (!string.IsNullOrWhiteSpace(pager.Judge)) pred = pred.And(p => p.Judge.Contains(pager.Judge));
+            var cases = _unitOfWork.Cases.GetAll()
+                .WithCaptionLike(viewModel.Caption)
+                .WithCaseNumberLike(viewModel.CaseNumber)
+                .WithJudgeLike(viewModel.Judge)
+                .WithCourtNameLike(viewModel.CourtName);
 
-            var filteredQuery = query.Where(pred);
-            var pagerCount = filteredQuery.Count();
-            var totalPages = Math.Ceiling((double)pagerCount / pager.PageSize ?? PAGE_SIZE);
+            var filteredCount = cases.Count();
+            var totalPages = Math.Ceiling((double)filteredCount / viewModel.PageSize ?? PAGE_SIZE);
+            var startRow = viewModel.PageSize * (viewModel.Page - 1) ?? 0;
 
-            var results = await filteredQuery.Include(f => f.Court.Jurisdiction).Where(pred)
-                .Order(pager.OrderBy, pager.OrderDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending)
-                //.OrderByDescending(c => c.Id)
-                .Skip(pager.PageSize * (pager.Page - 1) ?? 0)
-                .Take(pager.PageSize ?? PAGE_SIZE)
-                .ToListAsync();
+            viewModel.TotalCount = totalCount;
+            viewModel.FilteredCount = filteredCount;
+            viewModel.TotalPages = totalPages;
+            viewModel.Results = Mapper.Map<List<FilingViewModel>>(cases.WithPaging(startRow, viewModel.PageSize));
 
-            pager.TotalCount = totalCount;
-            pager.FilteredCount = pagerCount;
-            pager.TotalPages = totalPages;
-            pager.Results = Mapper.Map<List<FilingViewModel>>(results);
             stopwatch.Stop();
-            pager.ElapsedTime = stopwatch.Elapsed;
-            return Ok(pager);
+            viewModel.ElapsedTime = stopwatch.Elapsed;
+            return Ok(viewModel);
         }
 
         [HttpGet("{id}")]
         public async Task<object> Get(int id)
         {
-            var @case = await context.Filings.Include(f => f.Court.Jurisdiction).Include("Defendants").Include("Plaintiffs").FirstOrDefaultAsync(f => f.Id == id);
+            var @case = _unitOfWork.Cases.GetByIdWithDetails(id);
             var model = Mapper.Map<FilingViewModel>(@case);
+            //TODO: Refactor into model
             model.CanDelete = User.HasClaim("LoginProvider", "SPLC");
             return Ok(model);
         }
@@ -74,7 +68,7 @@ namespace CaseTracker.Portal.Controllers.Api
         {
             if (model == null) return BadRequest("No case to update");
 
-            var @case = await context.Filings.Include("Court").FirstOrDefaultAsync(f => f.Id == model.Id);
+            var @case = _unitOfWork.Cases.GetByIdWithDetails(model.Id);
             if (@case == null) return NotFound("Case not found");
 
             //TODO: Using Automapper
@@ -85,9 +79,10 @@ namespace CaseTracker.Portal.Controllers.Api
             @case.DateFiled = model.DateFiled;
             @case.CourtId = model.CourtId;
 
-            await context.SaveChangesAsync();
+            _unitOfWork.Complete();
+
             //TODO: Something smells
-            @case = await context.Filings.Include(f => f.Court.Jurisdiction).Include("Defendants").Include("Plaintiffs").FirstOrDefaultAsync(f => f.Id == model.Id);
+            @case = _unitOfWork.Cases.GetByIdWithDetails(model.Id);
             var c = Mapper.Map<FilingViewModel>(@case);
             return Ok(c);
         }
@@ -105,10 +100,11 @@ namespace CaseTracker.Portal.Controllers.Api
                 CaseNumber = model.CaseNumber,
                 CourtId = model.CourtId
             };
-            await context.Filings.AddAsync(@case);
-            await context.SaveChangesAsync();
 
-            var m = await context.Filings.Include(f => f.Court.Jurisdiction).FirstAsync(f => f.Id == @case.Id);
+            _unitOfWork.Cases.Add(@case);
+            _unitOfWork.Complete();
+
+            var m = _unitOfWork.Cases.GetByIdWithDetails(@case.Id);
             var c = Mapper.Map<FilingViewModel>(m);
             return Ok(c);
         }
@@ -116,11 +112,11 @@ namespace CaseTracker.Portal.Controllers.Api
         [HttpDelete(), Route("{id}")]
         public async Task<object> Delete(int id)
         {
-            var @case = await context.Filings.FindAsync(id);
+            var @case = _unitOfWork.Cases.GetById(id);
             if (@case == null) return NotFound("Case not found");
 
-            context.Filings.Remove(@case);
-            await context.SaveChangesAsync();
+            _unitOfWork.Cases.Remove(@case);
+            _unitOfWork.Complete();
 
             return Ok("Deleted case");
         }
@@ -130,7 +126,7 @@ namespace CaseTracker.Portal.Controllers.Api
         {
             if (model == null) return BadRequest("No litigant to add");
 
-            var @case = await context.Filings.FindAsync(caseId);
+            var @case = _unitOfWork.Cases.GetById(caseId);
             if (@case == null) return NotFound("Case not found");
 
             Defendant defendant;
@@ -144,8 +140,8 @@ namespace CaseTracker.Portal.Controllers.Api
                         Name = model.Name,
                         FilingId = caseId
                     };
-                    context.Defendants.Add(defendant);
-                    await context.SaveChangesAsync();
+                    _unitOfWork.Litigants.AddDefendant(defendant);
+                    _unitOfWork.Complete();
                     return Ok(defendant);
                     break;
                 case LitigantType.Plaintiff:
@@ -154,8 +150,9 @@ namespace CaseTracker.Portal.Controllers.Api
                         Name = model.Name,
                         FilingId = caseId
                     };
-                    context.Plaintiffs.Add(plaintiff);
-                    await context.SaveChangesAsync();
+                    _unitOfWork.Litigants.AddPlaintiff(plaintiff);
+                    _unitOfWork.Complete();
+
                     return Ok(plaintiff);
                     break;
                 default:
@@ -169,12 +166,12 @@ namespace CaseTracker.Portal.Controllers.Api
         [HttpDelete("{caseId}/litigant/{id}")]
         public async Task<object> DeleteLitigant(int caseId, int id)
         {
-            var litigant = await context.Litigants.FindAsync(id);
+
+            var litigant = _unitOfWork.Litigants.GetById(id);
             if (litigant == null) return NotFound("Litigant not found");
 
-            context.Litigants.Remove(litigant);
-
-            await context.SaveChangesAsync();
+            _unitOfWork.Litigants.Remove(litigant);
+            _unitOfWork.Complete();
 
             return Ok("Delete litigant");
         }

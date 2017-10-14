@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CaseTracker.Data.Migrations
 {
-    public partial class identitysecurity : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,21 +13,21 @@ namespace CaseTracker.Data.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 500, nullable: false),
+                    Id = table.Column<string>(unicode: false, maxLength: 500, nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(maxLength: 500, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    Email = table.Column<string>(unicode: false, maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    PasswordHash = table.Column<string>(maxLength: 500, nullable: true),
-                    PhoneNumber = table.Column<string>(maxLength: 500, nullable: true),
+                    NormalizedEmail = table.Column<string>(unicode: false, maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(unicode: false, maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    PhoneNumber = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    SecurityStamp = table.Column<string>(maxLength: 500, nullable: true),
+                    SecurityStamp = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    UserName = table.Column<string>(unicode: false, maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,10 +38,10 @@ namespace CaseTracker.Data.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 500, nullable: false),
-                    ConcurrencyStamp = table.Column<string>(maxLength: 500, nullable: true),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
+                    Id = table.Column<string>(unicode: false, maxLength: 500, nullable: false),
+                    ConcurrencyStamp = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    Name = table.Column<string>(unicode: false, maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(unicode: false, maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,10 +52,10 @@ namespace CaseTracker.Data.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(maxLength: 500, nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 500, nullable: false),
-                    Name = table.Column<string>(maxLength: 500, nullable: false),
-                    Value = table.Column<string>(maxLength: 500, nullable: true)
+                    UserId = table.Column<string>(unicode: false, maxLength: 500, nullable: false),
+                    LoginProvider = table.Column<string>(unicode: false, maxLength: 500, nullable: false),
+                    Name = table.Column<string>(unicode: false, maxLength: 500, nullable: false),
+                    Value = table.Column<string>(unicode: false, maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,9 +68,9 @@ namespace CaseTracker.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ClaimType = table.Column<string>(maxLength: 500, nullable: true),
-                    ClaimValue = table.Column<string>(maxLength: 500, nullable: true),
-                    UserId = table.Column<string>(maxLength: 500, nullable: false)
+                    ClaimType = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    ClaimValue = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    UserId = table.Column<string>(unicode: false, maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,10 +87,10 @@ namespace CaseTracker.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 500, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 500, nullable: false),
-                    ProviderDisplayName = table.Column<string>(maxLength: 500, nullable: true),
-                    UserId = table.Column<string>(maxLength: 500, nullable: false)
+                    LoginProvider = table.Column<string>(unicode: false, maxLength: 500, nullable: false),
+                    ProviderKey = table.Column<string>(unicode: false, maxLength: 500, nullable: false),
+                    ProviderDisplayName = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    UserId = table.Column<string>(unicode: false, maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -109,9 +109,9 @@ namespace CaseTracker.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ClaimType = table.Column<string>(maxLength: 500, nullable: true),
-                    ClaimValue = table.Column<string>(maxLength: 500, nullable: true),
-                    RoleId = table.Column<string>(maxLength: 500, nullable: false)
+                    ClaimType = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    ClaimValue = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    RoleId = table.Column<string>(unicode: false, maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,8 +128,8 @@ namespace CaseTracker.Data.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(maxLength: 500, nullable: false),
-                    RoleId = table.Column<string>(maxLength: 500, nullable: false)
+                    UserId = table.Column<string>(unicode: false, maxLength: 500, nullable: false),
+                    RoleId = table.Column<string>(unicode: false, maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {

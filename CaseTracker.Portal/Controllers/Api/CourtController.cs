@@ -1,64 +1,55 @@
+using AutoMapper;
+using CaseTracker.Core.Models;
+using CaseTracker.Data;
+using CaseTracker.Portal.Persistence;
+using CaseTracker.Portal.Repositories;
+using CaseTracker.Portal.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CaseTracker.Core.Models;
-using CaseTracker.Data;
-using CaseTracker.Portal.Helpers;
-using CaseTracker.Portal.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CaseTracker.Portal.Repositories; 
 
 namespace CaseTracker.Portal.Controllers.Api
 {
     [Route("api/[controller]")]
     public class CourtController : Controller
     {
-        private readonly AppDbContext context;
         private const int PAGE_SIZE = 20;
-        private readonly CourtRepository _courtRepository; 
+        private readonly UnitOfWork _unitOfWork;
 
-        public CourtController(AppDbContext _context)
+        public CourtController(AppDbContext context)
         {
-            context = _context;
-            _courtRepository = new CourtRepository(context);
+            _unitOfWork = new UnitOfWork(context);
         }
 
         [HttpGet("list")]
-        public async Task<object> List(CourtSearchViewModel pager)
+        public async Task<object> List(CourtSearchViewModel viewModel)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Restart();
-            if (pager == null) pager = new CourtSearchViewModel();
+            if (viewModel == null) viewModel = new CourtSearchViewModel();
 
-            var query = context.Courts;
-            var totalCount = await query.CountAsync();
+            var totalCount = _unitOfWork.Courts.Count();
 
-            var pred = PredicateBuilder.True<Court>();
-            if (!string.IsNullOrWhiteSpace(pager.Name)) pred = pred.And(p => p.Name.Contains(pager.Name));
-            if (!string.IsNullOrWhiteSpace(pager.Jurisdiction)) pred = pred.And(p => p.Jurisdiction.Name.Contains(pager.Jurisdiction));
-            if (!string.IsNullOrWhiteSpace(pager.Abbreviation)) pred = pred.And(p => p.Abbreviation.Contains(pager.Abbreviation));
+            var courts = _unitOfWork.Courts.GetAll()
+                .WithNameLike(viewModel.Name)
+                .WithJurisdictionLike(viewModel.Jurisdiction)
+                .WithAbbreviationLike(viewModel.Abbreviation);
 
-            var filteredQuery = query.Where(pred);
-            var pagerCount = filteredQuery.Count();
-            var totalPages = Math.Ceiling((double)pagerCount / pager.PageSize ?? PAGE_SIZE);
+            var filteredCount = courts.Count();
+            var totalPages = Math.Ceiling((double)filteredCount / viewModel.PageSize ?? PAGE_SIZE);
+            var startRow = viewModel.PageSize * (viewModel.Page - 1) ?? 0;
 
-            var results = await filteredQuery.Include(f => f.Jurisdiction).Include(f => f.Filings).Where(pred)
-                .Order(pager.OrderBy, pager.OrderDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending)
-                .Skip(pager.PageSize * (pager.Page - 1) ?? 0)
-                .Take(pager.PageSize ?? PAGE_SIZE)
-                .ToListAsync();
+            viewModel.TotalCount = totalCount;
+            viewModel.FilteredCount = filteredCount;
+            viewModel.TotalPages = totalPages;
+            viewModel.Results = Mapper.Map<List<CourtViewModel>>(courts.WithPaging(startRow, viewModel.PageSize));
 
-            pager.TotalCount = totalCount;
-            pager.FilteredCount = pagerCount;
-            pager.TotalPages = totalPages;
-            pager.Results = Mapper.Map<List<CourtViewModel>>(results);
             stopwatch.Stop();
-            pager.ElapsedTime = stopwatch.Elapsed;
-            return Ok(pager);
+            viewModel.ElapsedTime = stopwatch.Elapsed;
+            return Ok(viewModel);
         }
 
         [HttpPut()]
@@ -66,8 +57,7 @@ namespace CaseTracker.Portal.Controllers.Api
         {
             if (model == null) return BadRequest("No court to update");
 
-            //var court = await context.Courts.FindAsync(model.Id);
-            var court = _courtRepository.GetById(model.Id);
+            var court = _unitOfWork.Courts.GetById(model.Id);
 
             if (court == null) return NotFound("Court not found");
 
@@ -75,7 +65,7 @@ namespace CaseTracker.Portal.Controllers.Api
             court.Abbreviation = model.Abbreviation;
             court.JurisdictionId = model.JurisdictionId;
 
-            await context.SaveChangesAsync();
+            _unitOfWork.Complete();
             return Ok(court);
         }
 
@@ -90,8 +80,10 @@ namespace CaseTracker.Portal.Controllers.Api
                 Abbreviation = model.Abbreviation,
                 JurisdictionId = model.JurisdictionId
             };
-            await context.Courts.AddAsync(court);
-            await context.SaveChangesAsync();
+
+            _unitOfWork.Courts.Add(court);
+
+            _unitOfWork.Complete();
 
             return Ok(court);
         }
@@ -99,22 +91,15 @@ namespace CaseTracker.Portal.Controllers.Api
         [HttpDelete, Route("{id}")]
         public async Task<object> Delete(int id)
         {
-            var court = await context.Courts.Include("Filings").FirstAsync(c => c.Id == id);
 
+            var court = _unitOfWork.Courts.GetByIdWithDetails(id);
             if (court == null) return BadRequest("Court not found");
-            if (court.Filings.Count() > 0) return BadRequest("Unable to delete. Court has cases assigned.");
 
-            context.Courts.Remove(court);
+            if (court.Filings.Any()) return BadRequest("Unable to delete. Court has cases assigned.");
 
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Something went wrong. Contact support.");
-            }
+            _unitOfWork.Courts.Remove(court);
 
+            _unitOfWork.Complete();
 
             return Ok("Court deleted");
         }

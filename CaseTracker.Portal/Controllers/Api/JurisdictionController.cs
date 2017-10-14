@@ -1,60 +1,54 @@
+using AutoMapper;
+using CaseTracker.Core.Models;
+using CaseTracker.Data;
+using CaseTracker.Portal.Persistence;
+using CaseTracker.Portal.Repositories;
+using CaseTracker.Portal.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CaseTracker.Core.Models;
-using CaseTracker.Data;
-using CaseTracker.Portal.Helpers;
-using CaseTracker.Portal.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CaseTracker.Portal.Controllers.Api
 {
     [Route("api/[controller]")]
     public class JurisdictionController : Controller
     {
-        private readonly AppDbContext context;
+        private readonly UnitOfWork _unitOfWork;
         private const int PAGE_SIZE = 20;
 
-        public JurisdictionController(AppDbContext _context)
+        public JurisdictionController(AppDbContext context)
         {
-            context = _context;
+            _unitOfWork = new UnitOfWork(context);
         }
 
         [HttpGet("list")]
-        public async Task<object> List(JurisdictionSearchViewModel pager)
+        public async Task<object> List(JurisdictionSearchViewModel viewModel)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Restart();
-            if (pager == null) pager = new JurisdictionSearchViewModel();
+            if (viewModel == null) viewModel = new JurisdictionSearchViewModel();
 
-            var query = context.Jurisdictions;
-            var totalCount = await query.CountAsync();
+            var totalCount = _unitOfWork.Jurisdictions.Count();
 
-            var pred = PredicateBuilder.True<Jurisdiction>();
-            if (!string.IsNullOrWhiteSpace(pager.Name)) pred = pred.And(p => p.Name.Contains(pager.Name));
-            if (!string.IsNullOrWhiteSpace(pager.Abbreviation)) pred = pred.And(p => p.Abbreviation.Contains(pager.Abbreviation));
+            var jurisdictions = _unitOfWork.Jurisdictions.GetAll()
+                .WithNameLike(viewModel.Name)
+                .WithAbbreviationLike(viewModel.Abbreviation);
 
-            var filteredQuery = query.Where(pred);
-            var pagerCount = filteredQuery.Count();
-            var totalPages = Math.Ceiling((double)pagerCount / pager.PageSize ?? PAGE_SIZE);
+            var filteredCount = jurisdictions.Count();
+            var totalPages = Math.Ceiling((double)filteredCount / viewModel.PageSize ?? PAGE_SIZE);
+            var startRow = viewModel.PageSize * (viewModel.Page - 1) ?? 0;
 
-            var results = await filteredQuery.Where(pred)
-                .Order(pager.OrderBy, pager.OrderDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending)
-                .Skip(pager.PageSize * (pager.Page - 1) ?? 0)
-                .Take(pager.PageSize ?? PAGE_SIZE)
-                .ToListAsync();
+            viewModel.TotalCount = totalCount;
+            viewModel.FilteredCount = filteredCount;
+            viewModel.TotalPages = totalPages;
+            viewModel.Results = Mapper.Map<List<JurisdictionViewModel>>(jurisdictions.WithPaging(startRow, viewModel.PageSize));
 
-            pager.TotalCount = totalCount;
-            pager.FilteredCount = pagerCount;
-            pager.TotalPages = totalPages;
-            pager.Results = Mapper.Map<List<JurisdictionViewModel>>(results);
             stopwatch.Stop();
-            pager.ElapsedTime = stopwatch.Elapsed;
-            return Ok(pager);
+            viewModel.ElapsedTime = stopwatch.Elapsed;
+            return Ok(viewModel);
         }
 
         [HttpPut()]
@@ -62,13 +56,13 @@ namespace CaseTracker.Portal.Controllers.Api
         {
             if (model == null) return BadRequest("No Jurisdiction to update");
 
-            var jurisdiction = await context.Jurisdictions.FindAsync(model.Id);
+            var jurisdiction = _unitOfWork.Jurisdictions.GetById(model.Id);
             if (jurisdiction == null) return NotFound("Jurisdiction not found");
 
             jurisdiction.Name = model.Name;
             jurisdiction.Abbreviation = model.Abbreviation;
 
-            await context.SaveChangesAsync();
+            _unitOfWork.Complete();
             return Ok(jurisdiction);
         }
 
@@ -82,8 +76,9 @@ namespace CaseTracker.Portal.Controllers.Api
                 Name = model.Name,
                 Abbreviation = model.Abbreviation
             };
-            await context.Jurisdictions.AddAsync(jurisdiction);
-            await context.SaveChangesAsync();
+            _unitOfWork.Jurisdictions.Add(jurisdiction);
+
+            _unitOfWork.Complete();
 
             return Ok(jurisdiction);
         }
@@ -91,21 +86,14 @@ namespace CaseTracker.Portal.Controllers.Api
         [HttpDelete, Route("{id}")]
         public async Task<object> Delete(int id)
         {
-            var jurisdiction = await context.Jurisdictions.FirstAsync(c => c.Id == id);
+            var jurisdiction = _unitOfWork.Jurisdictions.GetById(id);
 
             if (jurisdiction == null) return BadRequest("Jurisdiction not found");
-            if (context.Courts.Count(c => c.JurisdictionId == id) > 0) return BadRequest("Unable to delete. Jurisdiction has courts assigned.");
 
-            context.Jurisdictions.Remove(jurisdiction);
+            if (_unitOfWork.Courts.GetAll().WithJurisdictionId(id).Any()) return BadRequest("Unable to delete. Jurisdiction has courts assigned.");
 
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Something went wrong. Contact support.");
-            }
+            _unitOfWork.Jurisdictions.Remove(jurisdiction);
+            _unitOfWork.Complete();
 
             return Ok("Jurisdiction deleted");
         }
