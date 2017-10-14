@@ -71,14 +71,7 @@ namespace CaseTracker.Portal.Controllers.Api
             var @case = _unitOfWork.Cases.GetByIdWithDetails(model.Id);
             if (@case == null) return NotFound("Case not found");
 
-            //TODO: Using Automapper
-            @case.Caption = model.Caption;
-            @case.Judge = model.Judge;
-            @case.Summary = model.Summary;
-            @case.CaseNumber = model.CaseNumber;
-            @case.DateFiled = model.DateFiled;
-            @case.CourtId = model.CourtId;
-
+            Mapper.Map(model, @case);
             _unitOfWork.Complete();
 
             //TODO: Something smells
