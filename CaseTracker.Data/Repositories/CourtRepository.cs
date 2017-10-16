@@ -39,7 +39,7 @@ namespace CaseTracker.Data.Repositories
 
         public Court GetByIdWithDetails(int id)
         {
-            return EntityFrameworkQueryableExtensions.Include<Court, IEnumerable<Filing>>(_context.Courts, c => c.Filings).SingleOrDefault(c => c.Id == id);
+            return EntityFrameworkQueryableExtensions.Include<Court, IEnumerable<Case>>(_context.Courts, c => c.Filings).SingleOrDefault(c => c.Id == id);
         }
 
         public int Count()

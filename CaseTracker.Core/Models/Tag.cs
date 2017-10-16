@@ -15,7 +15,7 @@ namespace CaseTracker.Core.Models
         public int FilingId { get; set; }
         public int TagId { get; set; }
 
-        public Filing Filing { get; set; }
+        public Case Case { get; set; }
         public Tag Tag { get; set; }
     }
 }

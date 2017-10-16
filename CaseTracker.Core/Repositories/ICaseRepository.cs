@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using CaseTracker.Core.Models;
+﻿using CaseTracker.Core.Models;
+using System.Collections.Generic;
 
 namespace CaseTracker.Core.Repositories
 {
     public interface ICaseRepository
     {
-        Filing GetByIdWithDetails(int id);
-        void Add(Filing @case);
-        Filing GetById(int id);
-        void Remove(Filing @case);
+        Case GetByIdWithDetails(int id);
+        void Add(Case @case);
+        Case GetById(int id);
+        void Remove(Case @case);
         int Count();
-        IEnumerable<Filing> GetAll();
+        IEnumerable<Case> GetAll();
     }
 }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace CaseTracker.Core.Models
 {
-    public class Filing : AuditableEntity
+    public class Case : AuditableEntity
     {
-        public Filing()
+        public Case()
         {
             Comments = new List<Comment>();
         }

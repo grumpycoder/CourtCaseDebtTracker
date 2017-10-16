@@ -16,34 +16,34 @@ namespace CaseTracker.Data.Repositories
         }
 
 
-        public Filing GetByIdWithDetails(int id)
+        public Case GetByIdWithDetails(int id)
         {
-            return EntityFrameworkQueryableExtensions.Include<Filing, Jurisdiction>(_context.Filings, f => f.Court.Jurisdiction).Include("Defendants").Include("Plaintiffs").SingleOrDefault(f => f.Id == id);
+            return EntityFrameworkQueryableExtensions.Include<Case, Jurisdiction>(_context.Cases, f => f.Court.Jurisdiction).Include("Defendants").Include("Plaintiffs").SingleOrDefault(f => f.Id == id);
         }
 
-        public void Add(Filing @case)
+        public void Add(Case @case)
         {
-            _context.Filings.Add(@case);
+            _context.Cases.Add(@case);
         }
 
-        public Filing GetById(int id)
+        public Case GetById(int id)
         {
-            return Queryable.SingleOrDefault<Filing>(_context.Filings, c => c.Id == id);
+            return Queryable.SingleOrDefault<Case>(_context.Cases, c => c.Id == id);
         }
 
-        public void Remove(Filing @case)
+        public void Remove(Case @case)
         {
-            _context.Filings.Remove(@case);
+            _context.Cases.Remove(@case);
         }
 
         public int Count()
         {
-            return Queryable.Count<Filing>(_context.Filings);
+            return Queryable.Count<Case>(_context.Cases);
         }
 
-        public IEnumerable<Filing> GetAll()
+        public IEnumerable<Case> GetAll()
         {
-            return EntityFrameworkQueryableExtensions.Include<Filing, Court>(_context.Filings, c => c.Court).Include(c => c.Court.Jurisdiction).ToList();
+            return EntityFrameworkQueryableExtensions.Include<Case, Court>(_context.Cases, c => c.Court).Include(c => c.Court.Jurisdiction).ToList();
         }
 
 

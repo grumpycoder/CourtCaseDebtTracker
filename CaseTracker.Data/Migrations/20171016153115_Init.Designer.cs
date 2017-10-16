@@ -8,8 +8,8 @@ using CaseTracker.Data;
 namespace CaseTracker.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20171014023250_CreateModels")]
-    partial class CreateModels
+    [Migration("20171016153115_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,62 +81,7 @@ namespace CaseTracker.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("CaseTracker.Core.Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime2")
-                        .HasDefaultValueSql("GetDate()");
-
-                    b.Property<string>("CreatedUser")
-                        .HasMaxLength(500)
-                        .IsUnicode(false);
-
-                    b.Property<int>("FilingId");
-
-                    b.Property<string>("Text")
-                        .HasMaxLength(500)
-                        .IsUnicode(false);
-
-                    b.Property<DateTime?>("UpdateDate");
-
-                    b.Property<string>("UpdatedUser")
-                        .HasMaxLength(500)
-                        .IsUnicode(false);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilingId");
-
-                    b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("CaseTracker.Core.Models.Court", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Abbreviation")
-                        .HasMaxLength(500)
-                        .IsUnicode(false);
-
-                    b.Property<int>("JurisdictionId");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(500)
-                        .IsUnicode(false);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JurisdictionId");
-
-                    b.ToTable("Courts");
-                });
-
-            modelBuilder.Entity("CaseTracker.Core.Models.Filing", b =>
+            modelBuilder.Entity("CaseTracker.Core.Models.Case", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -185,7 +130,64 @@ namespace CaseTracker.Data.Migrations
 
                     b.HasIndex("CourtId");
 
-                    b.ToTable("Filings");
+                    b.ToTable("Cases");
+                });
+
+            modelBuilder.Entity("CaseTracker.Core.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CaseId");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime2")
+                        .HasDefaultValueSql("GetDate()");
+
+                    b.Property<string>("CreatedUser")
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
+
+                    b.Property<int>("FilingId");
+
+                    b.Property<string>("Text")
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<string>("UpdatedUser")
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CaseId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("CaseTracker.Core.Models.Court", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Abbreviation")
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
+
+                    b.Property<int>("JurisdictionId");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JurisdictionId");
+
+                    b.ToTable("Courts");
                 });
 
             modelBuilder.Entity("CaseTracker.Core.Models.FilingTag", b =>
@@ -402,8 +404,9 @@ namespace CaseTracker.Data.Migrations
                 {
                     b.HasBaseType("CaseTracker.Core.Models.Litigant");
 
+                    b.Property<int?>("CaseId");
 
-                    b.HasIndex("FilingId");
+                    b.HasIndex("CaseId");
 
                     b.ToTable("Defendant");
 
@@ -414,20 +417,27 @@ namespace CaseTracker.Data.Migrations
                 {
                     b.HasBaseType("CaseTracker.Core.Models.Litigant");
 
+                    b.Property<int?>("CaseId");
 
-                    b.HasIndex("FilingId");
+                    b.HasIndex("CaseId");
 
                     b.ToTable("Plaintiff");
 
                     b.HasDiscriminator().HasValue(2);
                 });
 
+            modelBuilder.Entity("CaseTracker.Core.Models.Case", b =>
+                {
+                    b.HasOne("CaseTracker.Core.Models.Court", "Court")
+                        .WithMany("Filings")
+                        .HasForeignKey("CourtId");
+                });
+
             modelBuilder.Entity("CaseTracker.Core.Models.Comment", b =>
                 {
-                    b.HasOne("CaseTracker.Core.Models.Filing")
+                    b.HasOne("CaseTracker.Core.Models.Case")
                         .WithMany("Comments")
-                        .HasForeignKey("FilingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CaseId");
                 });
 
             modelBuilder.Entity("CaseTracker.Core.Models.Court", b =>
@@ -438,16 +448,9 @@ namespace CaseTracker.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("CaseTracker.Core.Models.Filing", b =>
-                {
-                    b.HasOne("CaseTracker.Core.Models.Court", "Court")
-                        .WithMany("Filings")
-                        .HasForeignKey("CourtId");
-                });
-
             modelBuilder.Entity("CaseTracker.Core.Models.FilingTag", b =>
                 {
-                    b.HasOne("CaseTracker.Core.Models.Filing", "Filing")
+                    b.HasOne("CaseTracker.Core.Models.Case", "Case")
                         .WithMany("Tags")
                         .HasForeignKey("FilingId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -497,18 +500,16 @@ namespace CaseTracker.Data.Migrations
 
             modelBuilder.Entity("CaseTracker.Core.Models.Defendant", b =>
                 {
-                    b.HasOne("CaseTracker.Core.Models.Filing")
+                    b.HasOne("CaseTracker.Core.Models.Case")
                         .WithMany("Defendants")
-                        .HasForeignKey("FilingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CaseId");
                 });
 
             modelBuilder.Entity("CaseTracker.Core.Models.Plaintiff", b =>
                 {
-                    b.HasOne("CaseTracker.Core.Models.Filing")
+                    b.HasOne("CaseTracker.Core.Models.Case")
                         .WithMany("Plaintiffs")
-                        .HasForeignKey("FilingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CaseId");
                 });
         }
     }

@@ -1,11 +1,5 @@
-using System.Linq;
-using Newtonsoft.Json;
-using CaseTracker.Core.Models;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using System.IO;
 
 namespace CaseTracker.Data
 {
@@ -40,7 +34,7 @@ namespace CaseTracker.Data
 
             //if (!context.Filings.Any())
             //{
-            //    var filings = JsonConvert.DeserializeObject<List<Filing>>(File.ReadAllText($@"{env.ContentRootPath}\DataFiles\filings-import.json"));
+            //    var filings = JsonConvert.DeserializeObject<List<Case>>(File.ReadAllText($@"{env.ContentRootPath}\DataFiles\filings-import.json"));
             //    context.Filings.AddRange(filings);
             //    context.SaveChanges();
             //}

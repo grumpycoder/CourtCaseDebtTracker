@@ -83,7 +83,7 @@ namespace CaseTracker.Portal.Controllers.Api
         {
             if (model == null) return BadRequest("No case to update");
 
-            var @case = new Filing()
+            var @case = new Case()
             {
                 Caption = model.Caption,
                 Judge = model.Judge,
