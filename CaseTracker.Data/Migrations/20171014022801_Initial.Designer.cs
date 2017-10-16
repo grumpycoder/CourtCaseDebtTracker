@@ -8,8 +8,8 @@ using CaseTracker.Data;
 namespace CaseTracker.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20170804193825_identity-security")]
-    partial class identitysecurity
+    [Migration("20171014022801_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,16 +21,19 @@ namespace CaseTracker.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -39,26 +42,32 @@ namespace CaseTracker.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.Property<string>("PasswordHash")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -72,131 +81,25 @@ namespace CaseTracker.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("CaseTracker.Core.Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime2")
-                        .HasDefaultValueSql("GetDate()");
-
-                    b.Property<string>("CreatedUser")
-                        .HasMaxLength(500);
-
-                    b.Property<int>("FilingId");
-
-                    b.Property<string>("Text")
-                        .HasMaxLength(500);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilingId");
-
-                    b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("CaseTracker.Core.Models.Court", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Abbreviation")
-                        .HasMaxLength(500);
-
-                    b.Property<int>("JurisdictionId");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(500);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("JurisdictionId");
-
-                    b.ToTable("Courts");
-                });
-
-            modelBuilder.Entity("CaseTracker.Core.Models.Filing", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CaseNumber")
-                        .HasMaxLength(500);
-
-                    b.Property<int>("CourtId");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime2")
-                        .HasDefaultValueSql("GetDate()");
-
-                    b.Property<string>("CreatedUser")
-                        .HasMaxLength(500);
-
-                    b.Property<DateTime?>("DateFiled");
-
-                    b.Property<string>("Defendant")
-                        .HasMaxLength(500);
-
-                    b.Property<int>("FilingId");
-
-                    b.Property<string>("Judge")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Plaintiff")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Summary")
-                        .HasMaxLength(500);
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("DateTime2")
-                        .HasDefaultValueSql("GetDate()");
-
-                    b.Property<string>("UpdatedUser")
-                        .HasMaxLength(500);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourtId");
-
-                    b.ToTable("Filings");
-                });
-
-            modelBuilder.Entity("CaseTracker.Core.Models.Jurisdiction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Abbreviation")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(500);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Jurisdictions");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("Name")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -213,14 +116,17 @@ namespace CaseTracker.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("ClaimValue")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -235,14 +141,17 @@ namespace CaseTracker.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("ClaimValue")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -254,17 +163,21 @@ namespace CaseTracker.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -276,10 +189,12 @@ namespace CaseTracker.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("RoleId")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("UserId", "RoleId");
 
@@ -291,44 +206,24 @@ namespace CaseTracker.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("Name")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("Value")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("CaseTracker.Core.Models.Comment", b =>
-                {
-                    b.HasOne("CaseTracker.Core.Models.Filing")
-                        .WithMany("Comments")
-                        .HasForeignKey("FilingId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CaseTracker.Core.Models.Court", b =>
-                {
-                    b.HasOne("CaseTracker.Core.Models.Jurisdiction", "Jurisdiction")
-                        .WithMany()
-                        .HasForeignKey("JurisdictionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CaseTracker.Core.Models.Filing", b =>
-                {
-                    b.HasOne("CaseTracker.Core.Models.Court", "Court")
-                        .WithMany()
-                        .HasForeignKey("CourtId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

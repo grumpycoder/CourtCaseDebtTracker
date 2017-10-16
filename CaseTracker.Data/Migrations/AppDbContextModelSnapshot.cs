@@ -20,16 +20,19 @@ namespace CaseTracker.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<int>("AccessFailedCount");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -38,26 +41,32 @@ namespace CaseTracker.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.Property<string>("PasswordHash")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("PhoneNumber")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -82,17 +91,20 @@ namespace CaseTracker.Data.Migrations
                         .HasDefaultValueSql("GetDate()");
 
                     b.Property<string>("CreatedUser")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<int>("FilingId");
 
                     b.Property<string>("Text")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<DateTime?>("UpdateDate");
 
                     b.Property<string>("UpdatedUser")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -107,12 +119,14 @@ namespace CaseTracker.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Abbreviation")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<int>("JurisdictionId");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -127,10 +141,12 @@ namespace CaseTracker.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Caption")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("CaseNumber")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<int>("CourtId");
 
@@ -140,17 +156,20 @@ namespace CaseTracker.Data.Migrations
                         .HasDefaultValueSql("GetDate()");
 
                     b.Property<string>("CreatedUser")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<DateTime?>("DateFiled");
 
                     b.Property<int>("FilingId");
 
                     b.Property<string>("Judge")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("Summary")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
@@ -158,7 +177,8 @@ namespace CaseTracker.Data.Migrations
                         .HasDefaultValueSql("GetDate()");
 
                     b.Property<string>("UpdatedUser")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -186,10 +206,12 @@ namespace CaseTracker.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Abbreviation")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("Name")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -206,7 +228,8 @@ namespace CaseTracker.Data.Migrations
                     b.Property<int>("LitigantType");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -221,7 +244,8 @@ namespace CaseTracker.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -232,17 +256,21 @@ namespace CaseTracker.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("Name")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -259,14 +287,17 @@ namespace CaseTracker.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("ClaimValue")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -281,14 +312,17 @@ namespace CaseTracker.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("ClaimValue")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
@@ -300,17 +334,21 @@ namespace CaseTracker.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -322,10 +360,12 @@ namespace CaseTracker.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("RoleId")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("UserId", "RoleId");
 
@@ -337,16 +377,20 @@ namespace CaseTracker.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("Name")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.Property<string>("Value")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .IsUnicode(false);
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -397,8 +441,7 @@ namespace CaseTracker.Data.Migrations
                 {
                     b.HasOne("CaseTracker.Core.Models.Court", "Court")
                         .WithMany("Filings")
-                        .HasForeignKey("CourtId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CourtId");
                 });
 
             modelBuilder.Entity("CaseTracker.Core.Models.FilingTag", b =>

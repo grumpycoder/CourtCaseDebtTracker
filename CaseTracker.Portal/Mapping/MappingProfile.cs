@@ -14,6 +14,7 @@ namespace CaseTracker.Portal.Mapping
             // CreateMap<CreateEditJurisdictionViewModel, Jurisdiction>().ReverseMap();
             // CreateMap<CreateEditCommentViewModel, Comment>().ReverseMap();
             //CreateMap<FilingViewModel, Filing>();
+
             CreateMap<Filing, FilingViewModel>()
                 .ForMember(d => d.Jurisdiction, opt => opt.MapFrom(s => s.Court.Jurisdiction.Name))
                 .ForMember(d => d.CourtName, opt => opt.MapFrom(s => s.Court.Name))
@@ -21,12 +22,16 @@ namespace CaseTracker.Portal.Mapping
                 .ReverseMap();
             // .ForMember(d => d.Plaintiffs, opt => opt.MapFrom(s => s.Plaintiffs.Select(t => t.Name)))
             // .ForMember(d => d.Defendants, opt => opt.MapFrom(s => s.Defendants.Select(t => t.Name)))
-            ;
+
+
             CreateMap<Court, CourtViewModel>()
                 .ForMember(d => d.Jurisdiction, opt => opt.MapFrom(s => s.Jurisdiction.Name))
                 .ForMember(d => d.NumberCases, opt => opt.MapFrom(s => s.Filings.Count()))
                 .ReverseMap();
+
             CreateMap<Jurisdiction, JurisdictionViewModel>().ReverseMap();
+
+            CreateMap<Filing, CaseViewModel>().ReverseMap();
         }
     }
 }
