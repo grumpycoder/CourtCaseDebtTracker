@@ -1,4 +1,4 @@
-﻿namespace CaseTracker.Core.Interfaces
+﻿namespace CaseTracker.Core
 {
     public interface IUserService
     {

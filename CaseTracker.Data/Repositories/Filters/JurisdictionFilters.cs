@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CaseTracker.Portal.Repositories
+namespace CaseTracker.Data.Repositories
 {
     public static class JurisdictionFilters
     {

@@ -1,15 +1,13 @@
 using AutoMapper;
 using CaseTracker.Core.Models;
 using CaseTracker.Data;
-using CaseTracker.Portal.Persistence;
-using CaseTracker.Portal.Repositories;
+using CaseTracker.Data.Repositories;
 using CaseTracker.Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CaseTracker.Portal.Controllers.Api
 {
@@ -25,7 +23,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpGet("list")]
-        public async Task<object> List(CourtSearchViewModel viewModel)
+        public object List(CourtSearchViewModel viewModel)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Restart();
@@ -53,7 +51,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpPut()]
-        public async Task<object> Put([FromBody]CourtViewModel model)
+        public object Put([FromBody]CourtViewModel model)
         {
             if (model == null) return BadRequest("No court to update");
 
@@ -70,7 +68,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpPost()]
-        public async Task<object> Post([FromBody]CourtViewModel model)
+        public object Post([FromBody]CourtViewModel model)
         {
             if (model == null) return BadRequest("No court to add");
 
@@ -89,7 +87,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpDelete, Route("{id}")]
-        public async Task<object> Delete(int id)
+        public object Delete(int id)
         {
 
             var court = _unitOfWork.Courts.GetByIdWithDetails(id);

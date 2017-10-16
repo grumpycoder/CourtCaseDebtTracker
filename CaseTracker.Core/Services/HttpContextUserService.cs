@@ -1,6 +1,5 @@
 ﻿// UserService.cs
 
-using CaseTracker.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace CaseTracker.Core.Services

@@ -1,15 +1,16 @@
-﻿using CaseTracker.Data;
-using CaseTracker.Portal.Repositories;
+﻿using CaseTracker.Core;
+using CaseTracker.Core.Repositories;
+using CaseTracker.Data.Repositories;
 
-namespace CaseTracker.Portal.Persistence
+namespace CaseTracker.Data
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
-        public CourtRepository Courts { get; set; }
-        public JurisdictionRepository Jurisdictions { get; set; }
-        public CaseRepository Cases { get; set; }
-        public LitigantRepository Litigants { get; set; }
+        public ICourtRepository Courts { get; set; }
+        public IJurisdictionRepository Jurisdictions { get; set; }
+        public ICaseRepository Cases { get; set; }
+        public ILitigantRepository Litigants { get; set; }
 
         public UnitOfWork(AppDbContext context)
         {

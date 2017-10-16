@@ -1,4 +1,4 @@
-using CaseTracker.Core.Interfaces;
+using CaseTracker.Core;
 using CaseTracker.Core.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

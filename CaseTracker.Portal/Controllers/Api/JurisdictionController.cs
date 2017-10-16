@@ -1,15 +1,13 @@
 using AutoMapper;
 using CaseTracker.Core.Models;
 using CaseTracker.Data;
-using CaseTracker.Portal.Persistence;
-using CaseTracker.Portal.Repositories;
+using CaseTracker.Data.Repositories;
 using CaseTracker.Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CaseTracker.Portal.Controllers.Api
 {
@@ -25,7 +23,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpGet("list")]
-        public async Task<object> List(JurisdictionSearchViewModel viewModel)
+        public object List(JurisdictionSearchViewModel viewModel)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Restart();
@@ -52,7 +50,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpPut()]
-        public async Task<object> Put([FromBody]JurisdictionViewModel model)
+        public object Put([FromBody]JurisdictionViewModel model)
         {
             if (model == null) return BadRequest("No Jurisdiction to update");
 
@@ -67,7 +65,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpPost()]
-        public async Task<object> Post([FromBody]JurisdictionViewModel model)
+        public object Post([FromBody]JurisdictionViewModel model)
         {
             if (model == null) return BadRequest("No Jurisdiction to add");
 
@@ -84,7 +82,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpDelete, Route("{id}")]
-        public async Task<object> Delete(int id)
+        public object Delete(int id)
         {
             var jurisdiction = _unitOfWork.Jurisdictions.GetById(id);
 

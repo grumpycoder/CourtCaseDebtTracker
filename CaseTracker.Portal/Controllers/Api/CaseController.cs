@@ -1,15 +1,13 @@
 using AutoMapper;
 using CaseTracker.Core.Models;
 using CaseTracker.Data;
-using CaseTracker.Portal.Persistence;
-using CaseTracker.Portal.Repositories;
+using CaseTracker.Data.Repositories;
 using CaseTracker.Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CaseTracker.Portal.Controllers.Api
 {
@@ -25,7 +23,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpGet("list")]
-        public async Task<object> List(CaseSearchViewModel viewModel)
+        public object List(CaseSearchViewModel viewModel)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Restart();
@@ -54,7 +52,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpGet("{id}")]
-        public async Task<object> Get(int id)
+        public object Get(int id)
         {
             var @case = _unitOfWork.Cases.GetByIdWithDetails(id);
             var model = Mapper.Map<FilingViewModel>(@case);
@@ -64,7 +62,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpPut()]
-        public async Task<object> Put([FromBody]CaseViewModel model)
+        public object Put([FromBody]CaseViewModel model)
         {
             if (model == null) return BadRequest("No case to update");
 
@@ -81,7 +79,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpPost()]
-        public async Task<object> Post([FromBody]CaseViewModel model)
+        public object Post([FromBody]CaseViewModel model)
         {
             if (model == null) return BadRequest("No case to update");
 
@@ -103,7 +101,7 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpDelete(), Route("{id}")]
-        public async Task<object> Delete(int id)
+        public object Delete(int id)
         {
             var @case = _unitOfWork.Cases.GetById(id);
             if (@case == null) return NotFound("Case not found");
@@ -115,20 +113,17 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpPost("{caseId}/litigant")]
-        public async Task<object> AddLitigant(int caseId, [FromBody]LitigantViewModel model)
+        public object AddLitigant(int caseId, [FromBody]LitigantViewModel model)
         {
             if (model == null) return BadRequest("No litigant to add");
 
             var @case = _unitOfWork.Cases.GetById(caseId);
             if (@case == null) return NotFound("Case not found");
 
-            Defendant defendant;
-            Plaintiff plaintiff;
-
             switch (model.Type)
             {
                 case LitigantType.Defendant:
-                    defendant = new Defendant()
+                    var defendant = new Defendant()
                     {
                         Name = model.Name,
                         FilingId = caseId
@@ -136,9 +131,8 @@ namespace CaseTracker.Portal.Controllers.Api
                     _unitOfWork.Litigants.AddDefendant(defendant);
                     _unitOfWork.Complete();
                     return Ok(defendant);
-                    break;
                 case LitigantType.Plaintiff:
-                    plaintiff = new Plaintiff()
+                    var plaintiff = new Plaintiff()
                     {
                         Name = model.Name,
                         FilingId = caseId
@@ -147,17 +141,13 @@ namespace CaseTracker.Portal.Controllers.Api
                     _unitOfWork.Complete();
 
                     return Ok(plaintiff);
-                    break;
                 default:
                     return Ok();
-                    break;
             };
-
-            //return Ok();
         }
 
         [HttpDelete("{caseId}/litigant/{id}")]
-        public async Task<object> DeleteLitigant(int caseId, int id)
+        public object DeleteLitigant(int caseId, int id)
         {
 
             var litigant = _unitOfWork.Litigants.GetById(id);

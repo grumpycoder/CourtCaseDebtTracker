@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CaseTracker.Core.Interfaces;
+﻿using AutoMapper;
+using CaseTracker.Core;
 using CaseTracker.Core.Models;
+using CaseTracker.Core.Repositories;
 using CaseTracker.Core.Services;
 using CaseTracker.Data;
+using CaseTracker.Data.Repositories;
+using CaseTracker.Portal.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -14,11 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication;
-using AutoMapper;
-using CaseTracker.Portal.Mapping;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace CaseTracker.Portal
 {
@@ -72,6 +69,12 @@ namespace CaseTracker.Portal
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddScoped<IUserService, HttpContextUserService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICaseRepository, CaseRepository>();
+            services.AddScoped<ICourtRepository, CourtRepository>();
+            services.AddScoped<IJurisdictionRepository, JurisdictionRepository>();
+            services.AddScoped<ILitigantRepository, LitigantRepository>();
+
             services.AddAutoMapper(typeof(MappingProfile));
 
             services.AddMvc().AddJsonOptions(options =>
