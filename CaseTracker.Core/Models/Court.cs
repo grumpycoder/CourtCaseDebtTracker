@@ -10,6 +10,6 @@ namespace CaseTracker.Core.Models
         public virtual Jurisdiction Jurisdiction { get; set; }
         public int JurisdictionId { get; set; }
 
-        public virtual IEnumerable<Filing> Filings { get; set; }
+        public virtual IEnumerable<Case> Filings { get; set; }
     }
 }

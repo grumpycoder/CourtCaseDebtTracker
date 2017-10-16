@@ -6,7 +6,7 @@ namespace CaseTracker.Data.Repositories
 {
     public static class CaseFilters
     {
-        public static IEnumerable<Filing> WithCaptionLike(this IEnumerable<Filing> filingQuery,
+        public static IEnumerable<Case> WithCaptionLike(this IEnumerable<Case> filingQuery,
                                                string caption)
         {
             if (!string.IsNullOrEmpty(caption))
@@ -15,7 +15,7 @@ namespace CaseTracker.Data.Repositories
             return filingQuery;
         }
 
-        public static IEnumerable<Filing> WithCaseNumberLike(this IEnumerable<Filing> filingQuery,
+        public static IEnumerable<Case> WithCaseNumberLike(this IEnumerable<Case> filingQuery,
             string caseNumber)
         {
             if (!string.IsNullOrEmpty(caseNumber))
@@ -24,7 +24,7 @@ namespace CaseTracker.Data.Repositories
             return filingQuery;
         }
 
-        public static IEnumerable<Filing> WithCourtNameLike(this IEnumerable<Filing> filingQuery,
+        public static IEnumerable<Case> WithCourtNameLike(this IEnumerable<Case> filingQuery,
             string courtName)
         {
             if (!string.IsNullOrEmpty(courtName))
@@ -33,7 +33,7 @@ namespace CaseTracker.Data.Repositories
             return filingQuery;
         }
 
-        public static IEnumerable<Filing> WithJudgeLike(this IEnumerable<Filing> filingQuery,
+        public static IEnumerable<Case> WithJudgeLike(this IEnumerable<Case> filingQuery,
             string judge)
         {
             if (!string.IsNullOrEmpty(judge))
@@ -42,7 +42,7 @@ namespace CaseTracker.Data.Repositories
             return filingQuery;
         }
 
-        public static IEnumerable<Filing> WithPaging(this IEnumerable<Filing> filingQuery,
+        public static IEnumerable<Case> WithPaging(this IEnumerable<Case> filingQuery,
                                             int? startRow,
                                             int? rowCount)
         {

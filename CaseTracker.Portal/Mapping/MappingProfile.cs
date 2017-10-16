@@ -9,13 +9,13 @@ namespace CaseTracker.Portal.Mapping
     {
         public MappingProfile()
         {
-            // CreateMap<CreateEditFilingViewModel, Filing>().ReverseMap();
+            // CreateMap<CreateEditFilingViewModel, Case>().ReverseMap();
             // CreateMap<CreateEditCourtViewModel, Court>().ReverseMap();
             // CreateMap<CreateEditJurisdictionViewModel, Jurisdiction>().ReverseMap();
             // CreateMap<CreateEditCommentViewModel, Comment>().ReverseMap();
-            //CreateMap<FilingViewModel, Filing>();
+            //CreateMap<FilingViewModel, Case>();
 
-            CreateMap<Filing, FilingViewModel>()
+            CreateMap<Case, FilingViewModel>()
                 .ForMember(d => d.Jurisdiction, opt => opt.MapFrom(s => s.Court.Jurisdiction.Name))
                 .ForMember(d => d.CourtName, opt => opt.MapFrom(s => s.Court.Name))
                 .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.Tags.Select(t => t.Tag.Name)))
@@ -31,7 +31,7 @@ namespace CaseTracker.Portal.Mapping
 
             CreateMap<Jurisdiction, JurisdictionViewModel>().ReverseMap();
 
-            CreateMap<Filing, CaseViewModel>().ReverseMap();
+            CreateMap<Case, CaseViewModel>().ReverseMap();
         }
     }
 }

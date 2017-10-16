@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CaseTracker.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,6 +32,33 @@ namespace CaseTracker.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Jurisdictions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Abbreviation = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    Name = table.Column<string>(unicode: false, maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Jurisdictions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(unicode: false, maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,6 +131,27 @@ namespace CaseTracker.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Courts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Abbreviation = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    JurisdictionId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(unicode: false, maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Courts_Jurisdictions_JurisdictionId",
+                        column: x => x.JurisdictionId,
+                        principalTable: "Jurisdictions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -148,6 +196,106 @@ namespace CaseTracker.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Cases",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Caption = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    CaseNumber = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    CourtId = table.Column<int>(nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "DateTime2", nullable: true, defaultValueSql: "GetDate()"),
+                    CreatedUser = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    DateFiled = table.Column<DateTime>(nullable: true),
+                    FilingId = table.Column<int>(nullable: false),
+                    Judge = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    Summary = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "DateTime2", nullable: true, defaultValueSql: "GetDate()"),
+                    UpdatedUser = table.Column<string>(unicode: false, maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cases", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cases_Courts_CourtId",
+                        column: x => x.CourtId,
+                        principalTable: "Courts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CaseId = table.Column<int>(nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "DateTime2", nullable: true, defaultValueSql: "GetDate()"),
+                    CreatedUser = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    FilingId = table.Column<int>(nullable: false),
+                    Text = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    UpdateDate = table.Column<DateTime>(nullable: true),
+                    UpdatedUser = table.Column<string>(unicode: false, maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FilingTags",
+                columns: table => new
+                {
+                    FilingId = table.Column<int>(nullable: false),
+                    TagId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FilingTags", x => new { x.FilingId, x.TagId });
+                    table.ForeignKey(
+                        name: "FK_FilingTags_Cases_FilingId",
+                        column: x => x.FilingId,
+                        principalTable: "Cases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FilingTags_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Litigants",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FilingId = table.Column<int>(nullable: false),
+                    LitigantType = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(unicode: false, maxLength: 500, nullable: true),
+                    CaseId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Litigants", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Litigants_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
@@ -158,6 +306,31 @@ namespace CaseTracker.Data.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_CourtId",
+                table: "Cases",
+                column: "CourtId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_CaseId",
+                table: "Comments",
+                column: "CaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Courts_JurisdictionId",
+                table: "Courts",
+                column: "JurisdictionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FilingTags_TagId",
+                table: "FilingTags",
+                column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Litigants_CaseId",
+                table: "Litigants",
+                column: "CaseId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -189,6 +362,15 @@ namespace CaseTracker.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "FilingTags");
+
+            migrationBuilder.DropTable(
+                name: "Litigants");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -204,10 +386,22 @@ namespace CaseTracker.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Tags");
+
+            migrationBuilder.DropTable(
+                name: "Cases");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Courts");
+
+            migrationBuilder.DropTable(
+                name: "Jurisdictions");
         }
     }
 }

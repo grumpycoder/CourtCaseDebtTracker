@@ -28,7 +28,7 @@ namespace CaseTracker.Data
             _userService = userService;
         }
 
-        public DbSet<Filing> Filings { get; set; }
+        public DbSet<Case> Cases { get; set; }
 
         public DbSet<Litigant> Litigants { get; set; }
         public DbSet<Defendant> Defendants { get; set; }
@@ -54,17 +54,17 @@ namespace CaseTracker.Data
                 p.SetMaxLength(500);
             }
 
-            modelBuilder.Entity<Filing>()
+            modelBuilder.Entity<Case>()
                         .HasOne(p => p.Court)
                         .WithMany(b => b.Filings)
                         .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Filing>()
+            modelBuilder.Entity<Case>()
                 .Property(t => t.CreateDate)
                 .HasColumnType("DateTime2")
                 .HasDefaultValueSql("GetDate()");
 
-            modelBuilder.Entity<Filing>()
+            modelBuilder.Entity<Case>()
                 .Property(t => t.UpdateDate)
                 .HasColumnType("DateTime2")
                 .HasDefaultValueSql("GetDate()");
@@ -79,7 +79,7 @@ namespace CaseTracker.Data
             modelBuilder.Entity<FilingTag>().ToTable("FilingTags")
                 .HasKey(x => new { x.FilingId, x.TagId });
 
-            modelBuilder.Entity<FilingTag>().HasOne(pt => pt.Filing).WithMany(p => p.Tags).HasForeignKey(pt => pt.FilingId);
+            modelBuilder.Entity<FilingTag>().HasOne(pt => pt.Case).WithMany(p => p.Tags).HasForeignKey(pt => pt.FilingId);
 
             modelBuilder.Entity<FilingTag>().HasOne(pt => pt.Tag).WithMany(p => p.Filings).HasForeignKey(pt => pt.TagId);
 
