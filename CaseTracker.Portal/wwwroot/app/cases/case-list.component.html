@@ -76,7 +76,7 @@
                                             <input type="text" st-clear-key ng-model="$ctrl.searchModel.dateFiled" class="form-control" placeholder="Date Filed" />
                                         </th>
                                         <th>
-                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.courtName" class="form-control" placeholder="Court Name" />
+                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.court" class="form-control" placeholder="Court Name" />
                                         </th>
                                         <th>
                                             <input type="text" st-clear-key ng-model="$ctrl.searchModel.jurisdiction" class="form-control" placeholder="Jurisdiction"
@@ -92,7 +92,7 @@
                                         <td>{{ c.caption }}</td>
                                         <td>{{ c.judge }}</td>
                                         <td>{{ c.dateFiled | date:'MM/dd/yyyy' }}</td>
-                                        <td>{{ c.courtName }}</td>
+                                        <td>{{ c.court }}</td>
                                         <td>{{ c.jurisdiction }}</td>
                                     </tr>
                                 </tbody>

@@ -2,9 +2,8 @@
 (function () {
     var module = angular.module('app');
 
-    function controller($http, uibDateParser) {
+    function controller($http) {
         var $ctrl = this;
-        var pageSizeDefault = 500;
 
         $ctrl.title = 'Update Case';
         $ctrl.dateFormat = "MM/DD/YYYY";
@@ -16,7 +15,6 @@
             console.log('case edit init');
             if ($ctrl.resolve) {
                 $ctrl.case = angular.copy($ctrl.resolve.case);
-                console.log('case', $ctrl.case);
 
                 if ($ctrl.case !== undefined) {
                     $ctrl.case.dateFiled = new Date($ctrl.case.dateFiled);
@@ -30,18 +28,9 @@
                 $ctrl.title = 'New Case';
             }
 
-            $ctrl.searchModel = {
-                page: 1,
-                pageSize: pageSizeDefault,
-                orderBy: 'id',
-                orderDirection: 'desc'
-            };
-
-            $http.get('/api/court/list', {
-                params: $ctrl.searchModel
-            }).then(function (r) {
+            $http.get('/api/court/list').then(function (r) {
                 $ctrl.courts = r.data.results;
-            })
+            }); 
         }
 
         $ctrl.cancel = function () {

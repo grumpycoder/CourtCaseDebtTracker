@@ -6,50 +6,59 @@ namespace CaseTracker.Data.Repositories
 {
     public static class CaseFilters
     {
-        public static IEnumerable<Case> WithCaptionLike(this IEnumerable<Case> filingQuery,
+        public static IEnumerable<Case> WithCaptionLike(this IEnumerable<Case> caseQuery,
                                                string caption)
         {
             if (!string.IsNullOrEmpty(caption))
-                filingQuery = filingQuery.Where(p => p.Caption.ToLower().Contains(caption.ToLower()));
+                caseQuery = caseQuery.Where(p => !string.IsNullOrWhiteSpace(p.Caption) && p.Caption.ToLower().Contains(caption.ToLower()));
 
-            return filingQuery;
+            return caseQuery;
         }
 
-        public static IEnumerable<Case> WithCaseNumberLike(this IEnumerable<Case> filingQuery,
+        public static IEnumerable<Case> WithCaseNumberLike(this IEnumerable<Case> caseQuery,
             string caseNumber)
         {
             if (!string.IsNullOrEmpty(caseNumber))
-                filingQuery = filingQuery.Where(p => p.Caption.ToLower().Contains(caseNumber.ToLower()));
+                caseQuery = caseQuery.Where(p => !string.IsNullOrWhiteSpace(p.CaseNumber) && p.CaseNumber.ToLower().Contains(caseNumber.ToLower()));
 
-            return filingQuery;
+            return caseQuery;
         }
 
-        public static IEnumerable<Case> WithCourtNameLike(this IEnumerable<Case> filingQuery,
+        public static IEnumerable<Case> WithCourtNameLike(this IEnumerable<Case> caseQuery,
             string courtName)
         {
             if (!string.IsNullOrEmpty(courtName))
-                filingQuery = filingQuery.Where(p => p.Court.Name.ToLower().Contains(courtName.ToLower()));
+                caseQuery = caseQuery.Where(p => p.Court.Name.ToLower().Contains(courtName.ToLower()));
 
-            return filingQuery;
+            return caseQuery;
         }
 
-        public static IEnumerable<Case> WithJudgeLike(this IEnumerable<Case> filingQuery,
+        public static IEnumerable<Case> WithJudgeLike(this IEnumerable<Case> caseQuery,
             string judge)
         {
             if (!string.IsNullOrEmpty(judge))
-                filingQuery = filingQuery.Where(p => p.Judge.ToLower().Contains(judge.ToLower()));
+                caseQuery = caseQuery.Where(p => !string.IsNullOrWhiteSpace(p.Judge) && p.Judge.ToLower().Contains(judge.ToLower()));
 
-            return filingQuery;
+            return caseQuery;
         }
 
-        public static IEnumerable<Case> WithPaging(this IEnumerable<Case> filingQuery,
+        public static IEnumerable<Case> WithJurisdictionLike(this IEnumerable<Case> caseQuery,
+            string jurisdiction)
+        {
+            if (!string.IsNullOrEmpty(jurisdiction))
+                caseQuery = caseQuery.Where(p => p.Court.Jurisdiction.Name.ToLower().Contains(jurisdiction.ToLower()));
+
+            return caseQuery;
+        }
+
+        public static IEnumerable<Case> WithPaging(this IEnumerable<Case> caseQuery,
                                             int? startRow,
                                             int? rowCount)
         {
             if ((!startRow.HasValue) && (!rowCount.HasValue || rowCount.Value == 0))
-                return filingQuery;
+                return caseQuery;
 
-            return filingQuery.Skip((int)startRow).Take((int)rowCount);
+            return caseQuery.Skip((int)startRow).Take((int)rowCount);
         }
 
     }
