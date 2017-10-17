@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CaseTracker.Portal.ViewModels
 {
-    public class FilingViewModel
+    public class CaseDetailViewModel
     {
 
         public int Id { get; set; }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,19 +6,17 @@
     <title>@ViewData["Title"] - Case Tracker</title>
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/css/vendor.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/vendor.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/css/vendor.min.css"
-              asp-fallback-href="~/css/vendor.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/vendor.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
 <body class="hold-transition skin-yellow layout-top-nav">
     <div class="wrapper">
-            @Html.Partial("_Navbar")
+        @Html.Partial("_Navbar")
 
         <!-- Full Width Column -->
         <div class="content-wrapper">
@@ -29,7 +27,7 @@
         </div>
 
         <!-- Main Footer -->
-           <footer class="main-footer">
+        <footer class="main-footer">
             <div class="container-fluid">
                 <div class="pull-right hidden-xs">
                     <b>Version</b> @(Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion)
@@ -42,16 +40,12 @@
 
 
     <environment names="Development">
-        <script src="~/js/vendor.min.js"></script>
+        <script src="~/js/vendor.min.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/js/app.min.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/js/vendor.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
+        <script src="~/js/vendor.min.js" asp-append-version="true"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
         <script src="~/js/app.min.js" asp-append-version="true"></script>
     </environment>

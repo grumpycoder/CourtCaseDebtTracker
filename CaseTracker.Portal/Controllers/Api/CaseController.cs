@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace CaseTracker.Portal.Controllers.Api
 {
@@ -15,7 +14,7 @@ namespace CaseTracker.Portal.Controllers.Api
     public class CaseController : Controller
     {
         private readonly UnitOfWork _unitOfWork;
-        private const int PAGE_SIZE = 20;
+        private const int PageSize = 20;
 
         public CaseController(AppDbContext context)
         {
@@ -25,8 +24,8 @@ namespace CaseTracker.Portal.Controllers.Api
         [HttpGet("list")]
         public object List(CaseSearchViewModel viewModel)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Restart();
+            var stopwatch = Stopwatch.StartNew();
+
             if (viewModel == null) viewModel = new CaseSearchViewModel();
 
             var totalCount = _unitOfWork.Cases.Count();
@@ -35,16 +34,17 @@ namespace CaseTracker.Portal.Controllers.Api
                 .WithCaptionLike(viewModel.Caption)
                 .WithCaseNumberLike(viewModel.CaseNumber)
                 .WithJudgeLike(viewModel.Judge)
-                .WithCourtNameLike(viewModel.CourtName);
+                .WithJurisdictionLike(viewModel.Jurisdiction)
+                .WithCourtNameLike(viewModel.Court);
 
-            var filteredCount = cases.Count();
-            var totalPages = Math.Ceiling((double)filteredCount / viewModel.PageSize ?? PAGE_SIZE);
+            var filteredCount = 10; //cases.Count();
+            var totalPages = Math.Ceiling((double)filteredCount / viewModel.PageSize ?? PageSize);
             var startRow = viewModel.PageSize * (viewModel.Page - 1) ?? 0;
 
             viewModel.TotalCount = totalCount;
             viewModel.FilteredCount = filteredCount;
             viewModel.TotalPages = totalPages;
-            viewModel.Results = Mapper.Map<List<FilingViewModel>>(cases.WithPaging(startRow, viewModel.PageSize));
+            viewModel.Results = Mapper.Map<List<CaseViewModel>>(cases.WithPaging(startRow, viewModel.PageSize));
 
             stopwatch.Stop();
             viewModel.ElapsedTime = stopwatch.Elapsed;
@@ -55,34 +55,41 @@ namespace CaseTracker.Portal.Controllers.Api
         public object Get(int id)
         {
             var @case = _unitOfWork.Cases.GetByIdWithDetails(id);
-            var model = Mapper.Map<FilingViewModel>(@case);
+            var model = Mapper.Map<CaseDetailViewModel>(@case);
             //TODO: Refactor into model
             model.CanDelete = User.HasClaim("LoginProvider", "SPLC");
             return Ok(model);
         }
 
-        [HttpPut()]
-        public object Put([FromBody]CaseViewModel model)
+        [HttpPut]
+        public object Put([FromBody]CaseFormViewModel model)
         {
             if (model == null) return BadRequest("No case to update");
 
             var @case = _unitOfWork.Cases.GetByIdWithDetails(model.Id);
             if (@case == null) return NotFound("Case not found");
 
-            Mapper.Map(model, @case);
+            //TODO: Use AutoMapper
+            @case.CaseNumber = model.CaseNumber;
+            @case.Caption = model.Caption;
+            @case.Judge = model.Judge;
+            @case.Summary = model.Summary;
+            @case.CourtId = model.CourtId;
+            @case.DateFiled = model.DateFiled;
+
             _unitOfWork.Complete();
 
-            //TODO: Something smells
             @case = _unitOfWork.Cases.GetByIdWithDetails(model.Id);
-            var c = Mapper.Map<FilingViewModel>(@case);
-            return Ok(c);
+
+            return Ok(Mapper.Map<CaseDetailViewModel>(@case));
         }
 
         [HttpPost()]
-        public object Post([FromBody]CaseViewModel model)
+        public object Post([FromBody]CaseFormViewModel model)
         {
             if (model == null) return BadRequest("No case to update");
 
+            //TODO: Use AutoMapper
             var @case = new Case()
             {
                 Caption = model.Caption,
@@ -95,9 +102,8 @@ namespace CaseTracker.Portal.Controllers.Api
             _unitOfWork.Cases.Add(@case);
             _unitOfWork.Complete();
 
-            var m = _unitOfWork.Cases.GetByIdWithDetails(@case.Id);
-            var c = Mapper.Map<FilingViewModel>(m);
-            return Ok(c);
+            @case = _unitOfWork.Cases.GetByIdWithDetails(@case.Id);
+            return Ok(Mapper.Map<CaseDetailViewModel>(@case));
         }
 
         [HttpDelete(), Route("{id}")]
@@ -120,6 +126,7 @@ namespace CaseTracker.Portal.Controllers.Api
             var @case = _unitOfWork.Cases.GetById(caseId);
             if (@case == null) return NotFound("Case not found");
 
+            //TODO: Code smell
             switch (model.Type)
             {
                 case LitigantType.Defendant:
@@ -149,7 +156,6 @@ namespace CaseTracker.Portal.Controllers.Api
         [HttpDelete("{caseId}/litigant/{id}")]
         public object DeleteLitigant(int caseId, int id)
         {
-
             var litigant = _unitOfWork.Litigants.GetById(id);
             if (litigant == null) return NotFound("Litigant not found");
 

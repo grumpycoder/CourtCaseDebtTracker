@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace CaseTracker.Portal.ViewModels
 {
-    public class CaseSearchViewModel : PagerModel<FilingViewModel>
+    public class CaseSearchViewModel : PagerModel<CaseViewModel>
     {
         public string Caption { get; set; }
         public DateTime? DateFiled { get; set; }
-        public string CourtName { get; set; }
+        public string Court { get; set; }
         public string CaseNumber { get; set; }
         public string Judge { get; set; }
-
+        public string Jurisdiction { get; set; }
     }
 
     public class PagerModel<T>

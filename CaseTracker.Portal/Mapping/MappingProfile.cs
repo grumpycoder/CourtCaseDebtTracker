@@ -9,19 +9,12 @@ namespace CaseTracker.Portal.Mapping
     {
         public MappingProfile()
         {
-            // CreateMap<CreateEditFilingViewModel, Case>().ReverseMap();
-            // CreateMap<CreateEditCourtViewModel, Court>().ReverseMap();
-            // CreateMap<CreateEditJurisdictionViewModel, Jurisdiction>().ReverseMap();
-            // CreateMap<CreateEditCommentViewModel, Comment>().ReverseMap();
-            //CreateMap<FilingViewModel, Case>();
 
-            CreateMap<Case, FilingViewModel>()
+            CreateMap<Case, CaseDetailViewModel>()
                 .ForMember(d => d.Jurisdiction, opt => opt.MapFrom(s => s.Court.Jurisdiction.Name))
                 .ForMember(d => d.CourtName, opt => opt.MapFrom(s => s.Court.Name))
                 .ForMember(d => d.Tags, opt => opt.MapFrom(s => s.Tags.Select(t => t.Tag.Name)))
                 .ReverseMap();
-            // .ForMember(d => d.Plaintiffs, opt => opt.MapFrom(s => s.Plaintiffs.Select(t => t.Name)))
-            // .ForMember(d => d.Defendants, opt => opt.MapFrom(s => s.Defendants.Select(t => t.Name)))
 
 
             CreateMap<Court, CourtViewModel>()
@@ -31,7 +24,12 @@ namespace CaseTracker.Portal.Mapping
 
             CreateMap<Jurisdiction, JurisdictionViewModel>().ReverseMap();
 
-            CreateMap<Case, CaseViewModel>().ReverseMap();
+            CreateMap<Case, CaseViewModel>()
+                .ForMember(d => d.Jurisdiction, opt => opt.MapFrom(s => s.Court.Jurisdiction.Name))
+                .ForMember(d => d.Court, opt => opt.MapFrom(s => s.Court.Name))
+                .ForMember(d => d.CourtId, opt => opt.MapFrom(s => s.CourtId))
+                .ForMember(d => d.CaseNumber, opt => opt.MapFrom(s => s.CaseNumber))
+                .ReverseMap();
         }
     }
 }
