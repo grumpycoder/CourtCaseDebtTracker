@@ -1,6 +1,7 @@
 ﻿using CaseTracker.Core;
 using CaseTracker.Core.Repositories;
 using CaseTracker.Data.Repositories;
+using System.Threading.Tasks;
 
 namespace CaseTracker.Data
 {
@@ -28,5 +29,9 @@ namespace CaseTracker.Data
             _context.SaveChanges();
         }
 
+        public async Task CompleteAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

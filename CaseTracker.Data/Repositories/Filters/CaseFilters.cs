@@ -1,11 +1,25 @@
 ﻿using CaseTracker.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CaseTracker.Data.Repositories
 {
+    public enum SortDirection
+    {
+        Descending,
+        Ascending
+    }
+
     public static class CaseFilters
     {
+        public static IEnumerable<Case> SortByCaption(this IEnumerable<Case> caseQuery, SortDirection descending)
+        {
+            Func<Case, string> sortByCaption = (court) => court.Caption;
+
+            return @descending == SortDirection.Descending ? caseQuery.OrderByDescending(sortByCaption) : caseQuery.OrderBy(sortByCaption);
+        }
+
         public static IEnumerable<Case> WithCaptionLike(this IEnumerable<Case> caseQuery,
                                                string caption)
         {

@@ -13,7 +13,7 @@
         $ctrl.searchModel = {
             page: 1,
             pageSize: pageSizeDefault,
-            orderBy: 'id',
+            orderBy: 'Id',
             orderDirection: 'desc'
         };
 
@@ -30,7 +30,7 @@
                 $ctrl.searchModel.orderBy = tableState.sort.predicate;
                 $ctrl.searchModel.orderDirection = tableState.sort.reverse ? 'desc' : 'asc';
             }
-
+            console.log('search', $ctrl.searchModel);
             $http.get('api/case/list', {
                 params: $ctrl.searchModel
             }).then(function (r) {

@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using CaseTracker.Core.Models;
+﻿using CaseTracker.Core.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CaseTracker.Core.Repositories
 {
@@ -12,5 +13,9 @@ namespace CaseTracker.Core.Repositories
         IEnumerable<Litigant> GetAll();
         Litigant GetById(int id);
         void Remove(Litigant litigant);
+
+        Task<Litigant> GetByIdAsync(int id);
+        Task<IEnumerable<Litigant>> GetAllAsync();
+        Task<int> CountAsync();
     }
 }
