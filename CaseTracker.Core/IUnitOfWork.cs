@@ -1,4 +1,5 @@
 ﻿using CaseTracker.Core.Repositories;
+using System.Threading.Tasks;
 
 namespace CaseTracker.Core
 {
@@ -9,5 +10,6 @@ namespace CaseTracker.Core
         ICaseRepository Cases { get; set; }
         ILitigantRepository Litigants { get; set; }
         void Complete();
+        Task CompleteAsync();
     }
 }

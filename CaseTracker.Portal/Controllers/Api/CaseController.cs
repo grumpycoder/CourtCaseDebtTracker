@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CaseTracker.Portal.Controllers.Api
 {
@@ -22,22 +24,23 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpGet("list")]
-        public object List(CaseSearchViewModel viewModel)
+        public async Task<object> List(CaseSearchViewModel viewModel)
         {
             var stopwatch = Stopwatch.StartNew();
 
             if (viewModel == null) viewModel = new CaseSearchViewModel();
 
-            var totalCount = _unitOfWork.Cases.Count();
+            var totalCount = await _unitOfWork.Cases.CountAsync();
 
             var cases = _unitOfWork.Cases.GetAll()
-                .WithCaptionLike(viewModel.Caption)
-                .WithCaseNumberLike(viewModel.CaseNumber)
-                .WithJudgeLike(viewModel.Judge)
-                .WithJurisdictionLike(viewModel.Jurisdiction)
-                .WithCourtNameLike(viewModel.Court);
+                    .WithCaptionLike(viewModel.Caption)
+                    .WithCaseNumberLike(viewModel.CaseNumber)
+                    .WithJudgeLike(viewModel.Judge)
+                    .WithJurisdictionLike(viewModel.Jurisdiction)
+                    .WithCourtNameLike(viewModel.Court)
+                    .OrderBy(c => c.Id);
 
-            var filteredCount = 10; //cases.Count();
+            var filteredCount = cases.Count();
             var totalPages = Math.Ceiling((double)filteredCount / viewModel.PageSize ?? PageSize);
             var startRow = viewModel.PageSize * (viewModel.Page - 1) ?? 0;
 
@@ -52,9 +55,9 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpGet("{id}")]
-        public object Get(int id)
+        public async Task<object> Get(int id)
         {
-            var @case = _unitOfWork.Cases.GetByIdWithDetails(id);
+            var @case = await _unitOfWork.Cases.GetByIdWithDetailsAsync(id);
             var model = Mapper.Map<CaseDetailViewModel>(@case);
             //TODO: Refactor into model
             model.CanDelete = User.HasClaim("LoginProvider", "SPLC");
@@ -62,11 +65,11 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpPut]
-        public object Put([FromBody]CaseFormViewModel model)
+        public async Task<object> Put([FromBody]CaseFormViewModel model)
         {
             if (model == null) return BadRequest("No case to update");
 
-            var @case = _unitOfWork.Cases.GetByIdWithDetails(model.Id);
+            var @case = await _unitOfWork.Cases.GetByIdWithDetailsAsync(model.Id);
             if (@case == null) return NotFound("Case not found");
 
             //TODO: Use AutoMapper
@@ -77,15 +80,15 @@ namespace CaseTracker.Portal.Controllers.Api
             @case.CourtId = model.CourtId;
             @case.DateFiled = model.DateFiled;
 
-            _unitOfWork.Complete();
+            await _unitOfWork.CompleteAsync();
 
-            @case = _unitOfWork.Cases.GetByIdWithDetails(model.Id);
+            @case = await _unitOfWork.Cases.GetByIdWithDetailsAsync(model.Id);
 
             return Ok(Mapper.Map<CaseDetailViewModel>(@case));
         }
 
         [HttpPost()]
-        public object Post([FromBody]CaseFormViewModel model)
+        public async Task<object> Post([FromBody]CaseFormViewModel model)
         {
             if (model == null) return BadRequest("No case to update");
 
@@ -100,30 +103,30 @@ namespace CaseTracker.Portal.Controllers.Api
             };
 
             _unitOfWork.Cases.Add(@case);
-            _unitOfWork.Complete();
+            await _unitOfWork.CompleteAsync();
 
-            @case = _unitOfWork.Cases.GetByIdWithDetails(@case.Id);
+            @case = await _unitOfWork.Cases.GetByIdWithDetailsAsync(@case.Id);
             return Ok(Mapper.Map<CaseDetailViewModel>(@case));
         }
 
         [HttpDelete(), Route("{id}")]
-        public object Delete(int id)
+        public async Task<object> Delete(int id)
         {
-            var @case = _unitOfWork.Cases.GetById(id);
+            var @case = await _unitOfWork.Cases.GetByIdAsync(id);
             if (@case == null) return NotFound("Case not found");
 
             _unitOfWork.Cases.Remove(@case);
-            _unitOfWork.Complete();
+            await _unitOfWork.CompleteAsync();
 
             return Ok("Deleted case");
         }
 
         [HttpPost("{caseId}/litigant")]
-        public object AddLitigant(int caseId, [FromBody]LitigantViewModel model)
+        public async Task<object> AddLitigant(int caseId, [FromBody]LitigantViewModel model)
         {
             if (model == null) return BadRequest("No litigant to add");
 
-            var @case = _unitOfWork.Cases.GetById(caseId);
+            var @case = await _unitOfWork.Cases.GetByIdAsync(caseId);
             if (@case == null) return NotFound("Case not found");
 
             //TODO: Code smell
@@ -136,7 +139,7 @@ namespace CaseTracker.Portal.Controllers.Api
                         FilingId = caseId
                     };
                     _unitOfWork.Litigants.AddDefendant(defendant);
-                    _unitOfWork.Complete();
+                    await _unitOfWork.CompleteAsync();
                     return Ok(defendant);
                 case LitigantType.Plaintiff:
                     var plaintiff = new Plaintiff()
@@ -145,7 +148,7 @@ namespace CaseTracker.Portal.Controllers.Api
                         FilingId = caseId
                     };
                     _unitOfWork.Litigants.AddPlaintiff(plaintiff);
-                    _unitOfWork.Complete();
+                    await _unitOfWork.CompleteAsync();
 
                     return Ok(plaintiff);
                 default:
@@ -154,13 +157,13 @@ namespace CaseTracker.Portal.Controllers.Api
         }
 
         [HttpDelete("{caseId}/litigant/{id}")]
-        public object DeleteLitigant(int caseId, int id)
+        public async Task<object> DeleteLitigant(int caseId, int id)
         {
-            var litigant = _unitOfWork.Litigants.GetById(id);
+            var litigant = await _unitOfWork.Litigants.GetByIdAsync(id);
             if (litigant == null) return NotFound("Litigant not found");
 
             _unitOfWork.Litigants.Remove(litigant);
-            _unitOfWork.Complete();
+            await _unitOfWork.CompleteAsync();
 
             return Ok("Delete litigant");
         }

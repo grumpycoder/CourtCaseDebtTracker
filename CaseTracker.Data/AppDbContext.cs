@@ -169,7 +169,7 @@ namespace CaseTracker.Data
         public AppDbContext Create(DbContextFactoryOptions options)
         {
             var builder = new DbContextOptionsBuilder<AppDbContext>();
-            builder.UseSqlServer("Data Source=.;Initial Catalog=CaseTracker;Integrated Security=True");
+            // builder.UseSqlServer("Data Source=.;Initial Catalog=CaseTracker;Integrated Security=True");
             return new AppDbContext(builder.Options);
         }
     }

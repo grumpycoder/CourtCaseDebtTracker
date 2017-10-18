@@ -1,7 +1,9 @@
 ﻿using CaseTracker.Core.Models;
 using CaseTracker.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CaseTracker.Data.Repositories
 {
@@ -16,17 +18,32 @@ namespace CaseTracker.Data.Repositories
 
         public IEnumerable<Litigant> GetAll()
         {
-            return Enumerable.ToList<Litigant>(_context.Litigants);
+            return _context.Litigants.ToList();
+        }
+
+        public async Task<IEnumerable<Litigant>> GetAllAsync()
+        {
+            return await _context.Litigants.ToListAsync();
         }
 
         public int Count()
         {
-            return Queryable.Count<Jurisdiction>(_context.Jurisdictions);
+            return _context.Litigants.Count();
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return await _context.Litigants.CountAsync();
         }
 
         public Litigant GetById(int id)
         {
-            return Queryable.SingleOrDefault<Litigant>(_context.Litigants, j => j.Id == id);
+            return _context.Litigants.SingleOrDefault(l => l.Id == id);
+        }
+
+        public async Task<Litigant> GetByIdAsync(int id)
+        {
+            return await _context.Litigants.SingleOrDefaultAsync(l => l.Id == id);
         }
 
         public void Add(Litigant litigant)
