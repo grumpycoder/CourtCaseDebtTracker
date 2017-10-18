@@ -5,7 +5,10 @@
         <small>{{$ctrl.description}}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li>
+            <a href="#">
+                <i class="fa fa-dashboard"></i> Home</a>
+        </li>
         <li class="active">{{$ctrl.title}}</li>
     </ol>
 </section>
@@ -87,7 +90,9 @@
                                     <div class="input-group">
                                         <input type="text" ng-model="$ctrl.plaintiff.name" class="form-control" placeholder="Plaintiff Name" />
                                         <span class="input-group-btn">
-                                                <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()"><i class="fa fa-plus-circle"></i></button>
+                                            <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()">
+                                                <i class="fa fa-plus-circle"></i>
+                                            </button>
                                         </span>
                                     </div>
                                     <div slimscroll style="max-height:250px; overflow:auto;">
@@ -109,7 +114,9 @@
                                     <div class="input-group">
                                         <input type="text" ng-model="$ctrl.defendant.name" class="form-control" placeholder="Defendant Name" />
                                         <span class="input-group-btn">
-                                                <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()"><i class="fa fa-plus-circle"></i></button>
+                                            <button class="btn btn-secondary" type="button" ng-click="$ctrl.addLitigant()">
+                                                <i class="fa fa-plus-circle"></i>
+                                            </button>
                                         </span>
                                     </div>
                                     <table class="table table-hover table-responsive">
@@ -127,25 +134,14 @@
                             </fieldset>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="container">
-                            <div class="col-md-12">
-                                <strong><i class="fa fa-tags"></i> Tags: </strong>
-                                <ul class="list-inline">
-                                    <li class="list-group-item">Tag Name 1</li>
-                                    <li class="list-group-item">Tag Name 2</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row">
 
                         <div class="col-md-12">
                             <small class="text-muted">Created by: {{$ctrl.case.createdUser}} {{$ctrl.case.createDate | date:'MM/dd/yyyy @ h:mma' }}</small>
                         </div>
                         <div class="col-md-12" ng-show="$ctrl.case.hasBeenEdited">
-                            <small class="text-muted">Updated by: {{ $ctrl.case.updatedUser }} {{$ctrl.case.updateDate | date:'MM/dd/yyyy @ h:mma' }}</small>
+                            <small class="text-muted">Updated by: {{ $ctrl.case.updatedUser }} {{$ctrl.case.updateDate | date:'MM/dd/yyyy @ h:mma'
+                                }}</small>
                         </div>
 
                     </div>

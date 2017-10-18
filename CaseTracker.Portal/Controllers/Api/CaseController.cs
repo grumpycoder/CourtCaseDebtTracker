@@ -38,10 +38,8 @@ namespace CaseTracker.Portal.Controllers.Api
                     .WithJudgeLike(viewModel.Judge)
                     .WithJurisdictionLike(viewModel.Jurisdiction)
                     .WithCourtNameLike(viewModel.Court)
-                    .OrderBy(c => c.Court.Name)
-            //.SortByCaption(viewModel.OrderDirection == "desc" ? SortDirection.Descending : SortDirection.Ascending);
-            //.OrderBy(viewModel.OrderBy + " " + viewModel.OrderDirection);
-            ;
+                    .OrderBy(c => c.Id);
+
             var filteredCount = cases.Count();
             var totalPages = Math.Ceiling((double)filteredCount / viewModel.PageSize ?? PageSize);
             var startRow = viewModel.PageSize * (viewModel.Page - 1) ?? 0;
