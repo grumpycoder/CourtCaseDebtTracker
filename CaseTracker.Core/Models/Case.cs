@@ -21,8 +21,6 @@ namespace CaseTracker.Core.Models
         public int CourtId { get; set; }
         public virtual List<Comment> Comments { get; set; }
 
-        public virtual ICollection<FilingTag> Tags { get; set; }
-
         public int FilingId { get; set; }
     }
 }

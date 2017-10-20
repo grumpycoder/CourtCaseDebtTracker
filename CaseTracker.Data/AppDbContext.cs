@@ -29,15 +29,14 @@ namespace CaseTracker.Data
         }
 
         public DbSet<Case> Cases { get; set; }
-
         public DbSet<Litigant> Litigants { get; set; }
         public DbSet<Defendant> Defendants { get; set; }
         public DbSet<Plaintiff> Plaintiffs { get; set; }
-
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<Comment> Comments { get; set; }
         public DbSet<Court> Courts { get; set; }
         public DbSet<Jurisdiction> Jurisdictions { get; set; }
+
+        //public DbSet<Tag> Tags { get; set; }
+        //public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,39 +53,28 @@ namespace CaseTracker.Data
                 p.SetMaxLength(500);
             }
 
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+
             modelBuilder.Entity<Case>()
                         .HasOne(p => p.Court)
                         .WithMany(b => b.Filings)
                         .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Case>()
-                .Property(t => t.CreateDate)
-                .HasColumnType("DateTime2")
-                .HasDefaultValueSql("GetDate()");
+                        .Property(t => t.CreateDate)
+                        .HasColumnType("DateTime2")
+                        .HasDefaultValueSql("GetDate()");
 
             modelBuilder.Entity<Case>()
-                .Property(t => t.UpdateDate)
-                .HasColumnType("DateTime2")
-                .HasDefaultValueSql("GetDate()");
-
-            modelBuilder.Entity<Comment>()
-                .Property(t => t.CreateDate)
-                .HasColumnType("DateTime2")
-                .HasDefaultValueSql("GetDate()");
-
-            modelBuilder.Entity<Tag>().Property(t => t.Name).HasMaxLength(50);
-
-            modelBuilder.Entity<FilingTag>().ToTable("FilingTags")
-                .HasKey(x => new { x.FilingId, x.TagId });
-
-            modelBuilder.Entity<FilingTag>().HasOne(pt => pt.Case).WithMany(p => p.Tags).HasForeignKey(pt => pt.FilingId);
-
-            modelBuilder.Entity<FilingTag>().HasOne(pt => pt.Tag).WithMany(p => p.Filings).HasForeignKey(pt => pt.TagId);
+                        .Property(t => t.UpdateDate)
+                        .HasColumnType("DateTime2")
+                        .HasDefaultValueSql("GetDate()");
 
             modelBuilder.Entity<Litigant>()
-               .HasDiscriminator<int>("LitigantType")
-               .HasValue<Defendant>(1)
-               .HasValue<Plaintiff>(2);
+                       .HasDiscriminator<int>("LitigantType")
+                       .HasValue<Defendant>(1)
+                       .HasValue<Plaintiff>(2);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -169,7 +157,7 @@ namespace CaseTracker.Data
         public AppDbContext Create(DbContextFactoryOptions options)
         {
             var builder = new DbContextOptionsBuilder<AppDbContext>();
-            // builder.UseSqlServer("Data Source=.;Initial Catalog=CaseTracker;Integrated Security=True");
+            builder.UseSqlServer("Data Source=.;Initial Catalog=CaseTracker;Integrated Security=True");
             return new AppDbContext(builder.Options);
         }
     }
