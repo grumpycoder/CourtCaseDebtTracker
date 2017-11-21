@@ -81,7 +81,7 @@ namespace CaseTracker.Portal.Controllers.Api
 
             @case = _unitOfWork.Cases.GetByIdWithDetails(model.Id);
 
-            return Ok(Mapper.Map<CaseDetailViewModel>(@case));
+            return Ok(Mapper.Map<CaseViewModel>(@case));
         }
 
         [HttpPost()]
@@ -103,7 +103,7 @@ namespace CaseTracker.Portal.Controllers.Api
             _unitOfWork.Complete();
 
             @case = _unitOfWork.Cases.GetByIdWithDetails(@case.Id);
-            return Ok(Mapper.Map<CaseDetailViewModel>(@case));
+            return Ok(Mapper.Map<CaseViewModel>(@case));
         }
 
         [HttpDelete(), Route("{id}")]
