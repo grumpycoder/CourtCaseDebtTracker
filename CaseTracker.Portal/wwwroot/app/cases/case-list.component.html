@@ -55,7 +55,6 @@
                             <table class="table table-responsive table-bordered">
                                 <thead>
                                     <tr>
-                                        <th class="sort-header" st-sort="caseNumber">Case#</th>
                                         <th class="sort-header" st-sort="caption">Caption</th>
                                         <th class="sort-header" st-sort="judge">Judge</th>
                                         <th class="sort-header" st-sort="dateFiled">Date Filed</th>
@@ -63,9 +62,6 @@
                                         <th class="sort-header" st-sort="jurisdiction">Jurisdiction</th>
                                     </tr>
                                     <tr>
-                                        <th>
-                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.caseNumber" class="form-control" placeholder="Case Number" />
-                                        </th>
                                         <th>
                                             <input type="text" st-clear-key ng-model="$ctrl.searchModel.caption" class="form-control" placeholder="Caption" />
                                         </th>
@@ -86,10 +82,7 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="c in $ctrl.cases">
-                                        <td>
-                                            <a href="case/{{c.id}}">{{ c.caseNumber }}</a>
-                                        </td>
-                                        <td>{{ c.caption }}</td>
+                                        <td><a href="case/{{c.id}}">{{ c.caption }}</a></td>
                                         <td>{{ c.judge }}</td>
                                         <td>{{ c.dateFiled | date:'MM/dd/yyyy' }}</td>
                                         <td>{{ c.court }}</td>

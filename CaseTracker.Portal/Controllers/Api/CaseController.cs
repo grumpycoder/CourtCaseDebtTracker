@@ -32,7 +32,6 @@ namespace CaseTracker.Portal.Controllers.Api
 
             var cases = _unitOfWork.Cases.GetAll()
                 .WithCaptionLike(viewModel.Caption)
-                .WithCaseNumberLike(viewModel.CaseNumber)
                 .WithJudgeLike(viewModel.Judge)
                 .WithJurisdictionLike(viewModel.Jurisdiction)
                 .WithCourtNameLike(viewModel.Court);
@@ -70,7 +69,6 @@ namespace CaseTracker.Portal.Controllers.Api
             if (@case == null) return NotFound("Case not found");
 
             //TODO: Use AutoMapper
-            @case.CaseNumber = model.CaseNumber;
             @case.Caption = model.Caption;
             @case.Judge = model.Judge;
             @case.Summary = model.Summary;
@@ -95,7 +93,6 @@ namespace CaseTracker.Portal.Controllers.Api
                 Caption = model.Caption,
                 Judge = model.Judge,
                 Summary = model.Summary,
-                CaseNumber = model.CaseNumber,
                 CourtId = model.CourtId
             };
 

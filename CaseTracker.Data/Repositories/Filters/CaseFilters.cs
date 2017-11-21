@@ -14,16 +14,7 @@ namespace CaseTracker.Data.Repositories
 
             return caseQuery;
         }
-
-        public static IEnumerable<Case> WithCaseNumberLike(this IEnumerable<Case> caseQuery,
-            string caseNumber)
-        {
-            if (!string.IsNullOrEmpty(caseNumber))
-                caseQuery = caseQuery.Where(p => !string.IsNullOrWhiteSpace(p.CaseNumber) && p.CaseNumber.ToLower().Contains(caseNumber.ToLower()));
-
-            return caseQuery;
-        }
-
+        
         public static IEnumerable<Case> WithCourtNameLike(this IEnumerable<Case> caseQuery,
             string courtName)
         {

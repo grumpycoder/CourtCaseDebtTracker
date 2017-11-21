@@ -28,7 +28,6 @@ namespace CaseTracker.Portal.Mapping
                 .ForMember(d => d.Jurisdiction, opt => opt.MapFrom(s => s.Court.Jurisdiction.Name))
                 .ForMember(d => d.Court, opt => opt.MapFrom(s => s.Court.Name))
                 .ForMember(d => d.CourtId, opt => opt.MapFrom(s => s.CourtId))
-                .ForMember(d => d.CaseNumber, opt => opt.MapFrom(s => s.CaseNumber))
                 .ReverseMap();
         }
     }

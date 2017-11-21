@@ -15,7 +15,6 @@ namespace CaseTracker.Portal.ViewModels
         public DateTime? DateFiled { get; set; }
         public virtual Court Court { get; set; }
         public string Jurisdiction { get; set; }
-        public string CaseNumber { get; set; }
         public string Judge { get; set; }
         public string Summary { get; set; }
         public int CourtId { get; set; }

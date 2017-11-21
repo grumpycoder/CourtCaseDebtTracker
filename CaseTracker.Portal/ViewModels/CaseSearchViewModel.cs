@@ -8,7 +8,6 @@ namespace CaseTracker.Portal.ViewModels
         public string Caption { get; set; }
         public DateTime? DateFiled { get; set; }
         public string Court { get; set; }
-        public string CaseNumber { get; set; }
         public string Judge { get; set; }
         public string Jurisdiction { get; set; }
     }
