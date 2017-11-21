@@ -16,6 +16,9 @@
 <section class="content">
     <div class="row">
         <div class="col-md-12">
+            <p>
+                <button uib-popover="I appeared on mouse enter!" popover-trigger="'mouseenter'" type="button" class="btn btn-default">Mouseenter</button>
+            </p>
             <div class="box box-primary box-solid">
                 <div class="box-header">
                     <h3 class="box-title">{{$ctrl.subTitle}}</h3>
@@ -82,7 +85,7 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="c in $ctrl.cases">
-                                        <td><a href="case/{{c.id}}">{{ c.caption }}</a></td>
+                                        <td><a href="case/{{c.id}}" uib-popover="{{c.summary}}" popover-trigger="'mouseenter'" popover-placement="right">{{ c.caption }}</a></td>
                                         <td>{{ c.judge }}</td>
                                         <td>{{ c.dateFiled | date:'MM/dd/yyyy' }}</td>
                                         <td>{{ c.court }}</td>
