@@ -104,22 +104,22 @@ namespace CaseTracker.Portal
 
             app.UseIdentity();
 
-            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions()
-            {
-                AuthenticationScheme = "SPLC",
-                Authority = "https://login.microsoftonline.com/common/",
-                ResponseType = "code id_token",
-                ClientId = Configuration["Authentication:AzureAd:ClientId"],
-                ClientSecret = Configuration["Authentication:AzureAd:Password"],
-                GetClaimsFromUserInfoEndpoint = true,
-                SaveTokens = true,
-                TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = false,
-                },
-                AutomaticChallenge = false,
-                AutomaticAuthenticate = false,
-            });
+            //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions()
+            //{
+            //    AuthenticationScheme = "SPLC",
+            //    Authority = "https://login.microsoftonline.com/common/",
+            //    ResponseType = "code id_token",
+            //    ClientId = Configuration["Authentication:AzureAd:ClientId"],
+            //    ClientSecret = Configuration["Authentication:AzureAd:Password"],
+            //    GetClaimsFromUserInfoEndpoint = true,
+            //    SaveTokens = true,
+            //    TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = false,
+            //    },
+            //    AutomaticChallenge = false,
+            //    AutomaticAuthenticate = false,
+            //});
 
             app.UseGoogleAuthentication(new GoogleOptions()
             {

@@ -10,7 +10,7 @@
         $ctrl.$onInit = function () {
             console.log('court edit init', $ctrl);
             $http.get('api/jurisdiction/list').then(function (r) {
-                $ctrl.jurisdictions = r.data;
+                $ctrl.jurisdictions = r.data.results;
             });
 
             if ($ctrl.resolve) {

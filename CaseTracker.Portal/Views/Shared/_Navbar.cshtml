@@ -12,7 +12,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (User.HasClaim("LoginProvider", "SPLC"))
+                    @if (User.HasClaim("LoginProvider", "Google"))
                     {
                         <li><a asp-action="Courts">Courts</a></li>
                         <li><a asp-action="Jurisdictions">Jurisdictions</a></li>
