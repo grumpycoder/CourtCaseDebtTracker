@@ -60,7 +60,7 @@
                                     <tr>
                                         <th class="sort-header" st-sort="caption">Caption</th>
                                         <th class="sort-header" st-sort="judge">Judge</th>
-                                        <th class="sort-header" st-sort="dateFiled">Date Filed</th>
+                                        <th class="sort-header" st-sort="date">Date</th>
                                         <th class="sort-header" st-sort="courtName">Court</th>
                                         <th class="sort-header" st-sort="jurisdiction">Jurisdiction</th>
                                     </tr>
@@ -72,7 +72,7 @@
                                             <input type="text" st-clear-key ng-model="$ctrl.searchModel.judge" class="form-control" placeholder="Judge" />
                                         </th>
                                         <th>
-                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.dateFiled" class="form-control" placeholder="Date Filed" />
+                                            <input type="text" st-clear-key ng-model="$ctrl.searchModel.date" class="form-control" placeholder="Date Filed" />
                                         </th>
                                         <th>
                                             <input type="text" st-clear-key ng-model="$ctrl.searchModel.court" class="form-control" placeholder="Court Name" />
@@ -87,7 +87,7 @@
                                     <tr ng-repeat="c in $ctrl.cases">
                                         <td><a href="case/{{c.id}}" uib-popover="{{c.summary}}" popover-trigger="'mouseenter'" popover-placement="right">{{ c.caption }}</a></td>
                                         <td>{{ c.judge }}</td>
-                                        <td>{{ c.dateFiled | date:'MM/dd/yyyy' }}</td>
+                                        <td>{{ c.date | date:'MM/dd/yyyy' }}</td>
                                         <td>{{ c.court }}</td>
                                         <td>{{ c.jurisdiction }}</td>
                                     </tr>

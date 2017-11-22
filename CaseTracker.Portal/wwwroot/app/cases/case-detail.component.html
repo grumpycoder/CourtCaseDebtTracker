@@ -39,10 +39,10 @@
                                        
                                         <dt>Filed</dt>
                                         <dd>
-                                            <span ng-show="$ctrl.case.dateFiled">
-                                                {{$ctrl.case.dateFiled | date: 'MM/dd/yyyy'}}
+                                            <span ng-show="$ctrl.case.date">
+                                                {{$ctrl.case.date | date: 'MM/dd/yyyy'}}
                                             </span>
-                                            <span ng-hide="$ctrl.case.dateFiled">Unknown</span>
+                                            <span ng-hide="$ctrl.case.date">Unknown</span>
                                         </dd>
 
                                         <dt>Judge</dt>
@@ -50,8 +50,6 @@
 
                                     </dl>
 
-
-                                    </dl>
                                 </fieldset>
                             </div>
                             <div class="col-md-6">

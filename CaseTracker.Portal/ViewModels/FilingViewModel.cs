@@ -12,7 +12,7 @@ namespace CaseTracker.Portal.ViewModels
         public string Caption { get; set; }
         public List<Plaintiff> Plaintiffs { get; set; }
         public List<Defendant> Defendants { get; set; }
-        public DateTime? DateFiled { get; set; }
+        public int? Date { get; set; }
         public virtual Court Court { get; set; }
         public string Jurisdiction { get; set; }
         public string Judge { get; set; }

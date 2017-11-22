@@ -6,7 +6,7 @@ namespace CaseTracker.Portal.ViewModels
     public class CaseSearchViewModel : PagerModel<CaseViewModel>
     {
         public string Caption { get; set; }
-        public DateTime? DateFiled { get; set; }
+        public int? Date { get; set; }
         public string Court { get; set; }
         public string Judge { get; set; }
         public string Jurisdiction { get; set; }

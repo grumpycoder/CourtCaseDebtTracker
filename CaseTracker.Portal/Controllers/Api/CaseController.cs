@@ -73,7 +73,7 @@ namespace CaseTracker.Portal.Controllers.Api
             @case.Judge = model.Judge;
             @case.Summary = model.Summary;
             @case.CourtId = model.CourtId;
-            @case.DateFiled = model.DateFiled;
+            @case.Date = model.Date;
 
             _unitOfWork.Complete();
 

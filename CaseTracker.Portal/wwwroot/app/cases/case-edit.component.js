@@ -17,10 +17,10 @@
                 $ctrl.case = angular.copy($ctrl.resolve.case);
 
                 if ($ctrl.case !== undefined) {
-                    $ctrl.case.dateFiled = new Date($ctrl.case.dateFiled);
+                    $ctrl.case.date = new Date($ctrl.case.date);
                 } else {
                     $ctrl.case = {
-                        dateFiled: new Date()
+                        date: new Date()
                     };
                 }
             }

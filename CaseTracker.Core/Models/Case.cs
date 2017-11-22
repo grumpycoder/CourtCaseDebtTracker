@@ -13,7 +13,7 @@ namespace CaseTracker.Core.Models
         public string Caption { get; set; }
         public ICollection<Plaintiff> Plaintiffs { get; set; }
         public ICollection<Defendant> Defendants { get; set; }
-        public DateTime? DateFiled { get; set; }
+        public int? Date { get; set; }
         public virtual Court Court { get; set; }
         public string Judge { get; set; }
         public string Summary { get; set; }
